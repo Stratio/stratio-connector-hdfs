@@ -362,12 +362,6 @@ public class HDFSClient {
     public void readFile(String file) throws ExecutionException {
 
         try {
-            Configuration conf = new Configuration();
-
-            LOGGER.info(" After addResource " + config.get(PROP_NAME));
-
-            conf.set(PROP_NAME, "hdfs://localhost:9000");
-            LOGGER.info(" After addResource " + config.get(PROP_NAME));
 
             FileSystem fileSystem = FileSystem.get(config);
 
@@ -399,7 +393,7 @@ public class HDFSClient {
         }
     }
 
-    public void searchInFile(String filePath, String inputSearch) throws IOException {
+    public int searchInFile(String filePath, String inputSearch) throws ExecutionException, IOException {
         int count = 0,countBuffer=0,countLine=0;
         String lineNumber = "";
         BufferedReader br;
@@ -407,25 +401,12 @@ public class HDFSClient {
 
         try {
 
-            Configuration conf = new Configuration();
-
-            LOGGER.info("After construction " + conf.get(PROP_NAME));
-
-            conf.addResource(new Path("/usr/local/hadoop/etc/hadoop/core-site.xml"));
-            conf.addResource(new Path("/usr/local/hadoop/etc/hadoop/hdfs-site.xml"));
-            conf.addResource(new Path("/usr/local/hadoop/etc/hadoop/mapred-site.xml"));
-
-            LOGGER.info(" After addResource " + conf.get(PROP_NAME));
-
-            conf.set(PROP_NAME,"hdfs://localhost:9000");
-            LOGGER.info(" After addResource " + conf.get(PROP_NAME));
-
-            FileSystem fileSystem = FileSystem.get(conf);
+            FileSystem fileSystem = FileSystem.get(config);
 
             Path path = new Path(filePath);
             if (!fileSystem.exists(path)) {
                 LOGGER.info("File " + filePath + " does not exists");
-                return;
+                return 0;
             }
 
             FSDataInputStream in = fileSystem.open(path);
@@ -455,15 +436,18 @@ public class HDFSClient {
                 br.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new ExecutionException("Exception "+e);
             }
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new ExecutionException("Exception "+e);
         }
 
         LOGGER.info("Times found at --" + count);
         LOGGER.info("Word found at  --" + lineNumber);
+
+        return count;
+
     }
 
 
