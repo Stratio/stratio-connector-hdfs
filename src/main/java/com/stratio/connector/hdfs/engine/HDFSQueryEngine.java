@@ -23,7 +23,9 @@ public class HDFSQueryEngine extends CommonsQueryEngine {
     protected QueryResult executeWorkFlow(LogicalWorkflow logicalWorkflow)
             throws UnsupportedException, ExecutionException {
         QueryExecutor executor = new QueryExecutor(connectionHandler);
-        return null;
+
+        throw new UnsupportedException("Not yet supported");
+
     }
 
     @Override

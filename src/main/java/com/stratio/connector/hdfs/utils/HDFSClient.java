@@ -55,8 +55,11 @@ public class HDFSClient {
     private Configuration config = new Configuration();
 
 
-    public HDFSClient() {
-
+    public HDFSClient(String host, String port) {
+        config.addResource(new Path(CORE_SITE));
+        config.addResource(new Path(HDFS_SITE));
+        config.addResource(new Path(MAPRED_SITE));
+        config.set(PROP_NAME,HDFSConstants.HDFS_URI_SCHEME+"://"+ host+":" +port);
     }
 
     public HDFSClient(ConnectorClusterConfig clusterConfig) {
@@ -74,7 +77,7 @@ public class HDFSClient {
         config.addResource(new Path(HDFS_SITE));
         config.addResource(new Path(MAPRED_SITE));
 
-        clusterOptions.get(HDFSConstants.HOSTS);
+
 
         if (clusterOptions.get(HDFSConstants.HOSTS) != null) {
             values.put(HDFSConstants.HOSTS, clusterOptions.get(HDFSConstants.HOSTS));
@@ -94,7 +97,9 @@ public class HDFSClient {
             values.put(HDFSConstants.PORT, clusterOptions.get(HDFSConstants.PORT));
         }
 
-        config.set(PROP_NAME,values.get(HDFSConstants.HOST+":"+HDFSConstants.PORT));
+        String h = values.get(HDFSConstants.HOST);
+        String p = values.get(HDFSConstants.PORT);
+        config.set(PROP_NAME, HDFSConstants.HDFS_URI_SCHEME + "://" + h + ":" + p);
 
     }
 
@@ -354,39 +359,44 @@ public class HDFSClient {
         }
     }
 
-    public void readFile(String file) throws IOException {
-        Configuration conf = new Configuration();
+    public void readFile(String file) throws ExecutionException {
 
-        LOGGER.info(" After addResource "+config.get(PROP_NAME));
+        try {
+            Configuration conf = new Configuration();
 
-        conf.set(PROP_NAME,"hdfs://localhost:9000");
-        LOGGER.info(" After addResource "+config.get(PROP_NAME));
+            LOGGER.info(" After addResource " + config.get(PROP_NAME));
 
-        FileSystem fileSystem = FileSystem.get(config);
+            conf.set(PROP_NAME, "hdfs://localhost:9000");
+            LOGGER.info(" After addResource " + config.get(PROP_NAME));
 
-        Path path = new Path(file);
-        if (!fileSystem.exists(path)) {
-            LOGGER.info("File " + file + " does not exists");
-            return;
+            FileSystem fileSystem = FileSystem.get(config);
+
+            Path path = new Path(file);
+            if (!fileSystem.exists(path)) {
+                LOGGER.info("File " + file + " does not exists");
+                return;
+            }
+
+            FSDataInputStream in = fileSystem.open(path);
+
+            String filename = file.substring(file.lastIndexOf('/') + 1,
+                    file.length());
+
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(
+                    new File(filename)));
+
+            byte[] b = new byte[1024];
+            int numBytes = 0;
+            while ((numBytes = in.read(b)) > 0) {
+                out.write(b, 0, numBytes);
+            }
+
+            in.close();
+            out.close();
+            fileSystem.close();
+        }catch (IOException e){
+            throw new ExecutionException("Exception "+e);
         }
-
-        FSDataInputStream in = fileSystem.open(path);
-
-        String filename = file.substring(file.lastIndexOf('/') + 1,
-                file.length());
-
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(
-                new File(filename)));
-
-        byte[] b = new byte[1024];
-        int numBytes = 0;
-        while ((numBytes = in.read(b)) > 0) {
-            out.write(b, 0, numBytes);
-        }
-
-        in.close();
-        out.close();
-        fileSystem.close();
     }
 
     public void searchInFile(String filePath, String inputSearch) throws IOException {
@@ -399,16 +409,16 @@ public class HDFSClient {
 
             Configuration conf = new Configuration();
 
-            LOGGER.info("After construction "+conf.get(PROP_NAME));
+            LOGGER.info("After construction " + conf.get(PROP_NAME));
 
             conf.addResource(new Path("/usr/local/hadoop/etc/hadoop/core-site.xml"));
             conf.addResource(new Path("/usr/local/hadoop/etc/hadoop/hdfs-site.xml"));
             conf.addResource(new Path("/usr/local/hadoop/etc/hadoop/mapred-site.xml"));
 
-            LOGGER.info(" After addResource "+conf.get(PROP_NAME));
+            LOGGER.info(" After addResource " + conf.get(PROP_NAME));
 
             conf.set(PROP_NAME,"hdfs://localhost:9000");
-            LOGGER.info(" After addResource "+conf.get(PROP_NAME));
+            LOGGER.info(" After addResource " + conf.get(PROP_NAME));
 
             FileSystem fileSystem = FileSystem.get(conf);
 
@@ -574,7 +584,7 @@ public class HDFSClient {
     public static void main(String[] args) throws IOException, ExecutionException {
 
 
-        HDFSClient client = new HDFSClient();
+        HDFSClient client = new HDFSClient("localhost","9000");
 
         //client.readFile     ("/user/hadoop/logs/songs.csv");
         client.searchInFile ("/user/hadoop/logs/1000songs.csv","Eminem");

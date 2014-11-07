@@ -32,7 +32,9 @@ public class HDFSConnection extends Connection {
 
         Map<String, String> clusterOptions = config.getOptions();
 
-        if(credentials == null){
+        if(credentials != null){
+            throw new CreateNativeConnectionException("Credentials are not supported yet");
+        } else{
             //TODO Add the configuration params to the HDFS Client Configuration
             hdfsClient = new HDFSClient(config);
             isConnected = true;
@@ -40,8 +42,6 @@ public class HDFSConnection extends Connection {
                 LOGGER.info("New HDFS connection established");
             }
 
-        }else {
-            throw new CreateNativeConnectionException("Credentials are not supported yet");
         }
 
     }
