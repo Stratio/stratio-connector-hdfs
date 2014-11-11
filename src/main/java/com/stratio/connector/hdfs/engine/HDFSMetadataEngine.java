@@ -30,7 +30,8 @@ public class HDFSMetadataEngine extends CommonsMetadataEngine<HDFSClient>{
     protected void createTable(TableMetadata tableMetadata, Connection<HDFSClient> connection)
             throws UnsupportedException, ExecutionException {
 
-        connection.getNativeConnection().addFile(tableMetadata.getName().getName());
+        connection.getNativeConnection().addFile(tableMetadata.getName().getCatalogName().getName()+"/"+
+                tableMetadata.getName().getName());
     }
 
     @Override
@@ -45,7 +46,8 @@ public class HDFSMetadataEngine extends CommonsMetadataEngine<HDFSClient>{
     protected void dropTable(TableName tableName, Connection<HDFSClient> connection)
             throws UnsupportedException, ExecutionException {
 
-        connection.getNativeConnection().deleteFile(tableName.getName());
+        connection.getNativeConnection().deleteFile(tableName.getCatalogName().getName()+"/"+
+                tableName.getName());
     }
 
     @Override

@@ -338,11 +338,11 @@ public class HDFSClient {
             String filename = dest.substring(dest.lastIndexOf('/') + 1, dest.length());
 
             // Create the destination path including the filename.
-            if (dest.charAt(dest.length() - 1) != '/') {
-                dest = dest + "/" + filename;
-            } else {
-                dest = dest + filename;
-            }
+//            if (dest.charAt(dest.length() - 1) != '/') {
+//                dest = dest + "/" + filename;
+//            } else {
+//                dest = dest + filename;
+//            }
 
             // Check if the file already exists
             Path path = new Path(dest);

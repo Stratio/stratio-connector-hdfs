@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stratio.connector.hdfs.configuration.HDFSConstants;
@@ -27,6 +29,7 @@ import com.stratio.crossdata.common.metadata.TableMetadata;
 import com.stratio.crossdata.common.statements.structures.Selector;
 
 @RunWith(PowerMockRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HDFSConnectorMetadataEngineFT {
 
 
@@ -49,14 +52,16 @@ public class HDFSConnectorMetadataEngineFT {
     }
 
     @Test
-    public void testCreateCatalog () throws UnsupportedException, ExecutionException {
+    public void test1_createCatalog () throws UnsupportedException, ExecutionException {
 
           hdfsMetadataEngine.createCatalog(new ClusterName("cluster_name"),new CatalogMetadata(new CatalogName(CATALOG), null, null));
 
     }
 
+
+
     @Test
-    public void testCreateTable() throws UnsupportedException, ExecutionException {
+    public void test2_createTable() throws UnsupportedException, ExecutionException {
 
         TableName tableName = new TableName(CATALOG, TABLE);
         Map<Selector, Selector> options = Collections.EMPTY_MAP;
@@ -66,11 +71,24 @@ public class HDFSConnectorMetadataEngineFT {
         List<ColumnName> clusterKey = Collections.EMPTY_LIST;
         ClusterName clusterRef = getClusterName();
 
-        hdfsMetadataEngine.createTable( getClusterName(),
+        hdfsMetadataEngine.createTable( new ClusterName("cluster_name"),
                 new TableMetadata(tableName, options, columns, indexex, clusterRef, partitionKey, clusterKey));
 
     }
 
+    @Test
+    public void test3_dropTable () throws UnsupportedException, ExecutionException {
+
+        hdfsMetadataEngine.dropTable(new ClusterName("cluster_name"), new TableName(CATALOG, TABLE));
+
+    }
+
+    @Test
+    public void test4_dropCatalog () throws UnsupportedException, ExecutionException {
+
+        hdfsMetadataEngine.dropCatalog(new ClusterName("cluster_name"),new CatalogName(CATALOG));
+
+    }
 
     /**
      * Create the configuration object to config the connector cluster information
@@ -87,7 +105,7 @@ public class HDFSConnectorMetadataEngineFT {
         return configuration;
     }
 
-    protected ClusterName getClusterName() {
+    private ClusterName getClusterName() {
         return new ClusterName(CATALOG + "-" + TABLE);
     }
 

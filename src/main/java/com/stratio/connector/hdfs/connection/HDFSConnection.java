@@ -1,7 +1,5 @@
 package com.stratio.connector.hdfs.connection;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +28,6 @@ public class HDFSConnection extends Connection {
     public HDFSConnection(ICredentials credentials, ConnectorClusterConfig config)throws
             CreateNativeConnectionException {
 
-        Map<String, String> clusterOptions = config.getOptions();
 
         if(credentials != null){
             throw new CreateNativeConnectionException("Credentials are not supported yet");
