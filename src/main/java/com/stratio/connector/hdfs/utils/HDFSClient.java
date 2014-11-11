@@ -47,18 +47,14 @@ public class HDFSClient {
 
     private static final int    MAPSIZE     = 4 * 1024 ; // 4K - make this * 1024 to 4MB in a real system.
     private static final String SEPARATOR   = ",";
-    private static final String CORE_SITE   = "/usr/local/hadoop/etc/hadoop/core-site.xml";
-    private static final String HDFS_SITE   = "/usr/local/hadoop/etc/hadoop/hdfs-site.xml";
-    private static final String MAPRED_SITE = "/usr/local/hadoop/etc/hadoop/mapred-site.xml";
     private static final String PROP_NAME   = "fs.default.name";
+    private static Boolean tableInDiferentPartitions = false;
 
     private Configuration config = new Configuration();
 
 
     public HDFSClient(String host, String port) {
-        config.addResource(new Path(CORE_SITE));
-        config.addResource(new Path(HDFS_SITE));
-        config.addResource(new Path(MAPRED_SITE));
+
         config.set(PROP_NAME,HDFSConstants.HDFS_URI_SCHEME+"://"+ host+":" +port);
     }
 
@@ -73,9 +69,9 @@ public class HDFSClient {
         clusterOptions.get(HDFSConstants.CONFIG_MAPRED_SITE);
 
         // Conf object will read the HDFS configuration parameters
-        config.addResource(new Path(CORE_SITE));
-        config.addResource(new Path(HDFS_SITE));
-        config.addResource(new Path(MAPRED_SITE));
+//        config.addResource(new Path(CORE_SITE));
+//        config.addResource(new Path(HDFS_SITE));
+//        config.addResource(new Path(MAPRED_SITE));
 
 
 
@@ -100,6 +96,15 @@ public class HDFSClient {
         String h = values.get(HDFSConstants.HOST);
         String p = values.get(HDFSConstants.PORT);
         config.set(PROP_NAME, HDFSConstants.HDFS_URI_SCHEME + "://" + h + ":" + p);
+
+        // Partitions in the table structure
+        if(clusterOptions.get(HDFSConstants.CONFIG_DIFERENT_PARTITIONS)!=null){
+            tableInDiferentPartitions = true;
+        }else if(clusterOptions.get(HDFSConstants.CONFIG_ONE_PARTITION)!=null){
+            tableInDiferentPartitions = false;
+        }else{
+            tableInDiferentPartitions = false;
+        }
 
     }
 
@@ -338,12 +343,13 @@ public class HDFSClient {
             String filename = dest.substring(dest.lastIndexOf('/') + 1, dest.length());
 
             // Create the destination path including the filename.
-//            if (dest.charAt(dest.length() - 1) != '/') {
-//                dest = dest + "/" + filename;
-//            } else {
-//                dest = dest + filename;
-//            }
-
+            if(tableInDiferentPartitions) {
+                if (dest.charAt(dest.length() - 1) != '/') {
+                    dest = dest + "/" + filename;
+                } else {
+                    dest = dest + filename;
+                }
+            }
             // Check if the file already exists
             Path path = new Path(dest);
             if (fileSystem.exists(path)) {

@@ -68,7 +68,7 @@ public class HDFSConnectorMetadataEngineFT {
         Map<ColumnName, ColumnMetadata> columns = new HashMap<>();
         Map indexex = Collections.EMPTY_MAP;
         List<ColumnName> partitionKey = Collections.EMPTY_LIST;
-        List<ColumnName> clusterKey = Collections.EMPTY_LIST;
+        List<ColumnName> clusterKey   = Collections.EMPTY_LIST;
         ClusterName clusterRef = getClusterName();
 
         hdfsMetadataEngine.createTable( new ClusterName("cluster_name"),
@@ -100,6 +100,7 @@ public class HDFSConnectorMetadataEngineFT {
         Map<String, String> options = new HashMap<>();
         options.put(HDFSConstants.HOST, HOST);
         options.put(HDFSConstants.PORT, PORT);
+        options.put(HDFSConstants.CONFIG_DIFERENT_PARTITIONS, "true");
         ConnectorClusterConfig configuration = new ConnectorClusterConfig(CLUSTERNAME_CONSTANT, options);
 
         return configuration;
