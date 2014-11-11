@@ -108,6 +108,11 @@ public class HDFSClient {
 
     }
 
+    public HDFSClient( Configuration config) {
+        this.config = config;
+
+
+    }
 
     public boolean ifExists (Path source) throws IOException{
 
@@ -223,7 +228,7 @@ public class HDFSClient {
 
         try{
             fileSystem.copyToLocalFile(srcPath, dstPath);
-            LOGGER.info("File " + filename + "copied to " + dest);
+            LOGGER.info("File " + filename + " copied to --> " + dest);
         }catch(Exception e){
             System.err.println("Exception caught! :" + e);
             System.exit(1);
