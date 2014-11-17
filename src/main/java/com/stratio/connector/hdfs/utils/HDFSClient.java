@@ -46,10 +46,13 @@ public class HDFSClient {
     private static final Logger LOGGER      = LoggerFactory.getLogger(HDFSClient.class);
 
     private static final int    MAPSIZE     = 4 * 1024 ; // 4K - make this * 1024 to 4MB in a real system.
+    private static final Short  replication = 1;
     private static final String SEPARATOR   = ",";
     private static final String PROP_NAME   = "fs.default.name";
     private static Boolean tableInDiferentPartitions = false;
-
+    private static String  partitionName ="part";
+    private static String  extension =".csv";
+    private static final String DEFAULT_EXTENSION =".csv";
     private Configuration config = new Configuration();
 
 
@@ -72,8 +75,6 @@ public class HDFSClient {
 //        config.addResource(new Path(CORE_SITE));
 //        config.addResource(new Path(HDFS_SITE));
 //        config.addResource(new Path(MAPRED_SITE));
-
-
 
         if (clusterOptions.get(HDFSConstants.HOSTS) != null) {
             values.put(HDFSConstants.HOSTS, clusterOptions.get(HDFSConstants.HOSTS));
@@ -104,6 +105,14 @@ public class HDFSClient {
             tableInDiferentPartitions = false;
         }else{
             tableInDiferentPartitions = false;
+        }
+
+        if(clusterOptions.get(HDFSConstants.CONFIG_PARTITION_NAME)!=null){
+            partitionName = clusterOptions.get(HDFSConstants.CONFIG_PARTITION_NAME);
+        }
+
+        if(clusterOptions.get(HDFSConstants.CONFIG_EXTENSION_NAME)!=null){
+            extension = clusterOptions.get(HDFSConstants.CONFIG_EXTENSION_NAME);
         }
 
     }
@@ -345,10 +354,14 @@ public class HDFSClient {
             FileSystem fileSystem = FileSystem.get(config);
 
             // Get the filename out of the file path
+
             String filename = dest.substring(dest.lastIndexOf('/') + 1, dest.length());
 
             // Create the destination path including the filename.
             if(tableInDiferentPartitions) {
+
+                filename = partitionName+extension;
+
                 if (dest.charAt(dest.length() - 1) != '/') {
                     dest = dest + "/" + filename;
                 } else {
@@ -363,7 +376,7 @@ public class HDFSClient {
             }
 
             // Create a new file and write data to it.
-            FSDataOutputStream out = fileSystem.create(path);
+            FSDataOutputStream out = fileSystem.create(path,replication);
             fileSystem.close();
         }catch (IOException e){
             throw new ExecutionException("Exception "+e);
@@ -581,11 +594,12 @@ public class HDFSClient {
 
         HDFSClient client = new HDFSClient("localhost","9000");
 
-        //client.readFile     ("/user/hadoop/logs/songs.csv");
+
         client.searchInFile ("/user/hadoop/logs/1000songs.csv","Eminem");
         //client.searchFor ("Tony Bennett", new java.nio.file.FilePath() );
         //client.getHostnames();
         //client.mkdir  ("/user/hadoop/catalog");
+        //client.readFile     ("/user/hadoop/logs/songs.csv");
         client.addFile("songs.csv", "/user/hadoop/");
         client.addRowToFile("211\tGreen Day\tHoliday\t2005\t5\tHoliday\n", "/user/hadoop/logs/songs.csv");
 

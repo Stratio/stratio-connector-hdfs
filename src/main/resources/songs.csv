@@ -52,11 +52,11 @@
 52,Art Mooney,Im Looking Over a Four Leaf Clover,1948,379,Im Looking Over a Four Leaf Clover
 53,Bon Jovi,Its My Life,2000,380,Its My Life
 54,Mariah Carey,Ill Be There,1992,381,Ill Be There
-55,"Christina Aguilera, Lil Kim, Mya &Pink",Lady Marmalade (Voulez-Vous Coucher Aver Moi Ce Soir?),2001,382,Lady Marmalade (Voulez-Vous Coucher Aver Moi Ce Soir?)
+55,Christina Aguilera & Lil Kim,Lady Marmalade (Voulez-Vous Coucher Aver Moi Ce Soir?),2001,382,Lady Marmalade (Voulez-Vous Coucher Aver Moi Ce Soir?)
 56,Sara Bareilles,Love Song,2008,383,Love Song
 57,Bessie Smith,St Louis Blues,1925,240,St Louis Blues
 58,Christina Aguilera,Beautiful,2003,241,Beautiful
-59,Gordon Jenkins & The Weavers,"Goodnight, Irene",1950,242,"Goodnight, Irene"
+59,Gordon Jenkins & The Weavers,Goodnight Irene,1950,242,Goodnight Irene
 60,Fred Astaire & Leo Reisman,Night & Day,1932,243,Night & Day
 61,Bee Gees,Stayin Alive,1978,244,Stayin Alive
 62,Johnnie Ray,Cry,1951,245,Cry
@@ -79,7 +79,7 @@
 79,Prince,Kiss,1986,262,Kiss
 80,Fergie,Big Girls Dont Cry,2007,263,Big Girls Dont Cry
 81,Blondie,Call Me,1980,264,Call Me
-82,Roy Orbison,"Oh, Pretty Woman",1964,265,"Oh, Pretty Woman"
+82,Roy Orbison,Oh Pretty Woman,1964,265,Oh Pretty Woman
 83,Jamelia,Superstar,2004,266,Superstar
 84,Elvis Presley,Surrender,1961,267,Surrender
 85,Doris Day,Bewitched (bothered & bewildered),1950,268,Bewitched (bothered & bewildered)
@@ -133,7 +133,7 @@
 133,U2,Desire,1988,316,Desire
 134,Vic Damone,Youre Breakin My Heart,1949,317,Youre Breakin My Heart
 135,Perez Prado,Cherry Pink & Apple Blossom White,1955,318,Cherry Pink & Apple Blossom White
-136,Count Basie,"Open The Door, Richard!",1947,319,"Open The Door, Richard!"
+136,Count Basie,Open The Door Richard!,1947,319,Open The Door Richard!
 137,KC & The Sunshine Band,Please Dont Go,1979,320,Please Dont Go
 138,John Lennon,Imagine,1971,321,Imagine
 139,The Crew-Cuts,Sh-Boom (Life Could Be a Dream),1954,322,Sh-Boom (Life Could Be a Dream)
@@ -150,7 +150,7 @@
 150,TPau,Heart & Soul,1987,333,Heart & Soul
 151,Coolio,Gangstas Paradise,1995,334,Gangstas Paradise
 152,Anton Karas,Third Man Theme,1950,335,Third Man Theme
-153,Gene Autry,"Rudolph, the Red-Nosed Reindeer",1949,336,"Rudolph, the Red-Nosed Reindeer"
+153,Gene Autry,Rudolph the Red-Nosed Reindeer,1949,336,Rudolph the Red-Nosed Reindeer
 154,The Beatles,Help!,1965,337,Help!
 155,Elvis Presley,Jailhouse Rock,1957,338,Jailhouse Rock
 156,The Beatles,I Want to Hold Your Hand,1964,339,I Want to Hold Your Hand
@@ -186,7 +186,7 @@
 186,OutKast,Hey Ya!,2003,413,Hey Ya!
 187,Kanye West,Stronger,2007,414,Stronger
 188,Perry Como,Prisoner of Love,1946,415,Prisoner of Love
-189,Johnny Mercer,"On the Atchison, Topeka & the Santa Fe",1945,416,"On the Atchison, Topeka & the Santa Fe"
+189,Johnny Mercer,On the Atchison Topeka & the Santa Fe,1945,416,On the Atchison Topeka & the Santa Fe
 190,Blue Diamonds,Ramona,1960,417,Ramona
 191,Jan Garber,Baby Face,1926,418,Baby Face
 192,Tears For Fears,Shout,1985,419,Shout
@@ -203,7 +203,7 @@
 203,Bing Crosby & Connee Boswell,Alexanders ragtime band,1938,430,Alexanders ragtime band
 204,Trini Lopez,America,1964,290,America
 205,Abba,SOS,1975,291,SOS
-206,Big Mountain,"Baby, I Love Your Way",1994,292,"Baby, I Love Your Way"
+206,Big Mountain,Baby I Love Your Way,1994,292,Baby I Love Your Way
 207,Boyz II Men,End of the Road,1992,293,End of the Road
 208,Lionel Richie,Hello,1984,294,Hello
 209,The Rolling Stones,Miss You,1978,295,Miss You

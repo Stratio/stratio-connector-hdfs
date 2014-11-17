@@ -19,4 +19,7 @@ public class HDFSConstants extends HdfsConstants {
     public static final String CONFIG_DIFERENT_PARTITIONS = "DiferentPartitions";
     //By default if not indicate the config in diferents partitions
     public static final String CONFIG_ONE_PARTITION       = "OnePartition";
+
+    public static final String CONFIG_PARTITION_NAME      = "PartitionName";
+    public static final String CONFIG_EXTENSION_NAME      = "ExtensionName";
 }

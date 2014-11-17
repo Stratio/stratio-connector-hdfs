@@ -101,6 +101,8 @@ public class HDFSConnectorMetadataEngineFT {
         options.put(HDFSConstants.HOST, HOST);
         options.put(HDFSConstants.PORT, PORT);
         options.put(HDFSConstants.CONFIG_DIFERENT_PARTITIONS, "true");
+        options.put(HDFSConstants.CONFIG_PARTITION_NAME, "partition");
+        options.put(HDFSConstants.CONFIG_EXTENSION_NAME, ".csv");
         ConnectorClusterConfig configuration = new ConnectorClusterConfig(CLUSTERNAME_CONSTANT, options);
 
         return configuration;

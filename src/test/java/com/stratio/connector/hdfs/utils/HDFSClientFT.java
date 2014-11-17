@@ -22,11 +22,11 @@ import com.stratio.crossdata.common.exceptions.ExecutionException;
 
 @RunWith(PowerMockRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class HDFSClientTest {
+public class HDFSClientFT {
     /**
      * The Log.
      */
-    private static final Logger LOGGER      = LoggerFactory.getLogger(HDFSClientTest.class);
+    private static final Logger LOGGER      = LoggerFactory.getLogger(HDFSClientFT.class);
 
     private static final String HOST    = "127.0.0.1";
     private static final String PORT    = "9000";
@@ -64,7 +64,7 @@ public class HDFSClientTest {
     @AfterClass
     public static void afterClass() throws ExecutionException {
 
-        client.deleteFile(TEST_MKDIR);
+        //client.deleteFile(TEST_MKDIR);
     }
 
     @Test
@@ -130,13 +130,13 @@ public class HDFSClientTest {
 
     }
 
-//    @Test
-//    public void deleteFileTest() throws ExecutionException {
-//
-////        client.deleteFile(TEST_MKDIR);
-////        client.deleteFile(TEST_DIR_SONGS);
-////        client.deleteFile(TEST_DIR_1000SONGS);
-//    }
+    @Test
+    public void deleteFileTest() throws ExecutionException {
+        client.deleteFile("/user");
+        client.deleteFile(TEST_MKDIR);
+        client.deleteFile(TEST_DIR_SONGS);
+        client.deleteFile(TEST_DIR_1000SONGS);
+    }
 //    @Test
 //    public void restTest() throws ExecutionException , IOException {
 //
