@@ -23,12 +23,6 @@
             <artifactId>crossdata-connector</artifactId>
             <version>0.1.0</version>
             <type>jar</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.typesafe.akka</groupId>
-                    <artifactId>akka-remote_2.10</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
