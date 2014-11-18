@@ -29,6 +29,18 @@
             <PropertyName>Port</PropertyName>
             <Description>The list of ports (csv).</Description>
         </Property>
+        <Property>
+            <PropertyName>Partitions</PropertyName>
+            <Description>Structure of the HDFS </Description>
+        </Property>
+        <Property>
+            <PropertyName>PartitionName</PropertyName>
+            <Description>Name of the File for the Diferents partitions of the table.</Description>
+        </Property>
+        <Property>
+            <PropertyName>Extension</PropertyName>
+            <Description>Extension of the file in HDFS.</Description>
+        </Property>
     </RequiredProperties>
 
 

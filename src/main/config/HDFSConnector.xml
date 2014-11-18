@@ -24,9 +24,9 @@
     </DataStores>
     <Version>0.1.0</Version>
     <SupportedOperations>
+        <operation>CREATE_CATALOG</operation>
         <operation>DROP_CATALOG</operation>
         <operation>CREATE_TABLE</operation>
         <operation>DROP_TABLE</operation>
-        <operation>INSERT</operation>
     </SupportedOperations>
 </Connector>

@@ -16,10 +16,13 @@ public class HDFSConstants extends HdfsConstants {
     public static final String CONFIG_HDFS_SITE   = "hdfs-site";
     public static final String CONFIG_MAPRED_SITE = "mapred-site";
 
-    public static final String CONFIG_DIFERENT_PARTITIONS = "DiferentPartitions";
-    //By default if not indicate the config in diferents partitions
+
+    //By default if not indicate the config is  one partition
+    public static final String CONFIG_PARTITIONS          = "Partitions";
     public static final String CONFIG_ONE_PARTITION       = "OnePartition";
+    public static final String CONFIG_DIFERENT_PARTITIONS = "DiferentPartitions";
 
     public static final String CONFIG_PARTITION_NAME      = "PartitionName";
     public static final String CONFIG_EXTENSION_NAME      = "ExtensionName";
+
 }

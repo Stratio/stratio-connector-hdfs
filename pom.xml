@@ -19,6 +19,19 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.stratio.crossdata</groupId>
+            <artifactId>crossdata-connector</artifactId>
+            <version>0.1.0</version>
+            <type>jar</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.typesafe.akka</groupId>
+                    <artifactId>akka-remote_2.10</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
             <version>2.4.1</version>
@@ -76,18 +89,18 @@
             <version>0.1.0</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
-                <artifactId>crossdata-connector-maven-plugin</artifactId>
-                <groupId>com.stratio.crossdata</groupId>
-                <version>0.1.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
                 <configuration>
-                    <mainClass>com.stratio.connector.hdfs.connection.HDFSConnector</mainClass>
-                    <jmxPort>7191</jmxPort>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -101,7 +114,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -115,7 +127,27 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>crossdata-connector-maven-plugin</artifactId>
+                <groupId>com.stratio.crossdata</groupId>
+                <version>0.1.0</version>
+                <configuration>
+                    <mainClass>com.stratio.connector.hdfs.connection.HDFSConnector</mainClass>
+                    <jmxPort>7191</jmxPort>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

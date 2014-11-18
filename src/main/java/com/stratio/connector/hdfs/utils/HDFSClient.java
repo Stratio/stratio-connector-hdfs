@@ -99,9 +99,11 @@ public class HDFSClient {
         config.set(PROP_NAME, HDFSConstants.HDFS_URI_SCHEME + "://" + h + ":" + p);
 
         // Partitions in the table structure
-        if(clusterOptions.get(HDFSConstants.CONFIG_DIFERENT_PARTITIONS)!=null){
+        if(clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS)!=null && clusterOptions.get(HDFSConstants
+                .CONFIG_PARTITIONS).equals(HDFSConstants.CONFIG_DIFERENT_PARTITIONS)){
             tableInDiferentPartitions = true;
-        }else if(clusterOptions.get(HDFSConstants.CONFIG_ONE_PARTITION)!=null){
+        }else if(clusterOptions.get(HDFSConstants.CONFIG_ONE_PARTITION)!=null && clusterOptions.get(HDFSConstants
+                .CONFIG_PARTITIONS).equals(HDFSConstants.CONFIG_ONE_PARTITION)){
             tableInDiferentPartitions = false;
         }else{
             tableInDiferentPartitions = false;

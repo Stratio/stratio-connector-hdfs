@@ -39,14 +39,7 @@ public class HDFSConnector extends CommonsConnector {
         datastoreName = ManifestUtil.getDatastoreName("HDFSConnector.xml");
 
     }
-//    public HDFSConnector(ICredentials credentials, ConnectorClusterConfig config) throws InitializationException {
-//        connectorName = ManifestUtil.getConectorName("HDFSConnector.xml");
-//        datastoreName = ManifestUtil.getDatastoreName("HDFSConnector.xml");
-//        if(credentials==null){
-//
-//        }
-//
-//    }
+
 
 
     @Override
