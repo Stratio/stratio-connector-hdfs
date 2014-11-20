@@ -38,9 +38,7 @@ public class HDFSConnection extends Connection {
             if(LOGGER.isInfoEnabled()){
                 LOGGER.info("New HDFS connection established");
             }
-
         }
-
     }
 
     @Override

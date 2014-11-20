@@ -8,6 +8,15 @@
     <artifactId>stratio-connector-hdfs</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+
+        <scala.version>2.10.4</scala.version>
+        <akka.version>2.2.4</akka.version>
+        <scala.dep.version>2.10</scala.dep.version>
+        <slf4j.version>1.7.7</slf4j.version>
+        <coverage.data.dir>${project.build.outputDirectory}</coverage.data.dir>
+    </properties>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -23,13 +32,28 @@
             <artifactId>crossdata-connector</artifactId>
             <version>0.1.0</version>
             <type>jar</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.typesafe.akka</groupId>
+                    <artifactId>akka-remote_2.10</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
             <version>2.4.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.protobuf</groupId>
+                    <artifactId>protobuf-java</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
@@ -40,12 +64,6 @@
             <groupId>com.stratio.connector</groupId>
             <artifactId>connector-commons-core</artifactId>
             <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.stratio.crossdata</groupId>
-            <artifactId>crossdata-connector</artifactId>
-            <version>0.1.0</version>
-            <type>jar</type>
         </dependency>
 
         <dependency>
@@ -81,6 +99,24 @@
             <groupId>com.stratio.crossdata</groupId>
             <artifactId>crossdata-common</artifactId>
             <version>0.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spark-project.akka</groupId>
+            <artifactId>akka-actor_2.10</artifactId>
+            <version>2.2.3-shaded-protobuf</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spark-project.akka</groupId>
+            <artifactId>akka-remote_2.10</artifactId>
+            <version>2.2.3-shaded-protobuf</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spark-project.akka</groupId>
+            <artifactId>akka-slf4j_2.10</artifactId>
+            <version>2.2.3-shaded-protobuf</version>
         </dependency>
     </dependencies>
 
@@ -139,7 +175,7 @@
                 <version>0.1.0</version>
                 <configuration>
                     <mainClass>com.stratio.connector.hdfs.connection.HDFSConnector</mainClass>
-                    <jmxPort>7191</jmxPort>
+                    <jmxPort>7192</jmxPort>
                 </configuration>
             </plugin>
         </plugins>

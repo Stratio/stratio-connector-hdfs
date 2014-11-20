@@ -41,9 +41,11 @@
             <PropertyName>Extension</PropertyName>
             <Description>Extension of the file in HDFS.</Description>
         </Property>
+        <Property>
+            <PropertyName>FileSeparator</PropertyName>
+            <Description>Character to split the File lines</Description>
+        </Property>
     </RequiredProperties>
-
-
 </DataStore>
 
 

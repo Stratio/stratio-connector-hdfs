@@ -47,7 +47,7 @@ public class HDFSClient {
 
     private static final int    MAPSIZE     = 4 * 1024 ; // 4K - make this * 1024 to 4MB in a real system.
     private static final Short  replication = 1;
-    private static final String SEPARATOR   = ",";
+    private static String separator   = ",";
     private static final String PROP_NAME   = "fs.default.name";
     private static Boolean tableInDiferentPartitions = false;
     private static String  partitionName ="part";
@@ -72,9 +72,7 @@ public class HDFSClient {
         clusterOptions.get(HDFSConstants.CONFIG_MAPRED_SITE);
 
         // Conf object will read the HDFS configuration parameters
-//        config.addResource(new Path(CORE_SITE));
-//        config.addResource(new Path(HDFS_SITE));
-//        config.addResource(new Path(MAPRED_SITE));
+        // config.addResource(new Path(CORE_SITE));
 
         if (clusterOptions.get(HDFSConstants.HOSTS) != null) {
             values.put(HDFSConstants.HOSTS, clusterOptions.get(HDFSConstants.HOSTS));
@@ -99,6 +97,7 @@ public class HDFSClient {
         config.set(PROP_NAME, HDFSConstants.HDFS_URI_SCHEME + "://" + h + ":" + p);
 
         // Partitions in the table structure
+
         if(clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS)!=null && clusterOptions.get(HDFSConstants
                 .CONFIG_PARTITIONS).equals(HDFSConstants.CONFIG_DIFERENT_PARTITIONS)){
             tableInDiferentPartitions = true;
@@ -115,6 +114,10 @@ public class HDFSClient {
 
         if(clusterOptions.get(HDFSConstants.CONFIG_EXTENSION_NAME)!=null){
             extension = clusterOptions.get(HDFSConstants.CONFIG_EXTENSION_NAME);
+        }
+
+        if(clusterOptions.get(HDFSConstants.FILE_SEPARATOR)!=null){
+            separator = clusterOptions.get(HDFSConstants.FILE_SEPARATOR);
         }
 
     }
@@ -190,7 +193,7 @@ public class HDFSClient {
         FileStatus fileStatus = fileSystem.getFileStatus(srcPath);
         long modificationTime = fileStatus.getModificationTime();
 
-        System.out.format("File %s; Modification time : %0.2f %n",filename,modificationTime);
+        LOGGER.info("File %s; Modification time : %0.2f %n",filename,modificationTime);
 
     }
 
@@ -214,8 +217,8 @@ public class HDFSClient {
             fileSystem.copyFromLocalFile(srcPath, dstPath);
             LOGGER.info("File " + filename + "copied to " + dest);
         }catch(Exception e){
-            System.err.println("Exception caught! :" + e);
-            System.exit(1);
+            LOGGER.error("Exception caught! :" + e);
+
         }finally{
             fileSystem.close();
         }
@@ -241,8 +244,8 @@ public class HDFSClient {
             fileSystem.copyToLocalFile(srcPath, dstPath);
             LOGGER.info("File " + filename + " copied to --> " + dest);
         }catch(Exception e){
-            System.err.println("Exception caught! :" + e);
-            System.exit(1);
+            LOGGER.error("Exception caught! :" + e);
+
         }finally{
             fileSystem.close();
         }
@@ -272,7 +275,7 @@ public class HDFSClient {
             }
         }catch(Exception e){
             LOGGER.info("Exception :" + e);
-            System.exit(1);
+
         }finally{
             fileSystem.close();
         }
@@ -369,6 +372,8 @@ public class HDFSClient {
                 } else {
                     dest = dest + filename;
                 }
+            }else{
+                dest = dest + extension;
             }
             // Check if the file already exists
             Path path = new Path(dest);
@@ -443,7 +448,7 @@ public class HDFSClient {
                 {
                     countLine++;
 
-                    String[] words = line.split(SEPARATOR);
+                    String[] words = line.split(separator);
 
                     for (String word : words) {
                         if (word.equals(inputSearch)) {

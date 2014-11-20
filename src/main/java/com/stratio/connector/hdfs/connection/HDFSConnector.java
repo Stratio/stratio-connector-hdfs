@@ -40,8 +40,6 @@ public class HDFSConnector extends CommonsConnector {
 
     }
 
-
-
     @Override
     public String getConnectorName() {
         return connectorName;

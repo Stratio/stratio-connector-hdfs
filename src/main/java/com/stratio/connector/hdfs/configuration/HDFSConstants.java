@@ -1,11 +1,9 @@
 package com.stratio.connector.hdfs.configuration;
 
-import org.apache.hadoop.hdfs.protocol.HdfsConstants;
-
 /**
   * Config constants.
 */
-public class HDFSConstants extends HdfsConstants {
+public class HDFSConstants  {
 
     public static final String HOSTS      = "Hosts";
     public static final String HOST       = "Host";
@@ -23,6 +21,12 @@ public class HDFSConstants extends HdfsConstants {
     public static final String CONFIG_DIFERENT_PARTITIONS = "DiferentPartitions";
 
     public static final String CONFIG_PARTITION_NAME      = "PartitionName";
-    public static final String CONFIG_EXTENSION_NAME      = "ExtensionName";
+    public static final String CONFIG_EXTENSION_NAME      = "Extension";
 
+    public static final String FILE_SEPARATOR = "FileSeparator";
+
+    /**
+     * URI Scheme for hdfs://namenode/ URIs.
+     */
+    public static final String HDFS_URI_SCHEME = "hdfs";
 }
