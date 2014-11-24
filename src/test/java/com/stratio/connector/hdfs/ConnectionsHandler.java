@@ -2,6 +2,7 @@ package com.stratio.connector.hdfs;
 
 import com.stratio.connector.hdfs.connection.HDFSConnector;
 import com.stratio.connector.hdfs.engine.HDFSMetadataEngine;
+import com.stratio.connector.hdfs.engine.HDFSStorageEngine;
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig;
 import com.stratio.crossdata.common.data.ClusterName;
 import com.stratio.crossdata.common.exceptions.ConnectionException;
@@ -25,6 +26,11 @@ public class ConnectionsHandler {
     public HDFSConnector getHDFSConnector() {
 
         return this.hdfsConnector;
+    }
+
+    public HDFSStorageEngine getStorageEngine() throws UnsupportedException {
+
+        return (HDFSStorageEngine) this.hdfsConnector.getStorageEngine();
     }
 
     public HDFSMetadataEngine getMetadataEngine() throws UnsupportedException {

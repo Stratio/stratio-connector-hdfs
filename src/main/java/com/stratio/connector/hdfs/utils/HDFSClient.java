@@ -63,16 +63,16 @@ public class HDFSClient {
 
     public HDFSClient(ConnectorClusterConfig clusterConfig) {
 
-        Map<String, String> clusterOptions = clusterConfig.getOptions();
+        Map<String, String> clusterOptions = clusterConfig.getClusterOptions();
         Map<String, String> values         = new HashMap<String, String>();
 
         //TODO: Recover the config from the clusterConfig
-        clusterOptions.get(HDFSConstants.CONFIG_CORE_SITE);
-        clusterOptions.get(HDFSConstants.CONFIG_HDFS_SITE);
-        clusterOptions.get(HDFSConstants.CONFIG_MAPRED_SITE);
+        //clusterOptions.get(HDFSConstants.CONFIG_CORE_SITE);
+        //clusterOptions.get(HDFSConstants.CONFIG_HDFS_SITE);
+        //clusterOptions.get(HDFSConstants.CONFIG_MAPRED_SITE);
 
         // Conf object will read the HDFS configuration parameters
-        // config.addResource(new Path(CORE_SITE));
+        config.addResource(new Path(HDFSConstants.CONFIG_CORE_SITE));
 
         if (clusterOptions.get(HDFSConstants.HOSTS) != null) {
             values.put(HDFSConstants.HOSTS, clusterOptions.get(HDFSConstants.HOSTS));
@@ -126,6 +126,10 @@ public class HDFSClient {
         this.config = config;
 
 
+    }
+
+    public String getseparator() {
+        return separator;
     }
 
     public boolean ifExists (Path source) throws IOException{
@@ -329,6 +333,18 @@ public class HDFSClient {
 
             FileSystem fileSystem = FileSystem.get(config);
 
+            if(tableInDiferentPartitions) {
+
+                String filename = partitionName+extension;
+
+                if (dest.charAt(dest.length() - 1) != '/') {
+                    dest = dest + "/" + filename;
+                } else {
+                    dest = dest + filename;
+                }
+            }else{
+                dest = dest + extension;
+            }
             // Check if the file already exists
             Path path = new Path(dest);
             if (!fileSystem.exists(path)) {

@@ -54,7 +54,7 @@ public class HDFSConnectionHandlerTest {
         options.put(HDFSConstants.HOST, HDFSConstants.HDFS_URI_SCHEME+"://"+HOST);
         options.put(HDFSConstants.HOSTS, "127.0.0.1 , 127.0.0.2");
         options.put(HDFSConstants.PORT, PORT);
-        ConnectorClusterConfig config = new ConnectorClusterConfig(new ClusterName(CLUSTER_NAME), options);
+        ConnectorClusterConfig config = new ConnectorClusterConfig(new ClusterName(CLUSTER_NAME), options,options);
 
         HDFSConnection connection = mock(HDFSConnection.class);
         whenNew(HDFSConnection.class).withArguments(credentials, config).thenReturn(connection);

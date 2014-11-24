@@ -19,6 +19,8 @@ public class HDFSMetadataEngine extends CommonsMetadataEngine<HDFSClient>{
         super(connectionHandler);
     }
 
+
+
     @Override
     protected void createCatalog(CatalogMetadata catalogMetadata, Connection<HDFSClient> connection)
             throws UnsupportedException, ExecutionException {
@@ -62,5 +64,12 @@ public class HDFSMetadataEngine extends CommonsMetadataEngine<HDFSClient>{
             throws UnsupportedException, ExecutionException {
 
         throw new UnsupportedException("Not yet supported");
+    }
+
+    @Override
+    protected void alterTable(TableName name, com.stratio.crossdata.common.data.AlterOptions alterOptions,
+            Connection<HDFSClient> connection) throws UnsupportedException, ExecutionException {
+        throw new UnsupportedException("Not yet supported");
+
     }
 }

@@ -10,15 +10,20 @@ import com.stratio.connector.hdfs.utils.HDFSClient;
 import com.stratio.crossdata.common.data.Cell;
 import com.stratio.crossdata.common.data.ColumnName;
 import com.stratio.crossdata.common.data.Row;
+import com.stratio.crossdata.common.data.TableName;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
 import com.stratio.crossdata.common.exceptions.UnsupportedException;
+import com.stratio.crossdata.common.logicalplan.Filter;
 import com.stratio.crossdata.common.metadata.TableMetadata;
+import com.stratio.crossdata.common.statements.structures.Relation;
 
 public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
 
     public HDFSStorageEngine(HDFSConnectionHandler connectionHandler) {
         super(connectionHandler);
     }
+
+
 
     @Override
     protected void insert(TableMetadata tableMetadata, Row row, Connection<HDFSClient> connection)
@@ -36,18 +41,40 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
             cellName  = entry.getKey();
             cellValue = entry.getValue().getValue();
             ColumnName cName = new ColumnName(catalog, tableName, cellName);
-            //TODO: Validate Data from tableMetaData
-            //validateDataType(tableMetadata.getColumns().get(cName).getColumnType());
-            rowValues.append(cellValue.toString());
+
+            rowValues.append(cellValue.toString()+hdfsClient.getseparator());
         }
 
-        hdfsClient.addFile(rowValues.toString(),tableMetadata.getName().getName());
+        hdfsClient.addRowToFile(rowValues.toString(),tableMetadata.getName().getCatalogName()+"/"+tableMetadata
+                .getName()
+                .getName());
 
     }
 
     @Override
     protected void insert(TableMetadata tableMetadata, Collection collection, Connection connection)
             throws UnsupportedException, ExecutionException {
+        throw new UnsupportedException("Not yet supported");
+    }
+
+    @Override
+    protected void truncate(TableName tableName, Connection<HDFSClient> connection)
+            throws UnsupportedException, ExecutionException {
+
+        throw new UnsupportedException("Not yet supported");
+    }
+
+    @Override
+    protected void delete(TableName tableName, Collection<Filter> whereClauses,
+            Connection<HDFSClient> connection) throws UnsupportedException, ExecutionException {
+        throw new UnsupportedException("Not yet supported");
+    }
+
+    @Override
+    protected void update(TableName tableName, Collection<Relation> assignments,
+            Collection<Filter> whereClauses, Connection<HDFSClient> connection)
+            throws UnsupportedException, ExecutionException {
+        throw new UnsupportedException("Not yet supported");
 
     }
 }

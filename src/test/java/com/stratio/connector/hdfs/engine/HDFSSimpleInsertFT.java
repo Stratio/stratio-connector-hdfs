@@ -1,4 +1,4 @@
-package com.stratio.connector.hdfs;
+package com.stratio.connector.hdfs.engine;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,62 +6,69 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
-import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.stratio.connector.hdfs.ConnectionsHandler;
 import com.stratio.connector.hdfs.configuration.HDFSConstants;
-import com.stratio.connector.hdfs.engine.HDFSMetadataEngine;
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig;
-import com.stratio.crossdata.common.data.CatalogName;
+import com.stratio.crossdata.common.data.Cell;
 import com.stratio.crossdata.common.data.ClusterName;
 import com.stratio.crossdata.common.data.ColumnName;
+import com.stratio.crossdata.common.data.Row;
 import com.stratio.crossdata.common.data.TableName;
 import com.stratio.crossdata.common.exceptions.ConnectionException;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
 import com.stratio.crossdata.common.exceptions.InitializationException;
 import com.stratio.crossdata.common.exceptions.UnsupportedException;
-import com.stratio.crossdata.common.metadata.CatalogMetadata;
 import com.stratio.crossdata.common.metadata.ColumnMetadata;
 import com.stratio.crossdata.common.metadata.TableMetadata;
 import com.stratio.crossdata.common.statements.structures.Selector;
 
-@RunWith(PowerMockRunner.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class HDFSConnectorMetadataEngineFT {
+public class HDFSSimpleInsertFT {
 
+
+    private static final String INDEX_NAME = "INDEX_NAME";
+    private static final String TYPE_NAME = "TYPE_NAME";
+    private static final String COLUMN_1 = "column1";
+    private static final String COLUMN_2 = "column2";
+    private static final String COLUMN_3 = "column3";
+    private static final String COLUMN_4 = "column4";
+    private static final Object VALUE_1  = "value1";
+    private static final Object VALUE_2  = "value2";
+    private static final Object VALUE_3  = "value3";
+    private static final Object VALUE_4  = "value4";
+
+    private TableName tableMame = new TableName(INDEX_NAME, TYPE_NAME);
+    private static final String ROW_NAME = "row_name";
+    private static final String CELL_VALUE = "cell_value";
 
     private static final ClusterName CLUSTERNAME_CONSTANT =  new ClusterName("cluster_name");
     private static final String HOST    = "127.0.0.1";
     private static final String PORT    = "9000";
-    private static final String CATALOG = "catalog";
-    private static final String TABLE   = "table";
+    private static final String PATH    = "/user/dgomez/test/songs.csv";
+    private static final String CATALOG = "test";
+    private static final String TABLE   = "songs";
 
 
-    private static HDFSMetadataEngine hdfsMetadataEngine;
+    private static HDFSStorageEngine hdfsStorageEngine;
 
     @Before
     public void before() throws InitializationException, ConnectionException, UnsupportedException {
 
         ConnectionsHandler connectionBuilder = new ConnectionsHandler();
         connectionBuilder.connect(prepareConfiguration());
-        hdfsMetadataEngine = connectionBuilder.getMetadataEngine();
+        hdfsStorageEngine = connectionBuilder.getStorageEngine();
 
     }
-
+    /**
+     * Method: insert(ClusterName targetCluster, TableMetadata targetTable, Row row)
+     */
     @Test
-    public void test1_createCatalog () throws UnsupportedException, ExecutionException {
+    public void testInsertOne()
+            throws UnsupportedException, ExecutionException {
 
-          hdfsMetadataEngine.createCatalog(new ClusterName("cluster_name"),new CatalogMetadata(new CatalogName(CATALOG), null, null));
-
-    }
-
-
-
-    @Test
-    public void test2_createTable() throws UnsupportedException, ExecutionException {
+        ClusterName clusterName = CLUSTERNAME_CONSTANT;
+        Row row = createRow();
 
         TableName tableName = new TableName(CATALOG, TABLE);
         Map<Selector, Selector> options = Collections.EMPTY_MAP;
@@ -69,25 +76,30 @@ public class HDFSConnectorMetadataEngineFT {
         Map indexex = Collections.EMPTY_MAP;
         List<ColumnName> partitionKey = Collections.EMPTY_LIST;
         List<ColumnName> clusterKey   = Collections.EMPTY_LIST;
-        ClusterName clusterRef = getClusterName();
 
-        hdfsMetadataEngine.createTable( new ClusterName("cluster_name"),
-                new TableMetadata(tableName, options, columns, indexex, clusterRef, partitionKey, clusterKey));
-
+        TableMetadata targetTable = new TableMetadata(tableName, options, columns, indexex, clusterName,
+                partitionKey, clusterKey);
+        hdfsStorageEngine.insert(clusterName,targetTable,row);
     }
 
-    @Test
-    public void test3_dropTable () throws UnsupportedException, ExecutionException {
+    private Row createRow(String rowKey, Object cellValue) {
+        Cell cell = new Cell(cellValue);
+        Row row = new Row(rowKey,cell);
 
-        hdfsMetadataEngine.dropTable(new ClusterName("cluster_name"), new TableName(CATALOG, TABLE));
-
+        return row;
     }
+    private Row createRow() {
 
-    @Test
-    public void test4_dropCatalog () throws UnsupportedException, ExecutionException {
+        Row row = new Row();
+        Map<String, Cell> cells = new HashMap<>();
 
-        hdfsMetadataEngine.dropCatalog(new ClusterName("cluster_name"),new CatalogName(CATALOG));
+        cells.put(COLUMN_1, new Cell(VALUE_1));
+        cells.put(COLUMN_2, new Cell(VALUE_2));
+        cells.put(COLUMN_3, new Cell(VALUE_3));
+        cells.put(COLUMN_4, new Cell(VALUE_4));
 
+        row.setCells(cells);
+        return row;
     }
 
     /**
@@ -100,16 +112,12 @@ public class HDFSConnectorMetadataEngineFT {
         Map<String, String> options = new HashMap<>();
         options.put(HDFSConstants.HOST, HOST);
         options.put(HDFSConstants.PORT, PORT);
-        options.put(HDFSConstants.CONFIG_DIFERENT_PARTITIONS, "true");
+        options.put(HDFSConstants.CONFIG_DIFERENT_PARTITIONS, "false");
         options.put(HDFSConstants.CONFIG_PARTITION_NAME, "partition");
         options.put(HDFSConstants.CONFIG_EXTENSION_NAME, ".csv");
+
         ConnectorClusterConfig configuration = new ConnectorClusterConfig(CLUSTERNAME_CONSTANT, options,options);
 
         return configuration;
     }
-
-    private ClusterName getClusterName() {
-        return new ClusterName(CATALOG + "-" + TABLE);
-    }
-
 }
