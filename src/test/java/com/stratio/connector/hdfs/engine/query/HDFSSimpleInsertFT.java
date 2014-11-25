@@ -1,4 +1,4 @@
-package com.stratio.connector.hdfs.engine;
+package com.stratio.connector.hdfs.engine.query;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.stratio.connector.hdfs.ConnectionsHandler;
 import com.stratio.connector.hdfs.configuration.HDFSConstants;
+import com.stratio.connector.hdfs.engine.HDFSStorageEngine;
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig;
 import com.stratio.crossdata.common.data.Cell;
 import com.stratio.crossdata.common.data.ClusterName;

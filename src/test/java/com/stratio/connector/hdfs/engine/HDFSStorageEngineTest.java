@@ -73,8 +73,7 @@ public class HDFSStorageEngineTest {
      * Method: insert(ClusterName targetCluster, TableMetadata targetTable, Row row)
      */
     @Test
-    public void testInsertOne()
-            throws UnsupportedException, ExecutionException {
+    public void testInsertOne() throws UnsupportedException, ExecutionException {
 
         ClusterName clusterName = CLUSTERNAME_CONSTANT;
         Row row = createRow(ROW_NAME, CELL_VALUE);
@@ -92,6 +91,22 @@ public class HDFSStorageEngineTest {
 
         verify(client, times(1)).addRowToFile(any(String.class),anyString());
     }
+
+    /**
+     * Method: truncate(TableName targetTable, Connection connection)
+     */
+    @Test
+    public void testTruncate() throws UnsupportedException, ExecutionException {
+
+        TableName tableName = new TableName(CATALOG, TABLE);
+
+        hdfsStorageEngine.truncate(tableName,connection);
+
+        verify(client, times(1)).truncate(anyString());
+
+    }
+
+
 
     private Row createRow(String rowKey, Object cellValue) {
         Cell cell = new Cell(cellValue);

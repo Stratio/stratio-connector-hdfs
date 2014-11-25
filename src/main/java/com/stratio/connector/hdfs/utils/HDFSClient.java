@@ -124,8 +124,6 @@ public class HDFSClient {
 
     public HDFSClient( Configuration config) {
         this.config = config;
-
-
     }
 
     public String getseparator() {
@@ -133,7 +131,6 @@ public class HDFSClient {
     }
 
     public boolean ifExists (Path source) throws IOException{
-
 
         FileSystem hdfs = FileSystem.get(config);
         boolean isExists = hdfs.exists(source);
@@ -154,7 +151,6 @@ public class HDFSClient {
     }
 
     public void getBlockLocations(String source) throws IOException{
-
 
         FileSystem fileSystem = FileSystem.get(config);
         Path srcPath = new Path(source);
@@ -182,7 +178,6 @@ public class HDFSClient {
 
     public void getModificationTime(String source) throws IOException{
 
-
         FileSystem fileSystem = FileSystem.get(config);
         Path srcPath = new Path(source);
 
@@ -202,7 +197,6 @@ public class HDFSClient {
     }
 
     public void copyFromLocal(String source, String dest) throws IOException {
-
 
         FileSystem fileSystem = FileSystem.get(config);
         Path srcPath = new Path(source);
@@ -256,7 +250,6 @@ public class HDFSClient {
     }
 
     public void renameFile(String fromthis, String tothis) throws IOException{
-
 
         FileSystem fileSystem = FileSystem.get(config);
         Path fromPath = new Path(fromthis);
@@ -610,7 +603,13 @@ public class HDFSClient {
             throw new ExecutionException(" "+e);
         }
 
-}
+    }
+
+    public void truncate(String file)throws ExecutionException{
+       this.deleteFile(file);
+        this.addFile(file);
+
+    }
 
     public static void main(String[] args) throws IOException, ExecutionException {
 

@@ -61,7 +61,10 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
     protected void truncate(TableName tableName, Connection<HDFSClient> connection)
             throws UnsupportedException, ExecutionException {
 
-        throw new UnsupportedException("Not yet supported");
+        HDFSClient hdfsClient = connection.getNativeConnection();
+
+        hdfsClient.truncate(tableName.getCatalogName()+"/"+tableName.getName());
+
     }
 
     @Override
