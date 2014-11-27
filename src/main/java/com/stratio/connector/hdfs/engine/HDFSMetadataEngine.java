@@ -31,7 +31,7 @@ public class HDFSMetadataEngine extends CommonsMetadataEngine<HDFSClient>{
     @Override
     protected void createTable(TableMetadata tableMetadata, Connection<HDFSClient> connection)
             throws UnsupportedException, ExecutionException {
-
+        connection.getNativeConnection().createMetaDataFile(tableMetadata);
         connection.getNativeConnection().addFile(tableMetadata.getName().getCatalogName().getName()+"/"+
                 tableMetadata.getName().getName());
     }

@@ -44,8 +44,11 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
 
             rowValues.append(cellValue.toString()+hdfsClient.getseparator());
         }
-
-        hdfsClient.addRowToFile(rowValues.toString(),tableMetadata.getName().getCatalogName()+"/"+tableMetadata
+        String insert = rowValues.toString();
+        if (insert.endsWith(hdfsClient.getseparator())) {
+            insert = insert.substring(0, insert.length() - 1) +"\n";
+        }
+        hdfsClient.addRowToFile(insert,tableMetadata.getName().getCatalogName()+"/"+tableMetadata
                 .getName()
                 .getName());
 

@@ -1,6 +1,5 @@
 package com.stratio.connector.hdfs.utils;
 
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -36,7 +35,10 @@ import org.slf4j.LoggerFactory;
 import com.stratio.connector.commons.util.ConnectorParser;
 import com.stratio.connector.hdfs.configuration.HDFSConstants;
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig;
+import com.stratio.crossdata.common.data.ColumnName;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
+import com.stratio.crossdata.common.metadata.ColumnMetadata;
+import com.stratio.crossdata.common.metadata.TableMetadata;
 
 public class HDFSClient {
 
@@ -47,12 +49,14 @@ public class HDFSClient {
 
     private static final int    MAPSIZE     = 4 * 1024 ; // 4K - make this * 1024 to 4MB in a real system.
     private static final Short  replication = 1;
-    private static String separator   = ",";
     private static final String PROP_NAME   = "fs.default.name";
+    private static final String DEFAULT_EXTENSION =".csv";
+
+    private static String separator   = ",";
     private static Boolean tableInDiferentPartitions = false;
     private static String  partitionName ="part";
     private static String  extension =".csv";
-    private static final String DEFAULT_EXTENSION =".csv";
+
     private Configuration config = new Configuration();
 
 
@@ -66,13 +70,13 @@ public class HDFSClient {
         Map<String, String> clusterOptions = clusterConfig.getClusterOptions();
         Map<String, String> values         = new HashMap<String, String>();
 
-        //TODO: Recover the config from the clusterConfig
+        //TODO: Recover the config from the clusterConfig ??
         //clusterOptions.get(HDFSConstants.CONFIG_CORE_SITE);
         //clusterOptions.get(HDFSConstants.CONFIG_HDFS_SITE);
         //clusterOptions.get(HDFSConstants.CONFIG_MAPRED_SITE);
 
         // Conf object will read the HDFS configuration parameters
-        config.addResource(new Path(HDFSConstants.CONFIG_CORE_SITE));
+        //config.addResource(new Path(HDFSConstants.CONFIG_CORE_SITE));
 
         if (clusterOptions.get(HDFSConstants.HOSTS) != null) {
             values.put(HDFSConstants.HOSTS, clusterOptions.get(HDFSConstants.HOSTS));
@@ -561,19 +565,33 @@ public class HDFSClient {
         return nxt == ' ' || nxt == '\n' || nxt == '\r';
     }
 
-    public void deleteFile(String file) throws ExecutionException {
+    public void deleteFile(String dest) throws ExecutionException {
 
         try {
 
             FileSystem fileSystem = FileSystem.get(config);
 
-            Path path = new Path(file);
+            String filename = dest.substring(dest.lastIndexOf('/') + 1, dest.length());
+
+            if(tableInDiferentPartitions) {
+
+                filename = partitionName+extension;
+
+                if (dest.charAt(dest.length() - 1) != '/') {
+                    dest = dest + "/" + filename;
+                } else {
+                    dest = dest + filename;
+                }
+            }else{
+                dest = dest + extension;
+            }
+            Path path = new Path(dest);
             if (!fileSystem.exists(path)) {
-                LOGGER.info("File " + file + " does not exists");
+                LOGGER.info("File " + dest + " does not exists");
                 return;
             }
 
-            fileSystem.delete(new Path(file), true);
+            fileSystem.delete(new Path(dest), true);
 
             fileSystem.close();
 
@@ -640,4 +658,14 @@ public class HDFSClient {
         LOGGER.info("Usage: hdfsclient gethostnames");
     }
 
+    public void createMetaDataFile(TableMetadata tableMetadata) {
+
+
+        Map<ColumnName,ColumnMetadata> columns = tableMetadata.getColumns();
+        for(ColumnName columnName: columns.keySet()){
+            ColumnMetadata meta = columns.get(columnName);
+        }
+
+
+    }
 }
