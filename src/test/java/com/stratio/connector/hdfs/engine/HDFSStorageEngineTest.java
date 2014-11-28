@@ -62,7 +62,6 @@ public class HDFSStorageEngineTest {
 
         when(connectionHandler.getConnection(CLUSTER_NAME)).thenReturn(connection);
         when(connection.getNativeConnection()).thenReturn(client);
-        when(connection.getNativeConnection().getseparator()).thenReturn(any(String.class));
 
         hdfsStorageEngine = new HDFSStorageEngine(connectionHandler);
 
