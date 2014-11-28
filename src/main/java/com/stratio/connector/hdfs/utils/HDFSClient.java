@@ -365,6 +365,47 @@ public class HDFSClient {
         }
     }
 
+    public void addMetaDataToFile(String source, String dest) throws ExecutionException {
+
+        try {
+
+            FileSystem fileSystem = FileSystem.get(config);
+
+            if(tableInDiferentPartitions) {
+
+                String filename = partitionName+extension;
+
+                if (dest.charAt(dest.length() - 1) != '/') {
+                    dest = dest + "/" + filename;
+                } else {
+                    dest = dest + filename;
+                }
+            }else{
+                dest = dest + extension;
+            }
+            // Check if the file already exists
+            Path path = new Path(dest);
+            if (!fileSystem.exists(path)) {
+                throw  new ExecutionException("File " + dest + " not exists");
+            }
+
+            // Create a new file and write data to it.
+            FSDataOutputStream out = fileSystem.append(path);
+
+            InputStream in = new BufferedInputStream(new ByteArrayInputStream(source.getBytes()));
+
+            IOUtils.copyBytes(in, out, config);
+
+            // Close all the file descripters
+            in.close();
+            out.close();
+            fileSystem.close();
+
+        }catch (IOException e){
+            throw new ExecutionException("Exception "+e);
+        }
+    }
+
     public void addFile(String dest) throws ExecutionException {
 
         try {
@@ -658,14 +699,26 @@ public class HDFSClient {
         LOGGER.info("Usage: hdfsclient gethostnames");
     }
 
-    public void createMetaDataFile(TableMetadata tableMetadata) {
+    public void createMetaDataFile(TableMetadata tableMetadata) throws ExecutionException {
 
+        StringBuilder metaDataFile = new StringBuilder();
 
+        metaDataFile.append("QualifiedName:"+tableMetadata.getName().getQualifiedName()+"\n");
+        metaDataFile.append("CatalogName:"+tableMetadata.getName().getCatalogName().getName()+"\n");
+        metaDataFile.append("TableName:"+tableMetadata.getName().getName()+"\n");
+        metaDataFile.append("PrimaryKey:"+tableMetadata.getPrimaryKey().toString()+"\n");
+        metaDataFile.append("Indexes:"+tableMetadata.getIndexes().toString()+"\n");
         Map<ColumnName,ColumnMetadata> columns = tableMetadata.getColumns();
+        int i=0;
         for(ColumnName columnName: columns.keySet()){
             ColumnMetadata meta = columns.get(columnName);
+
+            metaDataFile.append("Field"+(i++)+" -" +meta.getName().getName()+":"+meta.getColumnType().name()+"\n");
         }
 
-
+        addFile(tableMetadata.getName().getCatalogName().getName()+"/."+
+                tableMetadata.getName().getName());
+        addMetaDataToFile(metaDataFile.toString(),tableMetadata.getName().getCatalogName().getName()+"/."+
+                tableMetadata.getName().getName());
     }
 }
