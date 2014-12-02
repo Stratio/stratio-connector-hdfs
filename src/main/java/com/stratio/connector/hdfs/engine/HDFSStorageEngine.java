@@ -8,7 +8,6 @@ import com.stratio.connector.commons.engine.CommonsStorageEngine;
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler;
 import com.stratio.connector.hdfs.utils.HDFSClient;
 import com.stratio.crossdata.common.data.Cell;
-import com.stratio.crossdata.common.data.ColumnName;
 import com.stratio.crossdata.common.data.Row;
 import com.stratio.crossdata.common.data.TableName;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
@@ -40,7 +39,7 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
         for (Map.Entry<String, Cell> entry : row.getCells().entrySet()) {
             cellName  = entry.getKey();
             cellValue = entry.getValue().getValue();
-            ColumnName cName = new ColumnName(catalog, tableName, cellName);
+            //ColumnName cName = new ColumnName(catalog, tableName, cellName);
 
             rowValues.append(cellValue.toString()+hdfsClient.getseparator());
         }

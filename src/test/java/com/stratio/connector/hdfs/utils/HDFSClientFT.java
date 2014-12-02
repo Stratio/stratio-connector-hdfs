@@ -45,8 +45,8 @@ public class HDFSClientFT {
     private static final String SONGS_1000_NAME_CSV   = "1000songs.csv";
 
     private static final String TEST_MKDIR         = "/user/hadoop/test";
-    private static final String TEST_DIR_SONGS     = "/user/hadoop/test/songs.csv";
-    private static final String TEST_DIR_1000SONGS = "/user/hadoop/test/1000songs.csv";
+    private static final String TEST_DIR_SONGS     = "/user/hadoop/test/songs";
+    private static final String TEST_DIR_1000SONGS = "/user/hadoop/test/1000songs";
 
     private static HDFSClient client;
 
@@ -132,7 +132,8 @@ public class HDFSClientFT {
 
     @Test
     public void deleteFileTest() throws ExecutionException {
-        client.deleteFile("/user");
+
+        client.deleteDir("/user");
         client.deleteFile(TEST_MKDIR);
         client.deleteFile(TEST_DIR_SONGS);
         client.deleteFile(TEST_DIR_1000SONGS);

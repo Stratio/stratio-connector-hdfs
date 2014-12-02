@@ -25,6 +25,7 @@ import com.stratio.crossdata.common.exceptions.InitializationException;
 import com.stratio.crossdata.common.exceptions.UnsupportedException;
 import com.stratio.crossdata.common.metadata.CatalogMetadata;
 import com.stratio.crossdata.common.metadata.ColumnMetadata;
+import com.stratio.crossdata.common.metadata.ColumnType;
 import com.stratio.crossdata.common.metadata.TableMetadata;
 import com.stratio.crossdata.common.statements.structures.Selector;
 
@@ -39,7 +40,9 @@ public class HDFSConnectorMetadataEngineFT {
     private static final String CATALOG = "catalog";
     private static final String TABLE   = "table";
 
-
+    private static final String ROW1 = "id";
+    private static final String ROW2 = "name";
+    private static final String ROW3 = "desc";
     private static HDFSMetadataEngine hdfsMetadataEngine;
 
     @Before
@@ -66,6 +69,14 @@ public class HDFSConnectorMetadataEngineFT {
         TableName tableName = new TableName(CATALOG, TABLE);
         Map<Selector, Selector> options = Collections.EMPTY_MAP;
         Map<ColumnName, ColumnMetadata> columns = new HashMap<>();
+
+        ColumnMetadata colMetadata = metaMetadata(CATALOG, TABLE, ROW1, ColumnType.INT);
+        ColumnMetadata colMetadata2 = metaMetadata(CATALOG, TABLE, ROW2, ColumnType.TEXT);
+        ColumnMetadata colMetadata3 = metaMetadata(CATALOG, TABLE, ROW3, ColumnType.TEXT);
+
+        columns.put(new ColumnName(tableName, ROW1), colMetadata);
+        columns.put(new ColumnName(tableName, ROW2), colMetadata2);
+
         Map indexex = Collections.EMPTY_MAP;
         List<ColumnName> partitionKey = Collections.EMPTY_LIST;
         List<ColumnName> clusterKey   = Collections.EMPTY_LIST;
@@ -112,4 +123,16 @@ public class HDFSConnectorMetadataEngineFT {
         return new ClusterName(CATALOG + "-" + TABLE);
     }
 
+    /**
+     * @param catalog
+     * @param table
+     * @param row
+     * @param i
+     * @return ColumnMetadata
+     */
+    private ColumnMetadata metaMetadata(String catalog, String table, String row, ColumnType i) {
+
+        Object[] params = {};
+        return new ColumnMetadata(new ColumnName(catalog, table, row), params, i);
+    }
 }

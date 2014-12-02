@@ -17,6 +17,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
@@ -437,7 +438,7 @@ public class HDFSClient {
             }
 
             // Create a new file and write data to it.
-            FSDataOutputStream out = fileSystem.create(path,replication);
+            fileSystem.create(path,replication);
             fileSystem.close();
         }catch (IOException e){
             throw new ExecutionException("Exception "+e);
@@ -642,6 +643,27 @@ public class HDFSClient {
 
     }
 
+    public void deleteDir(String dest) throws ExecutionException {
+
+        try {
+
+            FileSystem fileSystem = FileSystem.get(config);
+
+            Path path = new Path(dest);
+            if (!fileSystem.exists(path)) {
+                LOGGER.info("File " + dest + " does not exists");
+                return;
+            }
+
+            fileSystem.delete(new Path(dest), true);
+
+            fileSystem.close();
+
+        }catch (IOException e){
+            throw new ExecutionException(" "+e);
+        }
+
+    }
     public void mkdir(String dir) throws ExecutionException {
 
         try{
@@ -703,22 +725,24 @@ public class HDFSClient {
 
         StringBuilder metaDataFile = new StringBuilder();
 
-        metaDataFile.append("QualifiedName:"+tableMetadata.getName().getQualifiedName()+"\n");
-        metaDataFile.append("CatalogName:"+tableMetadata.getName().getCatalogName().getName()+"\n");
-        metaDataFile.append("TableName:"+tableMetadata.getName().getName()+"\n");
-        metaDataFile.append("PrimaryKey:"+tableMetadata.getPrimaryKey().toString()+"\n");
-        metaDataFile.append("Indexes:"+tableMetadata.getIndexes().toString()+"\n");
-        Map<ColumnName,ColumnMetadata> columns = tableMetadata.getColumns();
+        metaDataFile.append("QualifiedName="+tableMetadata.getName().getQualifiedName()+"\n");
+        metaDataFile.append("CatalogName="+tableMetadata.getName().getCatalogName().getName()+"\n");
+        metaDataFile.append("TableName="+tableMetadata.getName().getName()+"\n");
+        metaDataFile.append("PrimaryKey="+tableMetadata.getPrimaryKey().toString()+"\n");
+        metaDataFile.append("Indexes="+tableMetadata.getIndexes().toString()+"\n");
+
+        LinkedHashMap<ColumnName,ColumnMetadata> columns = (LinkedHashMap)tableMetadata.getColumns();
+        metaDataFile.append("Schema {"+"\n");
         int i=0;
         for(ColumnName columnName: columns.keySet()){
             ColumnMetadata meta = columns.get(columnName);
 
-            metaDataFile.append("Field"+(i++)+" -" +meta.getName().getName()+":"+meta.getColumnType().name()+"\n");
+            metaDataFile.append("Field "+(i++)+":" +meta.getName().getName()+":"+meta.getColumnType().name()+"\n");
         }
 
-        addFile(tableMetadata.getName().getCatalogName().getName()+"/."+
-                tableMetadata.getName().getName());
-        addMetaDataToFile(metaDataFile.toString(),tableMetadata.getName().getCatalogName().getName()+"/."+
-                tableMetadata.getName().getName());
+        metaDataFile.append("}"+"\n");
+
+        addFile(tableMetadata.getName().getCatalogName().getName()+"/metaFile");
+        addMetaDataToFile(metaDataFile.toString(), tableMetadata.getName().getCatalogName().getName() + "/metaFile");
     }
 }
