@@ -3,12 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <name>HDFS connector</name>
     <groupId>com.stratio.connector</groupId>
     <artifactId>stratio-connector-hdfs</artifactId>
-    <version>0.1.0-RC1</version>
+    <version>0.1.0</version>
+    <description>The HDFS's connector</description>
+    <url>http://www.stratio.com</url>
+    <packaging>jar</packaging>
 
     <properties>
+        <version.crossdata>0.1.1</version.crossdata>
+        <version.connector.commons>0.2.0</version.connector.commons>
         <hadoop.version>2.4.1</hadoop.version>
         <scala.version>2.10.4</scala.version>
         <akka.version>2.2.4</akka.version>
@@ -24,13 +29,30 @@
         </license>
     </licenses>
 
-    <description>The HDFS's connector</description>
+    <scm>
+        <connection>scm:git:git@github.com:Stratio/stratio-connector-hdfs.git</connection>
+        <developerConnection>scm:git:git@github.com:Stratio/stratio-connector-hdfs.git</developerConnection>
+        <url>https://github.com/Stratio/stratio-connector-hdfs</url>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+
+    </distributionManagement>
 
     <dependencies>
         <dependency>
             <groupId>com.stratio.crossdata</groupId>
             <artifactId>crossdata-connector</artifactId>
-            <version>0.1.1-RC2</version>
+            <version>${version.crossdata}</version>
             <type>jar</type>
             <exclusions>
                 <exclusion>
@@ -61,7 +83,7 @@
         <dependency>
             <groupId>com.stratio.connector</groupId>
             <artifactId>connector-commons-core</artifactId>
-            <version>0.2.0-RC1</version>
+            <version>${version.connector.commons}</version>
         </dependency>
 
         <dependency>
@@ -97,7 +119,7 @@
         <dependency>
             <groupId>com.stratio.crossdata</groupId>
             <artifactId>crossdata-common</artifactId>
-            <version>0.1.1-RC2</version>
+            <version>${version.crossdata}</version>
         </dependency>
 
         <dependency>
@@ -171,7 +193,7 @@
             <plugin>
                 <artifactId>crossdata-connector-maven-plugin</artifactId>
                 <groupId>com.stratio.crossdata</groupId>
-                <version>0.1.1-RC2</version>
+                <version>${version.crossdata}</version>
                 <configuration>
                     <mainClass>com.stratio.connector.hdfs.connection.HDFSConnector</mainClass>
                     <jmxPort>7192</jmxPort>
