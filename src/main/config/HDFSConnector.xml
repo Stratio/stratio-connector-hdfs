@@ -20,7 +20,7 @@
 <Connector>
     <ConnectorName>HDFSConnector</ConnectorName>
     <DataStores>
-        <DataStoreName>HDFS</DataStoreName>
+        <DataStoreName>hdfs</DataStoreName>
     </DataStores>
     <Version>0.1.0</Version>
     <SupportedOperations>
