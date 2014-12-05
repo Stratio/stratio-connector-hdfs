@@ -39,6 +39,7 @@ import com.stratio.crossdata.common.connector.ConnectorClusterConfig;
 import com.stratio.crossdata.common.data.ColumnName;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
 import com.stratio.crossdata.common.metadata.ColumnMetadata;
+import com.stratio.crossdata.common.metadata.ColumnType;
 import com.stratio.crossdata.common.metadata.TableMetadata;
 
 public class HDFSClient {
@@ -698,7 +699,7 @@ public class HDFSClient {
         HDFSClient client = new HDFSClient("localhost","9000");
 
 
-        client.searchInFile ("/user/hadoop/logs/1000songs.csv","Eminem");
+        client.searchInFile("/user/hadoop/logs/1000songs.csv", "Eminem");
         //client.searchFor ("Tony Bennett", new java.nio.file.FilePath() );
         //client.getHostnames();
         //client.mkdir  ("/user/hadoop/catalog");
@@ -725,13 +726,13 @@ public class HDFSClient {
 
         StringBuilder metaDataFile = new StringBuilder();
 
-        metaDataFile.append("QualifiedName="+tableMetadata.getName().getQualifiedName()+"\n");
-        metaDataFile.append("CatalogName="+tableMetadata.getName().getCatalogName().getName()+"\n");
-        metaDataFile.append("TableName="+tableMetadata.getName().getName()+"\n");
-        metaDataFile.append("PrimaryKey="+tableMetadata.getPrimaryKey().toString()+"\n");
-        metaDataFile.append("Indexes="+tableMetadata.getIndexes().toString()+"\n");
+        metaDataFile.append("QualifiedName=" + tableMetadata.getName().getQualifiedName() + "\n");
+        metaDataFile.append("CatalogName=" + tableMetadata.getName().getCatalogName().getName() + "\n");
+        metaDataFile.append("TableName=" + tableMetadata.getName().getName() + "\n");
+        metaDataFile.append("PrimaryKey=" + tableMetadata.getPrimaryKey().toString() + "\n");
+        metaDataFile.append("Indexes=" + tableMetadata.getIndexes().toString() + "\n");
 
-        LinkedHashMap<ColumnName,ColumnMetadata> columns = (LinkedHashMap)tableMetadata.getColumns();
+        Map<ColumnName,ColumnMetadata> columns = tableMetadata.getColumns();
         metaDataFile.append("Schema {"+"\n");
         int i=0;
         for(ColumnName columnName: columns.keySet()){
@@ -742,7 +743,95 @@ public class HDFSClient {
 
         metaDataFile.append("}"+"\n");
 
-        addFile(tableMetadata.getName().getCatalogName().getName()+"/metaFile");
+        addFile(tableMetadata.getName().getCatalogName().getName() + "/metaFile");
         addMetaDataToFile(metaDataFile.toString(), tableMetadata.getName().getCatalogName().getName() + "/metaFile");
     }
+
+    public LinkedHashMap<ColumnName,ColumnMetadata> getMetaDataInfoFromFile(String filePath) throws ExecutionException, IOException {
+
+        TableMetadata tableMetadata = null;
+        LinkedHashMap<ColumnName,ColumnMetadata> columns = new LinkedHashMap<>();
+        String catalogName = null;
+        String tableName   = null;
+        BufferedReader br;
+        String line = "";
+
+        StringBuilder metaDataFile = new StringBuilder();
+
+        FileSystem fileSystem = FileSystem.get(config);
+
+        filePath = filePath.substring( 0, filePath.lastIndexOf('/'));
+
+        filePath = filePath+"/metaFile.csv";
+        Path path = new Path(filePath);
+        if (!fileSystem.exists(path)) {
+            LOGGER.info("File " + filePath + " does not exists");
+            return null;
+        }
+
+        FSDataInputStream in = fileSystem.open(path);
+
+        br = new BufferedReader(new InputStreamReader(in));
+        try {
+            while((line = br.readLine()) != null) {
+
+                if (line.startsWith("CatalogName=")) {
+                    String[] args = line.split("=");
+                    catalogName = (args[1]);
+
+                } else if (line.startsWith("TableName=")) {
+                    String[] args = line.split("=");
+                    tableName = (args[1]);
+                } else if (line.startsWith("Field")) {
+                    String[] args = line.split(":");
+                    columns.put(new ColumnName(catalogName, tableName, args[1]), new ColumnMetadata(new ColumnName
+                            (catalogName, tableName, args[1]), null, getColumnTypeFromField(args[2])));
+                } else if (line.startsWith("Indexes=")) {
+
+                }
+            }
+        }catch(Exception e){
+
+        }
+
+        return columns ;
+
+    }
+
+    private ColumnType getColumnTypeFromField(String arg) {
+
+        switch (arg){
+            case "BIGINT":
+                return ColumnType.BIGINT;
+
+            case "INT":
+                return ColumnType.INT;
+
+            case "TEXT":
+                return ColumnType.TEXT;
+
+            case "VARCHAR":
+                return ColumnType.VARCHAR;
+
+            case "DOUBLE":
+                return ColumnType.DOUBLE;
+
+            case "FLOAT":
+                return ColumnType.FLOAT;
+
+            case "BOOLEAN":
+                return ColumnType.BOOLEAN;
+
+            case "SET": return ColumnType.SET;
+            case "LIST": return ColumnType.LIST;
+            case "MAP": return ColumnType.MAP;
+            case "NATIVE": return ColumnType.NATIVE;
+            default:break;
+
+
+        }
+
+        return null;
+    }
 }
+

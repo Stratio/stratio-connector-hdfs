@@ -30,14 +30,20 @@ public class HDFSSimpleInsertFT {
 
     private static final String INDEX_NAME = "INDEX_NAME";
     private static final String TYPE_NAME = "TYPE_NAME";
-    private static final String COLUMN_1 = "column1";
-    private static final String COLUMN_2 = "column2";
-    private static final String COLUMN_3 = "column3";
-    private static final String COLUMN_4 = "column4";
-    private static final Object VALUE_1  = "value1";
-    private static final Object VALUE_2  = "value2";
-    private static final Object VALUE_3  = "value3";
-    private static final Object VALUE_4  = "value4";
+
+    private static final String COLUMN_1 = "id";
+    private static final String COLUMN_2 = "author";
+    private static final String COLUMN_3 = "title";
+    private static final String COLUMN_4 = "year";
+    private static final String COLUMN_5 = "length";
+    private static final String COLUMN_6 = "Single";
+
+    private static final Object VALUE_1  = "1";
+    private static final Object VALUE_2  = "Guns Roses";
+    private static final Object VALUE_3  = "Aint it fun";
+    private static final Object VALUE_4  = "1995";
+    private static final Object VALUE_5  = "360";
+    private static final Object VALUE_6  = "Greatest Hits";
 
     private TableName tableMame = new TableName(INDEX_NAME, TYPE_NAME);
     private static final String ROW_NAME = "row_name";
@@ -98,6 +104,8 @@ public class HDFSSimpleInsertFT {
         cells.put(COLUMN_2, new Cell(VALUE_2));
         cells.put(COLUMN_3, new Cell(VALUE_3));
         cells.put(COLUMN_4, new Cell(VALUE_4));
+        cells.put(COLUMN_5, new Cell(VALUE_5));
+        cells.put(COLUMN_6, new Cell(VALUE_6));
 
         row.setCells(cells);
         return row;

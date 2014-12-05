@@ -93,12 +93,7 @@
             <version>1.5.5</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.stratio.connector</groupId>
-            <artifactId>connector-commons-ftest</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -136,6 +131,11 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/config</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

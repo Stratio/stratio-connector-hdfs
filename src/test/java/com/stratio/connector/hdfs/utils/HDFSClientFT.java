@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedHashMap;
 
 import org.apache.hadoop.conf.Configuration;
 import org.junit.AfterClass;
@@ -18,7 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stratio.connector.hdfs.configuration.HDFSConstants;
+import com.stratio.crossdata.common.data.ColumnName;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
+import com.stratio.crossdata.common.metadata.ColumnMetadata;
 
 @RunWith(PowerMockRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -137,6 +140,14 @@ public class HDFSClientFT {
         client.deleteFile(TEST_MKDIR);
         client.deleteFile(TEST_DIR_SONGS);
         client.deleteFile(TEST_DIR_1000SONGS);
+    }
+
+    @Test
+    public void getMetaDataFromFileTest() throws ExecutionException, IOException {
+
+        LinkedHashMap<ColumnName,ColumnMetadata> tableMetadata = (LinkedHashMap<ColumnName,ColumnMetadata>)client.getMetaDataInfoFromFile
+                ("/user/hadoop/test/metaFile.csv");
+
     }
 //    @Test
 //    public void restTest() throws ExecutionException , IOException {

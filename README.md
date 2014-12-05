@@ -2,7 +2,7 @@ stratio-connector-hdfs
 ======================
 
 
-Add new spacial HDFS configuration :
+Add new special HDFS configuration :
 
 Add "DiferentPartitions" to true in the ConnectorClusterConfig options to create hdfs structure with diferents file
 partitions of the data table;
