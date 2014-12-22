@@ -35,7 +35,6 @@
         <url>https://github.com/Stratio/stratio-connector-hdfs</url>
     </scm>
 
-    
     <distributionManagement>
         <repository>
             <id>sonatype-nexus-staging</id>
