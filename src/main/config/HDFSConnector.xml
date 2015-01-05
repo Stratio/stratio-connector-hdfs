@@ -30,7 +30,6 @@
         <operation>DROP_TABLE</operation>
         <operation>DROP_TABLE</operation>
         <operation>INSERT</operation>
-        <operation>SELECT_OPERATOR</operation>
         <operation>TRUNCATE_TABLE</operation>
     </SupportedOperations>
 </Connector>
