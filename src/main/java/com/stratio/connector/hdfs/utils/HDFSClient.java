@@ -412,26 +412,28 @@ public class HDFSClient {
             Path path = new Path(file);
             if (!fileSystem.exists(path)) {
                 LOGGER.info("File " + file + " does not exists");
-                return;
+                //TODO exception throw?¿
+            }else {
+
+                FSDataInputStream in = fileSystem.open(path);
+
+                String filename = file.substring(file.lastIndexOf('/') + 1,
+                        file.length());
+
+                OutputStream out = new BufferedOutputStream(new FileOutputStream(
+                        new File(filename)));
+                new File(filename).getAbsolutePath();
+
+                byte[] b = new byte[1024];
+                int numBytes = 0;
+                while ((numBytes = in.read(b)) > 0) {
+                    out.write(b, 0, numBytes);
+                }
+
+                in.close();
+                out.close();
+                fileSystem.close();
             }
-
-            FSDataInputStream in = fileSystem.open(path);
-
-            String filename = file.substring(file.lastIndexOf('/') + 1,
-                    file.length());
-
-            OutputStream out = new BufferedOutputStream(new FileOutputStream(
-                    new File(filename)));
-
-            byte[] b = new byte[1024];
-            int numBytes = 0;
-            while ((numBytes = in.read(b)) > 0) {
-                out.write(b, 0, numBytes);
-            }
-
-            in.close();
-            out.close();
-            fileSystem.close();
         }catch (IOException e){
             throw new ExecutionException("Exception "+e);
         }
@@ -640,7 +642,7 @@ public class HDFSClient {
         //client.getHostnames();
         //client.mkdir  ("/user/hadoop/catalog");
         //client.readFile     ("/user/hadoop/logs/songs.csv");
-        client.addFile("songs.csv", "/user/hadoop/");
+        client.addFile("src/test/resources/songs.csv", "/user/hadoop/");
         client.addRowToFile("211\tGreen Day\tHoliday\t2005\t5\tHoliday\n", "/user/hadoop/logs/songs.csv");
 
         LOGGER.info("Done!");

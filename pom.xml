@@ -6,17 +6,17 @@
     <name>HDFS connector</name>
     <groupId>com.stratio.connector</groupId>
     <artifactId>stratio-connector-hdfs</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0-SNAPSHOT</version>
     <description>The HDFS's connector</description>
     <url>http://www.stratio.com</url>
     <packaging>jar</packaging>
 
     <properties>
-        <version.crossdata>0.1.1</version.crossdata>
-        <version.connector.commons>0.2.0</version.connector.commons>
+        <version.crossdata>0.2.0-SNAPSHOT</version.crossdata>
+        <version.connector.commons>0.4.0-SNAPSHOT</version.connector.commons>
         <hadoop.version>2.4.1</hadoop.version>
         <scala.version>2.10.4</scala.version>
-        <akka.version>2.2.4</akka.version>
+        <akka.version>2.3.4</akka.version>
         <scala.dep.version>2.10</scala.dep.version>
         <slf4j.version>1.7.7</slf4j.version>
         <coverage.data.dir>${project.build.outputDirectory}</coverage.data.dir>
@@ -53,12 +53,12 @@
             <artifactId>crossdata-connector</artifactId>
             <version>${version.crossdata}</version>
             <type>jar</type>
-            <exclusions>
+           <!-- <exclusions>
                 <exclusion>
                     <groupId>com.typesafe.akka</groupId>
                     <artifactId>akka-remote_2.10</artifactId>
                 </exclusion>
-            </exclusions>
+            </exclusions> -->
         </dependency>
 
         <dependency>
@@ -81,7 +81,7 @@
 
         <dependency>
             <groupId>com.stratio.connector</groupId>
-            <artifactId>connector-commons-core</artifactId>
+            <artifactId>stratio-connector-commons</artifactId>
             <version>${version.connector.commons}</version>
         </dependency>
 
@@ -121,7 +121,7 @@
             <version>${version.crossdata}</version>
         </dependency>
 
-        <dependency>
+      <!--  <dependency>
             <groupId>org.spark-project.akka</groupId>
             <artifactId>akka-actor_2.10</artifactId>
             <version>2.2.3-shaded-protobuf</version>
@@ -132,11 +132,11 @@
             <artifactId>akka-remote_2.10</artifactId>
             <version>2.2.3-shaded-protobuf</version>
         </dependency>
-
+-->
         <dependency>
             <groupId>org.spark-project.akka</groupId>
             <artifactId>akka-slf4j_2.10</artifactId>
-            <version>2.2.3-shaded-protobuf</version>
+            <version>${akka.version}-spark</version>
         </dependency>
     </dependencies>
 

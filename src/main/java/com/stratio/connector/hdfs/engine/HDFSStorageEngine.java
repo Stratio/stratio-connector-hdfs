@@ -26,9 +26,12 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
 
 
     @Override
-    protected void insert(TableMetadata tableMetadata, Row row, Connection<HDFSClient> connection)
+    protected void insert(TableMetadata tableMetadata, Row row, boolean isNotExists, Connection<HDFSClient> connection)
             throws UnsupportedException, ExecutionException {
 
+        if (isNotExists){
+            throw new UnsupportedException("Not yet supported");
+        }
         HDFSClient hdfsClient = connection.getNativeConnection();
 
         String catalog   = tableMetadata.getName().getCatalogName().getName();
@@ -54,9 +57,9 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
 
     }
 
-    @Override
-    protected void insert(TableMetadata tableMetadata, Collection collection, Connection connection)
-            throws UnsupportedException, ExecutionException {
+
+    @Override protected void insert(TableMetadata tableMetadata, Collection<Row> collection, boolean isNotExists,
+            Connection<HDFSClient> connection) throws UnsupportedException, ExecutionException {
         throw new UnsupportedException("Not yet supported");
     }
 
@@ -83,4 +86,8 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
         throw new UnsupportedException("Not yet supported");
 
     }
+
+
+
+
 }

@@ -1,16 +1,22 @@
 package com.stratio.connector.hdfs.engine;
 
+import java.util.List;
+import java.util.Map;
+
 import com.stratio.connector.commons.connection.Connection;
 import com.stratio.connector.commons.engine.CommonsMetadataEngine;
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler;
 import com.stratio.connector.hdfs.utils.HDFSClient;
 import com.stratio.crossdata.common.data.CatalogName;
+import com.stratio.crossdata.common.data.ClusterName;
 import com.stratio.crossdata.common.data.TableName;
+import com.stratio.crossdata.common.exceptions.ConnectorException;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
 import com.stratio.crossdata.common.exceptions.UnsupportedException;
 import com.stratio.crossdata.common.metadata.CatalogMetadata;
 import com.stratio.crossdata.common.metadata.IndexMetadata;
 import com.stratio.crossdata.common.metadata.TableMetadata;
+import com.stratio.crossdata.common.statements.structures.Selector;
 
 public class HDFSMetadataEngine extends CommonsMetadataEngine<HDFSClient>{
 
@@ -64,6 +70,27 @@ public class HDFSMetadataEngine extends CommonsMetadataEngine<HDFSClient>{
             throws UnsupportedException, ExecutionException {
 
         throw new UnsupportedException("Not yet supported");
+    }
+
+    @Override protected List<CatalogMetadata> provideMetadata(ClusterName clusterName,
+            Connection<HDFSClient> connection) throws ConnectorException {
+        throw new UnsupportedException("Not yet supported");
+    }
+
+    @Override protected CatalogMetadata provideCatalogMetadata(CatalogName catalogName, ClusterName clusterName,
+            Connection<HDFSClient> connection) throws ConnectorException {
+        throw new UnsupportedException("Not yet supported");
+    }
+
+    @Override protected TableMetadata provideTableMetadata(TableName tableName, ClusterName clusterName,
+            Connection<HDFSClient> connection) throws ConnectorException {
+        throw new UnsupportedException("Not yet supported");
+    }
+
+    @Override protected void alterCatalog(CatalogName catalogName, Map<Selector, Selector> map,
+            Connection<HDFSClient> connection) throws UnsupportedException, ExecutionException {
+        throw new UnsupportedException("Not yet supported");
+
     }
 
     @Override

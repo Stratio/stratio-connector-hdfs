@@ -2,7 +2,8 @@ package com.stratio.connector.hdfs.engine.query;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.junit.Before;
@@ -12,6 +13,7 @@ import com.stratio.connector.hdfs.ConnectionsHandler;
 import com.stratio.connector.hdfs.configuration.HDFSConstants;
 import com.stratio.connector.hdfs.engine.HDFSStorageEngine;
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig;
+import com.stratio.crossdata.common.data.CatalogName;
 import com.stratio.crossdata.common.data.Cell;
 import com.stratio.crossdata.common.data.ClusterName;
 import com.stratio.crossdata.common.data.ColumnName;
@@ -21,6 +23,7 @@ import com.stratio.crossdata.common.exceptions.ConnectionException;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
 import com.stratio.crossdata.common.exceptions.InitializationException;
 import com.stratio.crossdata.common.exceptions.UnsupportedException;
+import com.stratio.crossdata.common.metadata.CatalogMetadata;
 import com.stratio.crossdata.common.metadata.ColumnMetadata;
 import com.stratio.crossdata.common.metadata.TableMetadata;
 import com.stratio.crossdata.common.statements.structures.Selector;
@@ -28,8 +31,7 @@ import com.stratio.crossdata.common.statements.structures.Selector;
 public class HDFSSimpleInsertFT {
 
 
-    private static final String INDEX_NAME = "INDEX_NAME";
-    private static final String TYPE_NAME = "TYPE_NAME";
+
     private static final String COLUMN_1 = "column1";
     private static final String COLUMN_2 = "column2";
     private static final String COLUMN_3 = "column3";
@@ -39,14 +41,11 @@ public class HDFSSimpleInsertFT {
     private static final Object VALUE_3  = "value3";
     private static final Object VALUE_4  = "value4";
 
-    private TableName tableMame = new TableName(INDEX_NAME, TYPE_NAME);
-    private static final String ROW_NAME = "row_name";
-    private static final String CELL_VALUE = "cell_value";
 
     private static final ClusterName CLUSTERNAME_CONSTANT =  new ClusterName("cluster_name");
-    private static final String HOST    = "127.0.0.1";
+    private static final String HOST    = "10.200.0.60";
     private static final String PORT    = "9000";
-    private static final String PATH    = "/user/dgomez/test/songs.csv";
+
     private static final String CATALOG = "test";
     private static final String TABLE   = "songs";
 
@@ -54,11 +53,18 @@ public class HDFSSimpleInsertFT {
     private static HDFSStorageEngine hdfsStorageEngine;
 
     @Before
-    public void before() throws InitializationException, ConnectionException, UnsupportedException {
+    public void before() throws InitializationException, ConnectionException, UnsupportedException  {
 
         ConnectionsHandler connectionBuilder = new ConnectionsHandler();
         connectionBuilder.connect(prepareConfiguration());
         hdfsStorageEngine = connectionBuilder.getStorageEngine();
+
+        Map<TableName, TableMetadata> catalogMetadata =  Collections.EMPTY_MAP;
+        try {
+            connectionBuilder.getMetadataEngine().createCatalog(CLUSTERNAME_CONSTANT,
+                    new CatalogMetadata(new CatalogName(CATALOG), Collections.EMPTY_MAP, catalogMetadata));
+            connectionBuilder.getMetadataEngine().createTable(CLUSTERNAME_CONSTANT, createTableMetadta());
+        }catch(ExecutionException e){}
 
     }
     /**
@@ -68,27 +74,25 @@ public class HDFSSimpleInsertFT {
     public void testInsertOne()
             throws UnsupportedException, ExecutionException {
 
-        ClusterName clusterName = CLUSTERNAME_CONSTANT;
+
         Row row = createRow();
 
+        TableMetadata targetTable = createTableMetadta();
+        hdfsStorageEngine.insert(CLUSTERNAME_CONSTANT,targetTable,row,false);
+    }
+
+    private TableMetadata createTableMetadta() {
         TableName tableName = new TableName(CATALOG, TABLE);
         Map<Selector, Selector> options = Collections.EMPTY_MAP;
-        Map<ColumnName, ColumnMetadata> columns = new HashMap<>();
+        LinkedHashMap<ColumnName, ColumnMetadata> columns = new LinkedHashMap<>();
         Map indexex = Collections.EMPTY_MAP;
-        List<ColumnName> partitionKey = Collections.EMPTY_LIST;
-        List<ColumnName> clusterKey   = Collections.EMPTY_LIST;
+        LinkedList<ColumnName> partitionKey = new LinkedList<>();
+        LinkedList<ColumnName> clusterKey   = new LinkedList<>();
 
-        TableMetadata targetTable = new TableMetadata(tableName, options, columns, indexex, clusterName,
+        return new TableMetadata(tableName, options, columns, indexex, CLUSTERNAME_CONSTANT,
                 partitionKey, clusterKey);
-        hdfsStorageEngine.insert(clusterName,targetTable,row);
     }
 
-    private Row createRow(String rowKey, Object cellValue) {
-        Cell cell = new Cell(cellValue);
-        Row row = new Row(rowKey,cell);
-
-        return row;
-    }
     private Row createRow() {
 
         Row row = new Row();

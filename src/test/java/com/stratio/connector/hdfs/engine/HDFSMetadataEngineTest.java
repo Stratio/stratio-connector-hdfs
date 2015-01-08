@@ -7,8 +7,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.junit.After;
@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stratio.connector.commons.connection.Connection;
-import com.stratio.connector.commons.connection.exceptions.HandlerConnectionException;
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler;
 import com.stratio.connector.hdfs.utils.HDFSClient;
 import com.stratio.crossdata.common.data.CatalogName;
@@ -54,7 +53,7 @@ public class HDFSMetadataEngineTest {
     private HDFSMetadataEngine hdfsMetadataEngine;
 
     @Before
-    public void before() throws HandlerConnectionException {
+    public void before() throws ExecutionException {
 
         when(connectionHandler.getConnection(CLUSTER_NAME)).thenReturn(connection);
         when(connection.getNativeConnection()).thenReturn(client);
@@ -86,10 +85,10 @@ public class HDFSMetadataEngineTest {
 
         TableMetadata tablemetadta = mock(TableMetadata.class);
         Map<Selector, Selector> options = Collections.EMPTY_MAP;
-        Map<ColumnName, ColumnMetadata> columns = new HashMap<>();
+        LinkedHashMap<ColumnName, ColumnMetadata> columns = new LinkedHashMap<>();
         Map indexex = Collections.EMPTY_MAP;
-        List<ColumnName> partitionKey = Collections.EMPTY_LIST;
-        List<ColumnName> clusterKey   = Collections.EMPTY_LIST;
+        LinkedList<ColumnName> partitionKey = new LinkedList<>();
+        LinkedList<ColumnName> clusterKey   = new LinkedList<>();
 
         hdfsMetadataEngine.createTable(new ClusterName("cluster_name"),
                 new TableMetadata(tableName, options, columns, indexex, CLUSTERNAME_CONSTANT, partitionKey, clusterKey));

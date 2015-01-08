@@ -45,10 +45,6 @@
             <PropertyName>FileSeparator</PropertyName>
             <Description>Character to split the File lines</Description>
         </Property>
-        <Property>
-            <PropertyName>schemaMap</PropertyName>
-            <Description>Definnition of the database schema</Description>
-        </Property>
     </RequiredProperties>
 </DataStore>
 

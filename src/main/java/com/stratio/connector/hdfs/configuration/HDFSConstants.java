@@ -10,12 +10,7 @@ public class HDFSConstants  {
     public static final String PORTS      = "Ports";
     public static final String PORT       = "Port";
 
-    public static final String CONFIG_CORE_SITE   = "core-site";
-    public static final String CONFIG_HDFS_SITE   = "hdfs-site";
-    public static final String CONFIG_MAPRED_SITE = "mapred-site";
-
-
-    //By default if not indicate the config is  one partition
+        //By default if not indicate the config is  one partition
     public static final String CONFIG_PARTITIONS          = "Partitions";
     public static final String CONFIG_ONE_PARTITION       = "OnePartition";
     public static final String CONFIG_DIFERENT_PARTITIONS = "DiferentPartitions";
