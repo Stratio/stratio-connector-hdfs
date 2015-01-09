@@ -15,7 +15,6 @@ import com.stratio.crossdata.common.connector.IQueryEngine;
 import com.stratio.crossdata.common.connector.IStorageEngine;
 import com.stratio.crossdata.common.exceptions.InitializationException;
 import com.stratio.crossdata.common.exceptions.UnsupportedException;
-import com.stratio.crossdata.common.metadata.IMetadata;
 import com.stratio.crossdata.connectors.ConnectorApp;
 
 public class HDFSConnector extends CommonsConnector {
@@ -69,10 +68,6 @@ public class HDFSConnector extends CommonsConnector {
     @Override
     public IMetadataEngine getMetadataEngine() throws UnsupportedException {
         return new HDFSMetadataEngine((HDFSConnectionHandler)connectionHandler);
-    }
-
-    @Override public boolean updateMetadata(IMetadata metadata) {
-        return false;
     }
 
     public static void main(String[] args) throws InitializationException {
