@@ -45,38 +45,37 @@ public class HDFSClient {
     /**
      * The Log.
      */
-    private static final Logger LOGGER      = LoggerFactory.getLogger(HDFSClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HDFSClient.class);
 
-    private static final int    MAPSIZE     = 4 * 1024 ; // 4K - make this * 1024 to 4MB in a real system.
-    private static final Short  replication = 1;
-    private static final String PROP_NAME   = "fs.default.name";
-    private static final String DEFAULT_EXTENSION =".csv";
+    private static final int MAPSIZE = 4 * 1024; // 4K - make this * 1024 to 4MB in a real system.
+    private static final Short replication = 1;
+    private static final String PROP_NAME = "fs.default.name";
+    private static final String DEFAULT_EXTENSION = ".csv";
 
-    private static String separator   = ",";
+    private static String separator = ",";
     private static Boolean tableInDiferentPartitions = false;
-    private static String  partitionName ="part";
-    private static String  extension =".csv";
+    private static String partitionName = "part";
+    private String extension = DEFAULT_EXTENSION;
 
     private Configuration config = new Configuration();
 
-
     public HDFSClient(String host, String port) {
 
-        config.set(PROP_NAME,HDFSConstants.HDFS_URI_SCHEME+"://"+ host+":" +port);
+        config.set(PROP_NAME, HDFSConstants.HDFS_URI_SCHEME + "://" + host + ":" + port);
     }
 
     public HDFSClient(ConnectorClusterConfig clusterConfig) {
 
         Map<String, String> clusterOptions = clusterConfig.getClusterOptions();
-        Map<String, String> values         = new HashMap<String, String>();
+        Map<String, String> values = new HashMap<String, String>();
 
-        //TODO: Recover the config from the clusterConfig ??
-        //clusterOptions.get(HDFSConstants.CONFIG_CORE_SITE);
-        //clusterOptions.get(HDFSConstants.CONFIG_HDFS_SITE);
-        //clusterOptions.get(HDFSConstants.CONFIG_MAPRED_SITE);
+        // TODO: Recover the config from the clusterConfig ??
+        // clusterOptions.get(HDFSConstants.CONFIG_CORE_SITE);
+        // clusterOptions.get(HDFSConstants.CONFIG_HDFS_SITE);
+        // clusterOptions.get(HDFSConstants.CONFIG_MAPRED_SITE);
 
         // Conf object will read the HDFS configuration parameters
-        //config.addResource(new Path(HDFSConstants.CONFIG_CORE_SITE));
+        // config.addResource(new Path(HDFSConstants.CONFIG_CORE_SITE));
 
         if (clusterOptions.get(HDFSConstants.HOSTS) != null) {
             values.put(HDFSConstants.HOSTS, clusterOptions.get(HDFSConstants.HOSTS));
@@ -102,31 +101,33 @@ public class HDFSClient {
 
         // Partitions in the table structure
 
-        if(clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS)!=null && clusterOptions.get(HDFSConstants
-                .CONFIG_PARTITIONS).equals(HDFSConstants.CONFIG_DIFERENT_PARTITIONS)){
+        if (clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS) != null
+                        && clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS).equals(
+                                        HDFSConstants.CONFIG_DIFERENT_PARTITIONS)) {
             tableInDiferentPartitions = true;
-        }else if(clusterOptions.get(HDFSConstants.CONFIG_ONE_PARTITION)!=null && clusterOptions.get(HDFSConstants
-                .CONFIG_PARTITIONS).equals(HDFSConstants.CONFIG_ONE_PARTITION)){
+        } else if (clusterOptions.get(HDFSConstants.CONFIG_ONE_PARTITION) != null
+                        && clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS).equals(
+                                        HDFSConstants.CONFIG_ONE_PARTITION)) {
             tableInDiferentPartitions = false;
-        }else{
+        } else {
             tableInDiferentPartitions = false;
         }
 
-        if(clusterOptions.get(HDFSConstants.CONFIG_PARTITION_NAME)!=null){
+        if (clusterOptions.get(HDFSConstants.CONFIG_PARTITION_NAME) != null) {
             partitionName = clusterOptions.get(HDFSConstants.CONFIG_PARTITION_NAME);
         }
 
-        if(clusterOptions.get(HDFSConstants.CONFIG_EXTENSION_NAME)!=null){
+        if (clusterOptions.get(HDFSConstants.CONFIG_EXTENSION_NAME) != null) {
             extension = clusterOptions.get(HDFSConstants.CONFIG_EXTENSION_NAME);
         }
 
-        if(clusterOptions.get(HDFSConstants.FILE_SEPARATOR)!=null){
+        if (clusterOptions.get(HDFSConstants.FILE_SEPARATOR) != null) {
             separator = clusterOptions.get(HDFSConstants.FILE_SEPARATOR);
         }
 
     }
 
-    public HDFSClient( Configuration config) {
+    public HDFSClient(Configuration config) {
         this.config = config;
     }
 
@@ -134,14 +135,14 @@ public class HDFSClient {
         return separator;
     }
 
-    public boolean ifExists (Path source) throws IOException{
+    public boolean ifExists(Path source) throws IOException {
 
         FileSystem hdfs = FileSystem.get(config);
         boolean isExists = hdfs.exists(source);
         return isExists;
     }
 
-    public void getHostnames () throws IOException{
+    public void getHostnames() throws IOException {
 
         FileSystem fs = FileSystem.get(config);
         DistributedFileSystem hdfs = (DistributedFileSystem) fs;
@@ -154,7 +155,7 @@ public class HDFSClient {
         }
     }
 
-    public void getBlockLocations(String source) throws IOException{
+    public void getBlockLocations(String source) throws IOException {
 
         FileSystem fileSystem = FileSystem.get(config);
         Path srcPath = new Path(source);
@@ -173,14 +174,14 @@ public class HDFSClient {
         int blkCount = blkLocations.length;
 
         LOGGER.info("File :" + filename + "stored at:");
-        for (int i=0; i < blkCount; i++) {
+        for (int i = 0; i < blkCount; i++) {
             String[] hosts = blkLocations[i].getHosts();
             System.out.format("Host %d: %s %n", i, hosts);
         }
 
     }
 
-    public void getModificationTime(String source) throws IOException{
+    public void getModificationTime(String source) throws IOException {
 
         FileSystem fileSystem = FileSystem.get(config);
         Path srcPath = new Path(source);
@@ -196,7 +197,7 @@ public class HDFSClient {
         FileStatus fileStatus = fileSystem.getFileStatus(srcPath);
         long modificationTime = fileStatus.getModificationTime();
 
-        LOGGER.info("File %s; Modification time : %0.2f %n",filename,modificationTime);
+        LOGGER.info("File %s; Modification time : %0.2f %n", filename, modificationTime);
 
     }
 
@@ -215,19 +216,18 @@ public class HDFSClient {
         // Get the filename out of the file path
         String filename = source.substring(source.lastIndexOf('/') + 1, source.length());
 
-        try{
+        try {
             fileSystem.copyFromLocalFile(srcPath, dstPath);
             LOGGER.info("File " + filename + "copied to " + dest);
-        }catch(Exception e){
+        } catch (Exception e) {
             LOGGER.error("Exception caught! :" + e);
 
-        }finally{
+        } finally {
             fileSystem.close();
         }
     }
 
     public void copyToLocal(String source, String dest) throws IOException {
-
 
         FileSystem fileSystem = FileSystem.get(config);
         Path srcPath = new Path(source);
@@ -242,18 +242,18 @@ public class HDFSClient {
         // Get the filename out of the file path
         String filename = source.substring(source.lastIndexOf('/') + 1, source.length());
 
-        try{
+        try {
             fileSystem.copyToLocalFile(srcPath, dstPath);
             LOGGER.info("File " + filename + " copied to --> " + dest);
-        }catch(Exception e){
+        } catch (Exception e) {
             LOGGER.error("Exception caught! :" + e);
 
-        }finally{
+        } finally {
             fileSystem.close();
         }
     }
 
-    public void renameFile(String fromthis, String tothis) throws IOException{
+    public void renameFile(String fromthis, String tothis) throws IOException {
 
         FileSystem fileSystem = FileSystem.get(config);
         Path fromPath = new Path(fromthis);
@@ -269,15 +269,15 @@ public class HDFSClient {
             return;
         }
 
-        try{
+        try {
             boolean isRenamed = fileSystem.rename(fromPath, toPath);
-            if(isRenamed){
+            if (isRenamed) {
                 LOGGER.info("Renamed from " + fromthis + "to " + tothis);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             LOGGER.info("Exception :" + e);
 
-        }finally{
+        } finally {
             fileSystem.close();
         }
 
@@ -309,8 +309,7 @@ public class HDFSClient {
             // Create a new file and write data to it.
             FSDataOutputStream out = fileSystem.create(path);
 
-            InputStream in = new BufferedInputStream(new FileInputStream(
-                    new File(source)));
+            InputStream in = new BufferedInputStream(new FileInputStream(new File(source)));
 
             IOUtils.copyBytes(in, out, config);
 
@@ -319,8 +318,8 @@ public class HDFSClient {
             out.close();
             fileSystem.close();
 
-        }catch (IOException e){
-            throw new ExecutionException("Exception "+e);
+        } catch (IOException e) {
+            throw new ExecutionException("Exception " + e);
         }
     }
 
@@ -330,22 +329,22 @@ public class HDFSClient {
 
             FileSystem fileSystem = FileSystem.get(config);
 
-            if(tableInDiferentPartitions) {
+            if (tableInDiferentPartitions) {
 
-                String filename = partitionName+extension;
+                String filename = partitionName + extension;
 
                 if (dest.charAt(dest.length() - 1) != '/') {
                     dest = dest + "/" + filename;
                 } else {
                     dest = dest + filename;
                 }
-            }else{
+            } else {
                 dest = dest + extension;
             }
             // Check if the file already exists
             Path path = new Path(dest);
             if (!fileSystem.exists(path)) {
-                throw  new ExecutionException("File " + dest + " not exists");
+                throw new ExecutionException("File " + dest + " not exists");
             }
 
             // Create a new file and write data to it.
@@ -360,8 +359,8 @@ public class HDFSClient {
             out.close();
             fileSystem.close();
 
-        }catch (IOException e){
-            throw new ExecutionException("Exception "+e);
+        } catch (IOException e) {
+            throw new ExecutionException("Exception " + e);
         }
     }
 
@@ -376,16 +375,16 @@ public class HDFSClient {
             String filename = dest.substring(dest.lastIndexOf('/') + 1, dest.length());
 
             // Create the destination path including the filename.
-            if(tableInDiferentPartitions) {
+            if (tableInDiferentPartitions) {
 
-                filename = partitionName+extension;
+                filename = partitionName + extension;
 
                 if (dest.charAt(dest.length() - 1) != '/') {
                     dest = dest + "/" + filename;
                 } else {
                     dest = dest + filename;
                 }
-            }else{
+            } else {
                 dest = dest + extension;
             }
             // Check if the file already exists
@@ -396,10 +395,10 @@ public class HDFSClient {
             }
 
             // Create a new file and write data to it.
-            FSDataOutputStream out = fileSystem.create(path,replication);
+            FSDataOutputStream out = fileSystem.create(path, replication);
             fileSystem.close();
-        }catch (IOException e){
-            throw new ExecutionException("Exception "+e);
+        } catch (IOException e) {
+            throw new ExecutionException("Exception " + e);
         }
     }
 
@@ -412,16 +411,14 @@ public class HDFSClient {
             Path path = new Path(file);
             if (!fileSystem.exists(path)) {
                 LOGGER.info("File " + file + " does not exists");
-                //TODO exception throw?¿
-            }else {
+                // TODO exception throw?¿
+            } else {
 
                 FSDataInputStream in = fileSystem.open(path);
 
-                String filename = file.substring(file.lastIndexOf('/') + 1,
-                        file.length());
+                String filename = file.substring(file.lastIndexOf('/') + 1, file.length());
 
-                OutputStream out = new BufferedOutputStream(new FileOutputStream(
-                        new File(filename)));
+                OutputStream out = new BufferedOutputStream(new FileOutputStream(new File(filename)));
                 new File(filename).getAbsolutePath();
 
                 byte[] b = new byte[1024];
@@ -434,13 +431,13 @@ public class HDFSClient {
                 out.close();
                 fileSystem.close();
             }
-        }catch (IOException e){
-            throw new ExecutionException("Exception "+e);
+        } catch (IOException e) {
+            throw new ExecutionException("Exception " + e);
         }
     }
 
     public int searchInFile(String filePath, String inputSearch) throws ExecutionException, IOException {
-        int count = 0,countBuffer=0,countLine=0;
+        int count = 0, countBuffer = 0, countLine = 0;
         String lineNumber = "";
         BufferedReader br;
         String line = "";
@@ -459,8 +456,7 @@ public class HDFSClient {
 
             br = new BufferedReader(new InputStreamReader(in));
             try {
-                while((line = br.readLine()) != null)
-                {
+                while ((line = br.readLine()) != null) {
                     countLine++;
 
                     String[] words = line.split(separator);
@@ -472,8 +468,7 @@ public class HDFSClient {
                         }
                     }
 
-                    if(countBuffer > 0)
-                    {
+                    if (countBuffer > 0) {
                         countBuffer = 0;
                         lineNumber += countLine + ",";
                     }
@@ -482,11 +477,11 @@ public class HDFSClient {
                 br.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                throw new ExecutionException("Exception "+e);
+                throw new ExecutionException("Exception " + e);
             }
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            throw new ExecutionException("Exception "+e);
+            throw new ExecutionException("Exception " + e);
         }
 
         LOGGER.info("Times found at --" + count);
@@ -495,7 +490,6 @@ public class HDFSClient {
         return count;
 
     }
-
 
     private static String searchFor(String grepfor, java.nio.file.Path path) throws IOException {
         final byte[] tosearch = grepfor.getBytes(StandardCharsets.UTF_8);
@@ -514,7 +508,7 @@ public class HDFSClient {
                 long remaining = length - pos;
                 // int conversion is safe because of a safe MAPSIZE.. Assume a reaosnably sized tosearch.
                 int trymap = MAPSIZE + tosearch.length + padding;
-                int tomap = (int)Math.min(trymap, remaining);
+                int tomap = (int) Math.min(trymap, remaining);
                 // different limits depending on whether we are the last mapped segment.
                 int limit = trymap == tomap ? MAPSIZE : (tomap - tosearch.length);
                 MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, pos, tomap);
@@ -526,7 +520,7 @@ public class HDFSClient {
                         if (b == '\n') {
                             scantolineend = false;
                             inword = false;
-                            linecount ++;
+                            linecount++;
                         }
                     } else if (b == '\n') {
                         linecount++;
@@ -548,8 +542,8 @@ public class HDFSClient {
                     }
                 }
             }
-        }finally {
-            if(channel!=null){
+        } finally {
+            if (channel != null) {
                 channel.close();
             }
         }
@@ -557,13 +551,13 @@ public class HDFSClient {
     }
 
     private static boolean wordMatch(MappedByteBuffer buffer, int pos, int tomap, byte[] tosearch) {
-        //assume at valid word start.
+        // assume at valid word start.
         for (int i = 0; i < tosearch.length; i++) {
             if (tosearch[i] != buffer.get(pos + i)) {
                 return false;
             }
         }
-        byte nxt = (pos + tosearch.length) == tomap ? (byte)' ' : buffer.get(pos + tosearch.length);
+        byte nxt = (pos + tosearch.length) == tomap ? (byte) ' ' : buffer.get(pos + tosearch.length);
         return nxt == ' ' || nxt == '\n' || nxt == '\r';
     }
 
@@ -575,16 +569,16 @@ public class HDFSClient {
 
             String filename = dest.substring(dest.lastIndexOf('/') + 1, dest.length());
 
-            if(tableInDiferentPartitions) {
+            if (tableInDiferentPartitions) {
 
-                filename = partitionName+extension;
+                filename = partitionName + extension;
 
                 if (dest.charAt(dest.length() - 1) != '/') {
                     dest = dest + "/" + filename;
                 } else {
                     dest = dest + filename;
                 }
-            }else{
+            } else {
                 dest = dest + extension;
             }
             Path path = new Path(dest);
@@ -597,15 +591,15 @@ public class HDFSClient {
 
             fileSystem.close();
 
-        }catch (IOException e){
-            throw new ExecutionException(" "+e);
+        } catch (IOException e) {
+            throw new ExecutionException(" " + e);
         }
 
     }
 
     public void mkdir(String dir) throws ExecutionException {
 
-        try{
+        try {
 
             FileSystem fileSystem = FileSystem.get(config);
 
@@ -619,36 +613,34 @@ public class HDFSClient {
 
             fileSystem.close();
 
-        }catch (IOException e){
-            throw new ExecutionException(" "+e);
+        } catch (IOException e) {
+            throw new ExecutionException(" " + e);
         }
 
     }
 
-    public void truncate(String file)throws ExecutionException{
-       this.deleteFile(file);
+    public void truncate(String file) throws ExecutionException {
+        this.deleteFile(file);
         this.addFile(file);
 
     }
 
     public static void main(String[] args) throws IOException, ExecutionException {
 
+        HDFSClient client = new HDFSClient("localhost", "9000");
 
-        HDFSClient client = new HDFSClient("localhost","9000");
-
-
-        client.searchInFile ("/user/hadoop/logs/1000songs.csv","Eminem");
-        //client.searchFor ("Tony Bennett", new java.nio.file.FilePath() );
-        //client.getHostnames();
-        //client.mkdir  ("/user/hadoop/catalog");
-        //client.readFile     ("/user/hadoop/logs/songs.csv");
+        client.searchInFile("/user/hadoop/logs/1000songs.csv", "Eminem");
+        // client.searchFor ("Tony Bennett", new java.nio.file.FilePath() );
+        // client.getHostnames();
+        // client.mkdir ("/user/hadoop/catalog");
+        // client.readFile ("/user/hadoop/logs/songs.csv");
         client.addFile("src/test/resources/songs.csv", "/user/hadoop/");
         client.addRowToFile("211\tGreen Day\tHoliday\t2005\t5\tHoliday\n", "/user/hadoop/logs/songs.csv");
 
         LOGGER.info("Done!");
     }
 
-    public static void supportedOperations(){
+    public static void supportedOperations() {
         LOGGER.info("Usage: hdfsclient add" + "<local_path> <hdfs_path>");
         LOGGER.info("Usage: hdfsclient read" + "<hdfs_path>");
         LOGGER.info("Usage: hdfsclient delete" + "<hdfs_path>");
@@ -662,12 +654,10 @@ public class HDFSClient {
 
     public void createMetaDataFile(TableMetadata tableMetadata) {
 
-
-        Map<ColumnName,ColumnMetadata> columns = tableMetadata.getColumns();
-        for(ColumnName columnName: columns.keySet()){
+        Map<ColumnName, ColumnMetadata> columns = tableMetadata.getColumns();
+        for (ColumnName columnName : columns.keySet()) {
             ColumnMetadata meta = columns.get(columnName);
         }
-
 
     }
 }

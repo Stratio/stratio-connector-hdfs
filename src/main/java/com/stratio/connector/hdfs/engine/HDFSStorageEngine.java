@@ -8,7 +8,6 @@ import com.stratio.connector.commons.engine.CommonsStorageEngine;
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler;
 import com.stratio.connector.hdfs.utils.HDFSClient;
 import com.stratio.crossdata.common.data.Cell;
-import com.stratio.crossdata.common.data.ColumnName;
 import com.stratio.crossdata.common.data.Row;
 import com.stratio.crossdata.common.data.TableName;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
@@ -23,71 +22,58 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
         super(connectionHandler);
     }
 
-
-
     @Override
     protected void insert(TableMetadata tableMetadata, Row row, boolean isNotExists, Connection<HDFSClient> connection)
-            throws UnsupportedException, ExecutionException {
+                    throws UnsupportedException, ExecutionException {
 
-        if (isNotExists){
+        if (isNotExists) {
             throw new UnsupportedException("Not yet supported");
         }
         HDFSClient hdfsClient = connection.getNativeConnection();
 
-        String catalog   = tableMetadata.getName().getCatalogName().getName();
-        String tableName = tableMetadata.getName().getName();
-
-        String cellName;
         Object cellValue;
         StringBuilder rowValues = new StringBuilder();
         for (Map.Entry<String, Cell> entry : row.getCells().entrySet()) {
-            cellName  = entry.getKey();
             cellValue = entry.getValue().getValue();
-            ColumnName cName = new ColumnName(catalog, tableName, cellName);
+            rowValues.append(cellValue.toString() + hdfsClient.getseparator());
+        }
 
-            rowValues.append(cellValue.toString()+hdfsClient.getseparator());
-        }
         String insert = rowValues.toString();
-        if (hdfsClient.getseparator()!=null && insert.endsWith(hdfsClient.getseparator())) {
-            insert = insert.substring(0, insert.length() - 1) +"\n";
+        if (hdfsClient.getseparator() != null && insert.endsWith(hdfsClient.getseparator())) {
+            insert = insert.substring(0, insert.length() - 1) + "\n";
         }
-        hdfsClient.addRowToFile(insert,tableMetadata.getName().getCatalogName()+"/"+tableMetadata
-                .getName()
-                .getName());
+        hdfsClient.addRowToFile(insert, tableMetadata.getName().getCatalogName() + "/"
+                        + tableMetadata.getName().getName());
 
     }
 
-
-    @Override protected void insert(TableMetadata tableMetadata, Collection<Row> collection, boolean isNotExists,
-            Connection<HDFSClient> connection) throws UnsupportedException, ExecutionException {
+    @Override
+    protected void insert(TableMetadata tableMetadata, Collection<Row> collection, boolean isNotExists,
+                    Connection<HDFSClient> connection) throws UnsupportedException, ExecutionException {
         throw new UnsupportedException("Not yet supported");
     }
 
     @Override
-    protected void truncate(TableName tableName, Connection<HDFSClient> connection)
-            throws UnsupportedException, ExecutionException {
+    protected void truncate(TableName tableName, Connection<HDFSClient> connection) throws UnsupportedException,
+                    ExecutionException {
 
         HDFSClient hdfsClient = connection.getNativeConnection();
 
-        hdfsClient.truncate(tableName.getCatalogName()+"/"+tableName.getName());
+        hdfsClient.truncate(tableName.getCatalogName() + "/" + tableName.getName());
 
     }
 
     @Override
-    protected void delete(TableName tableName, Collection<Filter> whereClauses,
-            Connection<HDFSClient> connection) throws UnsupportedException, ExecutionException {
+    protected void delete(TableName tableName, Collection<Filter> whereClauses, Connection<HDFSClient> connection)
+                    throws UnsupportedException, ExecutionException {
         throw new UnsupportedException("Not yet supported");
     }
 
     @Override
-    protected void update(TableName tableName, Collection<Relation> assignments,
-            Collection<Filter> whereClauses, Connection<HDFSClient> connection)
-            throws UnsupportedException, ExecutionException {
+    protected void update(TableName tableName, Collection<Relation> assignments, Collection<Filter> whereClauses,
+                    Connection<HDFSClient> connection) throws UnsupportedException, ExecutionException {
         throw new UnsupportedException("Not yet supported");
 
     }
-
-
-
 
 }
