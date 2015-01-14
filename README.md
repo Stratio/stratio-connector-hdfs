@@ -24,16 +24,16 @@ To generate the executable, execute the following command:
 ```   
 It is possible to add new special HDFS configuration:
 
-THe file called HDFSDataStore.xml contains some properties. The "Partitions" variable could be set to two different configurations: 
+The file called HDFSDataStore.xml contains some properties. The "Partitions" variable could be set to two different configurations: 
 
-Set this variable to "DiferentPartitions" in the configuration options to create a HDFS structure with different file
+Set this variable to "DiferentPartitions" in the ConnectorClusterConfig options to create a HDFS structure with different file
 partitions of the data table:
 
     catalog/table/partition1.xxx
                  /partition2.xxx
                  /partition3.xxx
                  
-Set this variable to "OnePartition" in the configuration options to create a HDFS structure with one file partition of the data table;
+Set this variable to "OnePartition" in the ConnectorClusterConfig options to create a HDFS structure with one file partition of the data table;
 
     catalog/table1.xxx
            /table2.xxx
