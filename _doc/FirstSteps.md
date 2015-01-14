@@ -48,7 +48,7 @@ Prerequisites
 -   Basic knowledge of SQL like language.
 -   First of all [Stratio Crossdata 0.1.1](https://github.com/Stratio/crossdata) is needed and must be installed. The server and the shell must be running.
 -   An installation of [HDFS](http://hadoop.apache.org/docs/r2.4.1/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html#HDFS_Users_Guide). 
--   Build a HDFSConnector executable and run it following this [guide](https://github.com/Stratio/stratio-connector-mongodb#build-an-executable-connector-mongo). 
+-   Build a HDFSConnector executable and run it following this [guide](https://github.com/Stratio/stratio-connector-hdfs#build-an-executable-connector-HDFS). 
 
 Configuration
 -------------
@@ -57,7 +57,7 @@ Configuration
 In the Crossdata Shell we need to add the Datastore Manifest.
 
 ```
-   > add datastore "<path_to_manifest_folder>/MongoDataStore.xml";
+   > add datastore "<path_to_manifest_folder>/HDFSDataStore.xml";
 ```
 
 The output must be:
@@ -65,8 +65,8 @@ The output must be:
 ```
    [INFO|Shell] CrossdataManifest added 
 	DATASTORE
-	Name: Mongo
-	Version: 0.3.0
+	Name: hdfs
+	Version: 2.4.1
 	Required properties: 
 	Property: 
 		PropertyName: Hosts
@@ -74,31 +74,26 @@ The output must be:
 	Property: 
 		PropertyName: Port
 		Description: The list of ports (csv).
-Optional properties: 
 	Property: 
-		PropertyName: mongo.readPreference
-		Description: primary, primarypreferred(default), secondary, secondarypreferred or nearest
+		PropertyName: Partitions
+		Description: Structure of the HDFS 
 	Property: 
-		PropertyName: mongo.writeConcern
-		Description: acknowledged(default), unacknowledged, replica_acknowledged or journaled
+		PropertyName: PartitionName
+		Description: Name of the File for the Diferents partitions of the table.
 	Property: 
-		PropertyName: mongo.acceptableLatencyDifference
-		Description: the acceptable latency difference(ms)
+		PropertyName: Extension
+		Description: Extension of the file in HDFS.
 	Property: 
-		PropertyName: mongo.maxConnectionsPerHost
-		Description: the maximum number of connections allowed per host
-	Property: 
-		PropertyName: mongo.maxConnectionIdleTime
-		Description: The maximum idle time of a pooled connection(ms). A zero value indicates no limit
-	Property: 
-		PropertyName: mongo.connectTimeout
-		Description: the connection timeout(ms). A zero value indicates no timeout
+		PropertyName: FileSeparator
+		Description: Character to split the File lines
+
+
 ```
 
 Now we need to add the ConnectorManifest.
 
 ```
-   > add connector "<path_to_manifest_folder>/MongoConnector.xml";  
+   > add connector "<path_to_manifest_folder>/HDFSConnector.xml";
 ```
 The output must be:
 
@@ -106,22 +101,21 @@ The output must be:
 ```
    [INFO|Shell] CrossdataManifest added 
     CONNECTOR
-    ConnectorName: MongoConnector
+    ConnectorName: hdfsconnector
    DataStores: 
-	DataStoreName: Mongo
-    Version: 0.3.0
+	DataStoreName: hdfs
+    Version: 0.2.0
     Supported operations:
 							.
 							.
 							.
 
 ```
-
 At this point we have reported to Crossdata the connector options and operations. Now we configure the 
 datastore cluster.
 
 ```
-> ATTACH CLUSTER mongoCluster ON DATASTORE Mongo WITH OPTIONS {'Hosts': '[Ip1, Ip2,..,Ipn]', 
+>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'Hosts': '[Ip1, Ip2,..,Ipn]', 
 'Port': '[Port1,Port2,...,Portn]'};
 ```
 
@@ -134,7 +128,6 @@ The output must be similar to:
 It is possible to add options like the read preference, write concern, etc... All options available are described in the MongoDataStore.xml (e.g. 'mongo.readPreference' : 'secondaryPreferred')
 
 Now we must run the connector.
-
 
 The last step is to attach the connector to the cluster created before.
 
