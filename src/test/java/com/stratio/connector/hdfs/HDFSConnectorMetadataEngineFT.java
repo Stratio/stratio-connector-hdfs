@@ -1,9 +1,6 @@
 package com.stratio.connector.hdfs;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 import org.junit.Before;
@@ -27,8 +24,6 @@ import com.stratio.crossdata.common.exceptions.UnsupportedException;
 import com.stratio.crossdata.common.metadata.CatalogMetadata;
 import com.stratio.crossdata.common.metadata.ColumnMetadata;
 import com.stratio.crossdata.common.metadata.ColumnType;
-import com.stratio.crossdata.common.metadata.TableMetadata;
-import com.stratio.crossdata.common.statements.structures.Selector;
 
 @RunWith(PowerMockRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -64,33 +59,31 @@ public class HDFSConnectorMetadataEngineFT {
 
 
 
-    @Test
-    public void test2_createTable() throws UnsupportedException, ExecutionException {
-
-        TableName tableName = new TableName(CATALOG, TABLE);
-        Map<Selector, Selector> options = Collections.EMPTY_MAP;
-<<<<<<< HEAD
-        Map<ColumnName, ColumnMetadata> columns = new HashMap<>();
-
-        ColumnMetadata colMetadata = metaMetadata(CATALOG, TABLE, ROW1, ColumnType.INT);
-        ColumnMetadata colMetadata2 = metaMetadata(CATALOG, TABLE, ROW2, ColumnType.TEXT);
-        ColumnMetadata colMetadata3 = metaMetadata(CATALOG, TABLE, ROW3, ColumnType.TEXT);
-
-        columns.put(new ColumnName(tableName, ROW1), colMetadata);
-        columns.put(new ColumnName(tableName, ROW2), colMetadata2);
-
-=======
-        LinkedHashMap<ColumnName, ColumnMetadata> columns = new LinkedHashMap<>();
->>>>>>> develop
-        Map indexex = Collections.EMPTY_MAP;
-        LinkedList<ColumnName> partitionKey = new LinkedList<>();
-        LinkedList<ColumnName> clusterKey   = new LinkedList<>();
-        ClusterName clusterRef = getClusterName();
-
-        hdfsMetadataEngine.createTable( new ClusterName("cluster_name"),
-                new TableMetadata(tableName, options, columns, indexex, clusterRef, partitionKey, clusterKey));
-
-    }
+//    @Test
+//    public void test2_createTable() throws UnsupportedException, ExecutionException {
+//
+//        TableName tableName = new TableName(CATALOG, TABLE);
+//        Map<Selector, Selector> options = Collections.EMPTY_MAP;
+//
+//        Map<ColumnName, ColumnMetadata> columns = new HashMap<>();
+//
+//        ColumnMetadata colMetadata = metaMetadata(CATALOG, TABLE, ROW1, ColumnType.INT);
+//        ColumnMetadata colMetadata2 = metaMetadata(CATALOG, TABLE, ROW2, ColumnType.TEXT);
+//        ColumnMetadata colMetadata3 = metaMetadata(CATALOG, TABLE, ROW3, ColumnType.TEXT);
+//
+//        columns.put(new ColumnName(tableName, ROW1), colMetadata);
+//        columns.put(new ColumnName(tableName, ROW2), colMetadata2);
+//
+//
+//        Map indexex = Collections.EMPTY_MAP;
+//        LinkedList<ColumnName> partitionKey = new LinkedList<>();
+//        LinkedList<ColumnName> clusterKey   = new LinkedList<>();
+//        ClusterName clusterRef = getClusterName();
+//
+//        hdfsMetadataEngine.createTable( new ClusterName("cluster_name"),
+//                new TableMetadata(tableName, options, columns, indexex, clusterRef, partitionKey, clusterKey));
+//
+//    }
 
     @Test
     public void test3_dropTable () throws UnsupportedException, ExecutionException {

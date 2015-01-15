@@ -31,7 +31,7 @@ import com.stratio.crossdata.common.statements.structures.Selector;
 public class HDFSSimpleInsertFT {
 
 
-<<<<<<< HEAD
+
     private static final String INDEX_NAME = "INDEX_NAME";
     private static final String TYPE_NAME = "TYPE_NAME";
 
@@ -48,17 +48,7 @@ public class HDFSSimpleInsertFT {
     private static final Object VALUE_4  = "1995";
     private static final Object VALUE_5  = "360";
     private static final Object VALUE_6  = "Greatest Hits";
-=======
 
-    private static final String COLUMN_1 = "column1";
-    private static final String COLUMN_2 = "column2";
-    private static final String COLUMN_3 = "column3";
-    private static final String COLUMN_4 = "column4";
-    private static final Object VALUE_1  = "value1";
-    private static final Object VALUE_2  = "value2";
-    private static final Object VALUE_3  = "value3";
-    private static final Object VALUE_4  = "value4";
->>>>>>> develop
 
 
     private static final ClusterName CLUSTERNAME_CONSTANT =  new ClusterName("cluster_name");
