@@ -19,11 +19,12 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stratio.connector.commons.connection.Connection;
-import com.stratio.connector.commons.connection.exceptions.HandlerConnectionException;
+
 import com.stratio.connector.hdfs.configuration.HDFSConstants;
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig;
 import com.stratio.crossdata.common.connector.IConfiguration;
 import com.stratio.crossdata.common.data.ClusterName;
+import com.stratio.crossdata.common.exceptions.ExecutionException;
 import com.stratio.crossdata.common.security.ICredentials;
 
 @RunWith(PowerMockRunner.class)
@@ -46,7 +47,7 @@ public class HDFSConnectionHandlerTest {
      * Method: createConnection(String clusterName, Connection connection)
      */
     @Test
-    public void testCreateConnection() throws Exception, HandlerConnectionException {
+    public void testCreateConnection() throws Exception {
 
         ICredentials credentials = mock(ICredentials.class);
         credentials = null;
@@ -88,7 +89,7 @@ public class HDFSConnectionHandlerTest {
     }
 
     @Test
-    public void testGetConnection() throws HandlerConnectionException {
+    public void testGetConnection() throws ExecutionException {
         Map<String, HDFSConnection> mapConnection = (Map<String, HDFSConnection>) Whitebox
                 .getInternalState(connectionHandler, "connections");
 

@@ -4,9 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stratio.connector.commons.connection.Connection;
-import com.stratio.connector.commons.connection.exceptions.CreateNativeConnectionException;
+
 import com.stratio.connector.hdfs.utils.HDFSClient;
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig;
+import com.stratio.crossdata.common.exceptions.ConnectionException;
 import com.stratio.crossdata.common.security.ICredentials;
 
 /**
@@ -25,12 +26,11 @@ public class HDFSConnection extends Connection {
     private boolean isConnected   = false;
 
 
-    public HDFSConnection(ICredentials credentials, ConnectorClusterConfig config)throws
-            CreateNativeConnectionException {
+    public HDFSConnection(ICredentials credentials, ConnectorClusterConfig config) throws ConnectionException {
 
 
         if(credentials != null){
-            throw new CreateNativeConnectionException("Credentials are not supported yet");
+            throw new ConnectionException("Credentials are not supported yet");
         } else{
             //TODO Add the configuration params to the HDFS Client Configuration
             hdfsClient = new HDFSClient(config);
@@ -55,7 +55,7 @@ public class HDFSConnection extends Connection {
     }
 
     @Override
-    public boolean isConnect() {
+    public boolean isConnected() {
         return isConnected;
     }
 

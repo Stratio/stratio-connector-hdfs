@@ -2,7 +2,17 @@ stratio-connector-hdfs
 ======================
 
 
-Add new special HDFS configuration :
+HDFS configuration :
+
+
+to specify the extension of the files use the "extension" in the the ConnectorClusterConfig options.
+
+Add "OnePartition" to true in the ConnectorClusterConfig options to create hdfs structure with one file
+partition of the data table;
+
+    catalog/table1.xxx
+           /table2.xxx
+           /table3.xxx
 
 Add "DiferentPartitions" to true in the ConnectorClusterConfig options to create hdfs structure with diferents file
 partitions of the data table;
@@ -12,14 +22,6 @@ partitions of the data table;
                  /partition3.xxx
 
 to specify the partition sequence use the "PartitionName" in the the ConnectorClusterConfig options.
-to specify the extension of the files use the "extension" in the the ConnectorClusterConfig options.
-
-Add "OnePartition" to true in the ConnectorClusterConfig options to create hdfs structure with one file
-partition of the data table;
-
-    catalog/table1.xxx
-           /table2.xxx
-           /table3.xxx
 
 # About #
 

@@ -2,7 +2,8 @@ package com.stratio.connector.hdfs;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.junit.Before;
@@ -35,7 +36,7 @@ public class HDFSConnectorMetadataEngineFT {
 
 
     private static final ClusterName CLUSTERNAME_CONSTANT =  new ClusterName("cluster_name");
-    private static final String HOST    = "127.0.0.1";
+    private static final String HOST    = "10.200.0.60";
     private static final String PORT    = "9000";
     private static final String CATALOG = "catalog";
     private static final String TABLE   = "table";
@@ -68,6 +69,7 @@ public class HDFSConnectorMetadataEngineFT {
 
         TableName tableName = new TableName(CATALOG, TABLE);
         Map<Selector, Selector> options = Collections.EMPTY_MAP;
+<<<<<<< HEAD
         Map<ColumnName, ColumnMetadata> columns = new HashMap<>();
 
         ColumnMetadata colMetadata = metaMetadata(CATALOG, TABLE, ROW1, ColumnType.INT);
@@ -77,9 +79,12 @@ public class HDFSConnectorMetadataEngineFT {
         columns.put(new ColumnName(tableName, ROW1), colMetadata);
         columns.put(new ColumnName(tableName, ROW2), colMetadata2);
 
+=======
+        LinkedHashMap<ColumnName, ColumnMetadata> columns = new LinkedHashMap<>();
+>>>>>>> develop
         Map indexex = Collections.EMPTY_MAP;
-        List<ColumnName> partitionKey = Collections.EMPTY_LIST;
-        List<ColumnName> clusterKey   = Collections.EMPTY_LIST;
+        LinkedList<ColumnName> partitionKey = new LinkedList<>();
+        LinkedList<ColumnName> clusterKey   = new LinkedList<>();
         ClusterName clusterRef = getClusterName();
 
         hdfsMetadataEngine.createTable( new ClusterName("cluster_name"),
@@ -114,6 +119,7 @@ public class HDFSConnectorMetadataEngineFT {
         options.put(HDFSConstants.CONFIG_DIFERENT_PARTITIONS, "true");
         options.put(HDFSConstants.CONFIG_PARTITION_NAME, "partition");
         options.put(HDFSConstants.CONFIG_EXTENSION_NAME, ".csv");
+
         ConnectorClusterConfig configuration = new ConnectorClusterConfig(CLUSTERNAME_CONSTANT, options,options);
 
         return configuration;

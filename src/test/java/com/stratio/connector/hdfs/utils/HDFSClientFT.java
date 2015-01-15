@@ -31,10 +31,8 @@ public class HDFSClientFT {
      */
     private static final Logger LOGGER      = LoggerFactory.getLogger(HDFSClientFT.class);
 
-    private static final String HOST    = "127.0.0.1";
+    private static final String HOST    = "10.200.0.60";//"127.0.0.1";
     private static final String PORT    = "9000";
-    private static final String CATALOG = "catalog";
-    private static final String TABLE   = "table";
 
     private static final String CONFIGURATION_PROP_NAME    = "fs.default.name";
     private static final String CONFIGURATION_REPLICATION  = "dfs.replication";
@@ -43,9 +41,10 @@ public class HDFSClientFT {
     private static final String SONGS_NAME_CSV = "songs.csv";
 
     private static final String SONGS_1000_CSV   = "/user/hadoop/test/1000songs.csv";
+    private static final String SONGS_1000_NAME_CSV   = "1000songs.csv";
     private static final String AUTHOR_TO_SEARCH = "Eminem";
     private static final int    AUTHORS_FOUND_INTO_FILE = 4;
-    private static final String SONGS_1000_NAME_CSV   = "1000songs.csv";
+
 
     private static final String TEST_MKDIR         = "/user/hadoop/test";
     private static final String TEST_DIR_SONGS     = "/user/hadoop/test/songs";
@@ -55,13 +54,16 @@ public class HDFSClientFT {
 
 
     @Before
-    public void before(){
+    public void before() throws ExecutionException {
 
         Configuration config = new Configuration();
         config.set(CONFIGURATION_REPLICATION, "1");
         config.set(CONFIGURATION_PROP_NAME, HDFSConstants.HDFS_URI_SCHEME+"://"+ HOST+":" +PORT);
         LOGGER.info(config.get(CONFIGURATION_PROP_NAME));
         client = new HDFSClient(config);
+        client.addFile(getClass().getClassLoader().getResource(".").getPath()+SONGS_NAME_CSV,TEST_MKDIR);
+        client.addFile(getClass().getClassLoader().getResource(".").getPath()+SONGS_1000_NAME_CSV,TEST_MKDIR);
+
     }
 
     @AfterClass
@@ -83,6 +85,7 @@ public class HDFSClientFT {
 
     @Test
     public void test2_readFileAndCopyToLocal() throws ExecutionException, IOException {
+
 
         client.readFile(SONGS_CSV);
         File fileCreated = new File(SONGS_NAME_CSV);

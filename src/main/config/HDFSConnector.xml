@@ -18,9 +18,9 @@
   ~ under the License.
   -->
 <Connector>
-    <ConnectorName>HDFSConnector</ConnectorName>
+    <ConnectorName>hdfsconnector</ConnectorName>
     <DataStores>
-        <DataStoreName>HDFS</DataStoreName>
+        <DataStoreName>hdfs</DataStoreName>
     </DataStores>
     <Version>0.1.0</Version>
     <SupportedOperations>
@@ -30,7 +30,6 @@
         <operation>DROP_TABLE</operation>
         <operation>DROP_TABLE</operation>
         <operation>INSERT</operation>
-        <operation>SELECT_OPERATOR</operation>
         <operation>TRUNCATE_TABLE</operation>
     </SupportedOperations>
 </Connector>

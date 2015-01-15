@@ -18,7 +18,7 @@
   ~ under the License.
   -->
 <DataStore>
-    <Name>HDFS</Name>
+    <Name>hdfs</Name>
     <Version>2.4.1</Version>
     <RequiredProperties>
         <Property>
@@ -44,10 +44,6 @@
         <Property>
             <PropertyName>FileSeparator</PropertyName>
             <Description>Character to split the File lines</Description>
-        </Property>
-        <Property>
-            <PropertyName>schemaMap</PropertyName>
-            <Description>Definnition of the database schema</Description>
         </Property>
     </RequiredProperties>
 </DataStore>

@@ -7,8 +7,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.junit.After;
@@ -19,17 +19,18 @@ import org.mockito.Mock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stratio.connector.commons.connection.Connection;
-import com.stratio.connector.commons.connection.exceptions.HandlerConnectionException;
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler;
 import com.stratio.connector.hdfs.utils.HDFSClient;
 import com.stratio.crossdata.common.data.Cell;
 import com.stratio.crossdata.common.data.ClusterName;
 import com.stratio.crossdata.common.data.ColumnName;
+import com.stratio.crossdata.common.data.IndexName;
 import com.stratio.crossdata.common.data.Row;
 import com.stratio.crossdata.common.data.TableName;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
 import com.stratio.crossdata.common.exceptions.UnsupportedException;
 import com.stratio.crossdata.common.metadata.ColumnMetadata;
+import com.stratio.crossdata.common.metadata.IndexMetadata;
 import com.stratio.crossdata.common.metadata.TableMetadata;
 import com.stratio.crossdata.common.statements.structures.Selector;
 
@@ -58,7 +59,7 @@ public class HDFSStorageEngineTest {
     private HDFSStorageEngine hdfsStorageEngine;
 
     @Before
-    public void before() throws HandlerConnectionException {
+    public void before() throws ExecutionException {
 
         when(connectionHandler.getConnection(CLUSTER_NAME)).thenReturn(connection);
         when(connection.getNativeConnection()).thenReturn(client);
@@ -81,16 +82,21 @@ public class HDFSStorageEngineTest {
 
         TableName tableName = new TableName(CATALOG, TABLE);
         Map<Selector, Selector> options = Collections.EMPTY_MAP;
-        Map<ColumnName, ColumnMetadata> columns = new HashMap<>();
-        Map indexex = Collections.EMPTY_MAP;
-        List<ColumnName> partitionKey = Collections.EMPTY_LIST;
-        List<ColumnName> clusterKey   = Collections.EMPTY_LIST;
+        LinkedHashMap<ColumnName, ColumnMetadata> columns = new LinkedHashMap<>();
+        Map< IndexName, IndexMetadata > indexex = Collections.EMPTY_MAP;
+        LinkedList<ColumnName> partitionKey = new LinkedList<>();
+        LinkedList<ColumnName> clusterKey   = new LinkedList<>();
 
         TableMetadata targetTable = new TableMetadata(tableName, options, columns, indexex, clusterName,
                 partitionKey, clusterKey);
 
 
-        hdfsStorageEngine.insert(clusterName,targetTable,row);
+
+
+
+
+
+        hdfsStorageEngine.insert(clusterName,targetTable,row,false);
 
         verify(client, times(1)).addRowToFile(any(String.class),anyString());
     }
