@@ -35,9 +35,11 @@ partitions of the data table:
                  
 Set this variable to "OnePartition" in the ConnectorClusterConfig options to create a HDFS structure with one file partition of the data table;
 
+
     catalog/metaFile.xxx
            /table1.xxx
            
+
                  
 
 In order to specify the partition sequence use the "PartitionName" variable in the configuration options.
