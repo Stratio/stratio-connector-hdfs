@@ -15,7 +15,7 @@ import com.stratio.crossdata.common.security.ICredentials;
  *  {@link com.stratio.connector.commons.connection.Connection}
  *
  */
-public class HDFSConnection extends Connection {
+public class HDFSConnection extends Connection<HDFSClient> {
 
     /**
      * The Log.
@@ -60,7 +60,7 @@ public class HDFSConnection extends Connection {
     }
 
     @Override
-    public Object getNativeConnection() {
+    public HDFSClient getNativeConnection() {
         return hdfsClient;
     }
 }
