@@ -232,5 +232,5 @@ Step 6: Drop database
 Where to go from here
 =====================
 
-To learn more about Stratio Crossdata, we recommend to visit the [Crossdata Reference](https://github.com/Stratio/crossdata/blob/0.2.0/_doc/meta-reference.md "Meta Reference").
+To learn more about Stratio Crossdata, we recommend to visit the [Crossdata Reference](https://github.com/Stratio/crossdata/tree/master/_doc/meta-reference.md "Meta Reference").
 
