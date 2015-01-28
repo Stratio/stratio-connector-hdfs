@@ -13,7 +13,7 @@ public class HDFSConstants  {
         //By default if not indicate the config is  one partition
     public static final String CONFIG_PARTITIONS          = "Partitions";
     public static final String CONFIG_ONE_PARTITION       = "OnePartition";
-    public static final String CONFIG_DIFERENT_PARTITIONS = "DiferentPartitions";
+    public static final String CONFIG_DIFFERENT_PARTITIONS = "DifferentPartitions";
 
     public static final String CONFIG_PARTITION_NAME      = "PartitionName";
     public static final String CONFIG_EXTENSION_NAME      = "Extension";

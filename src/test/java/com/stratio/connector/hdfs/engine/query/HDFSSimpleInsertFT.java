@@ -128,7 +128,7 @@ public class HDFSSimpleInsertFT {
         Map<String, String> options = new HashMap<>();
         options.put(HDFSConstants.HOST, HOST);
         options.put(HDFSConstants.PORT, PORT);
-        options.put(HDFSConstants.CONFIG_DIFERENT_PARTITIONS, "false");
+        options.put(HDFSConstants.CONFIG_DIFFERENT_PARTITIONS, "false");
         options.put(HDFSConstants.CONFIG_PARTITION_NAME, "partition");
         options.put(HDFSConstants.CONFIG_EXTENSION_NAME, ".csv");
 

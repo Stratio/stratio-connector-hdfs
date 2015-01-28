@@ -37,7 +37,9 @@ import com.stratio.connector.commons.util.ConnectorParser;
 import com.stratio.connector.hdfs.configuration.HDFSConstants;
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig;
 import com.stratio.crossdata.common.data.ColumnName;
+import com.stratio.crossdata.common.exceptions.ConnectionException;
 import com.stratio.crossdata.common.exceptions.ExecutionException;
+import com.stratio.crossdata.common.exceptions.InitializationException;
 import com.stratio.crossdata.common.metadata.ColumnMetadata;
 import com.stratio.crossdata.common.metadata.ColumnType;
 import com.stratio.crossdata.common.metadata.TableMetadata;
@@ -55,7 +57,7 @@ public class HDFSClient {
     private static final String DEFAULT_EXTENSION =".csv";
 
     private static String separator   = ",";
-    private static Boolean tableInDiferentPartitions = false;
+    private static Boolean tableInDifferentPartitions = false;
     private static String  partitionName ="part";
     private static String  extension =".csv";
 
@@ -67,7 +69,7 @@ public class HDFSClient {
         config.set(PROP_NAME,HDFSConstants.HDFS_URI_SCHEME+"://"+ host+":" +port);
     }
 
-    public HDFSClient(ConnectorClusterConfig clusterConfig) {
+    public HDFSClient(ConnectorClusterConfig clusterConfig) throws ConnectionException {
 
         Map<String, String> clusterOptions = clusterConfig.getClusterOptions();
         Map<String, String> values         = new HashMap<String, String>();
@@ -104,14 +106,13 @@ public class HDFSClient {
 
         // Partitions in the table structure
 
-        if(clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS)!=null && clusterOptions.get(HDFSConstants
-                .CONFIG_PARTITIONS).equals(HDFSConstants.CONFIG_DIFERENT_PARTITIONS)){
-            tableInDiferentPartitions = true;
-        }else if(clusterOptions.get(HDFSConstants.CONFIG_ONE_PARTITION)!=null && clusterOptions.get(HDFSConstants
-                .CONFIG_PARTITIONS).equals(HDFSConstants.CONFIG_ONE_PARTITION)){
-            tableInDiferentPartitions = false;
+        if(HDFSConstants.CONFIG_DIFFERENT_PARTITIONS.equals(clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS))){
+            tableInDifferentPartitions = true;
+        }else if(HDFSConstants.CONFIG_ONE_PARTITION.equals(clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS))){
+            tableInDifferentPartitions = false;
         }else{
-            tableInDiferentPartitions = false;
+            throw new ConnectionException("The configuration option "+HDFSConstants.CONFIG_PARTITIONS+ " is not valid. Received "+clusterOptions.get(HDFSConstants
+                    .CONFIG_PARTITIONS)+" instead.");
         }
 
         if(clusterOptions.get(HDFSConstants.CONFIG_PARTITION_NAME)!=null){
@@ -332,7 +333,7 @@ public class HDFSClient {
 
             FileSystem fileSystem = FileSystem.get(config);
 
-            if(tableInDiferentPartitions) {
+            if(tableInDifferentPartitions) {
 
                 String filename = partitionName+extension;
 
@@ -373,7 +374,7 @@ public class HDFSClient {
 
             FileSystem fileSystem = FileSystem.get(config);
 
-            if(tableInDiferentPartitions) {
+            if(tableInDifferentPartitions) {
 
                 String filename = partitionName+extension;
 
@@ -419,7 +420,7 @@ public class HDFSClient {
             String filename = dest.substring(dest.lastIndexOf('/') + 1, dest.length());
 
             // Create the destination path including the filename.
-            if(tableInDiferentPartitions) {
+            if(tableInDifferentPartitions) {
 
                 filename = partitionName+extension;
 
@@ -618,7 +619,7 @@ public class HDFSClient {
 
             String filename = dest.substring(dest.lastIndexOf('/') + 1, dest.length());
 
-            if(tableInDiferentPartitions) {
+            if(tableInDifferentPartitions) {
 
                 filename = partitionName+extension;
 
@@ -761,10 +762,17 @@ public class HDFSClient {
         StringBuilder metaDataFile = new StringBuilder();
 
         FileSystem fileSystem = FileSystem.get(config);
-
         filePath = filePath.substring( 0, filePath.lastIndexOf('/'));
-
-        filePath = filePath+"/metaFile.csv";
+        
+        if(tableInDifferentPartitions) {
+            filePath = filePath+"/metaFile/"+partitionName+".csv";
+            
+        }else{
+        	
+            filePath = filePath+"/metaFile.csv";
+        }
+        
+        
         Path path = new Path(filePath);
         if (!fileSystem.exists(path)) {
             LOGGER.info("File " + filePath + " does not exists");

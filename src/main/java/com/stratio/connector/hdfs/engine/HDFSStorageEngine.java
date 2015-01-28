@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.stratio.connector.commons.connection.Connection;
 import com.stratio.connector.commons.engine.CommonsStorageEngine;
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler;
@@ -22,6 +25,17 @@ import com.stratio.crossdata.common.statements.structures.Relation;
 
 public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
 
+
+    /**
+     * The Log.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(HDFSClient.class);
+
+    /**
+     * Basic constructor.
+     * 
+     * @param connectionHandler
+     */
     public HDFSStorageEngine(HDFSConnectionHandler connectionHandler) {
         super(connectionHandler);
     }
@@ -33,7 +47,7 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
             throws UnsupportedException, ExecutionException {
 
         if (isNotExists){
-            throw new UnsupportedException("Not yet supported");
+            throw new UnsupportedException("Not supported yet");
         }
         HDFSClient hdfsClient = connection.getNativeConnection();
         LinkedHashMap<ColumnName, ColumnMetadata> linkedColumns = null;
@@ -46,7 +60,8 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
                     (catalog + "/" + tableName);
 
         } catch (IOException e) {
-
+        		LOGGER.error("Error getting the metadata from hdfs",e.getMessage());
+        		throw new ExecutionException("Error getting the metadata from hdfs", e);
         }
 
         String cellName;
