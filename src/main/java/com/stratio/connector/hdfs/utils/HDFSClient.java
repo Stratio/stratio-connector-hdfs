@@ -111,8 +111,8 @@ public class HDFSClient {
         }else if(HDFSConstants.CONFIG_ONE_PARTITION.equals(clusterOptions.get(HDFSConstants.CONFIG_PARTITIONS))){
             tableInDifferentPartitions = false;
         }else{
-            throw new ConnectionException("The configuration option "+HDFSConstants.CONFIG_PARTITIONS+ " is not valid. Received "+clusterOptions.get(HDFSConstants
-                    .CONFIG_PARTITIONS)+" instead.");
+            throw new ConnectionException("The value" +clusterOptions.get(HDFSConstants
+                    .CONFIG_PARTITIONS)+ "stored in the configuration option "+HDFSConstants.CONFIG_PARTITIONS+ " is not valid.");
         }
 
         if(clusterOptions.get(HDFSConstants.CONFIG_PARTITION_NAME)!=null){
