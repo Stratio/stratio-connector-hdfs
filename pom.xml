@@ -6,7 +6,7 @@
     <name>HDFS connector</name>
     <groupId>com.stratio.connector</groupId>
     <artifactId>stratio-connector-hdfs</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0-SNAPSHOT</version>
     <description>The HDFS's connector</description>
     <url>http://www.stratio.com</url>
     <packaging>jar</packaging>
