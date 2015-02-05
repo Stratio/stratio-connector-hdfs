@@ -109,7 +109,7 @@ public class HDFSConnectorMetadataEngineFT {
         Map<String, String> options = new HashMap<>();
         options.put(HDFSConstants.HOST, HOST);
         options.put(HDFSConstants.PORT, PORT);
-        options.put(HDFSConstants.CONFIG_DIFFERENT_PARTITIONS, "true");
+        options.put(HDFSConstants.CONFIG_PARTITIONS, HDFSConstants.CONFIG_ONE_PARTITION);
         options.put(HDFSConstants.CONFIG_PARTITION_NAME, "partition");
         options.put(HDFSConstants.CONFIG_EXTENSION_NAME, ".csv");
 
