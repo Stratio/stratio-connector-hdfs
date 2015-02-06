@@ -12,8 +12,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <version.crossdata>0.2.0</version.crossdata>
-        <version.connector.commons>0.4.0</version.connector.commons>
+        <version.crossdata>0.2.0-001</version.crossdata>
+        <version.connector.commons>0.4.0-001</version.connector.commons>
         <hadoop.version>2.4.1</hadoop.version>
         <scala.version>2.10.4</scala.version>
         <akka.version>2.3.4</akka.version>
