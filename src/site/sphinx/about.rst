@@ -68,6 +68,44 @@ To run HDFS Connector execute:
 
        > mvn exec:java -Dexec.mainClass="com.stratio.connector.hdfs.connection.HDFSConnector"
 
+Build a redistributable package
+-------------------------------
+It is possible too, to create a RPM or DEB redistributable package.
+
+RPM Package:
+
+::
+
+       > mvn unix:package-rpm -N
+
+DEB Package:
+
+::
+   
+       > mvn unix:package-deb -N
+
+Once the package it's created, execute this commands to install:
+
+RPM Package:
+
+::   
+    
+       > rpm -i target/stratio-connector-hdfs-0.3.0-SNAPSHOT.rpm
+
+DEB Package:
+
+::   
+    
+       > dpkg -i target/stratio-connector-hdfs-0.3.0-SNAPSHOT.deb
+
+Now to start/stop the connector:
+
+::   
+    
+       > service stratio-connector-hdfs start
+       > service stratio-connector-hdfs stop
+
+
 How to use HDFS Connector
 -------------------------
 
