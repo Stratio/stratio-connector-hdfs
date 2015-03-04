@@ -21,7 +21,7 @@ public class HDFSConstants  {
     public static final String FILE_SEPARATOR = "FileSeparator";
 
     /**
-     * URI Scheme for hdfs://namenode/ URIs.
+     * URI Scheme for com.stratio.connector.com.stratio.connector.hdfs.scala.com.stratio.connector.com.stratio.connector.hdfs.scala://namenode/ URIs.
      */
-    public static final String HDFS_URI_SCHEME = "hdfs";
+    public static final String HDFS_URI_SCHEME = "com.stratio.connector.hdfs.scala";
 }

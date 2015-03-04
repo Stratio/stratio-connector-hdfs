@@ -1,4 +1,4 @@
-package com.stratio.connector.hdfs.connection
+package com.stratio.connector.hdfs.scala.connection
 
 import com.stratio.crossdata.common.connector._
 import com.stratio.crossdata.common.data.ClusterName
@@ -29,7 +29,7 @@ class HDFSConnector extends IConnector {
   override def getStorageEngine: IStorageEngine = ???
 }
 
-object SparkSQLConnector extends App with Constants {
+object HDFSConnector extends App with Constants {
 
   val hdfsConnector = new HDFSConnector
 

@@ -60,8 +60,8 @@ public class HDFSStorageEngine extends CommonsStorageEngine<HDFSClient> {
                     (catalog + "/" + tableName);
 
         } catch (IOException e) {
-        		LOGGER.error("Error getting the metadata from hdfs",e.getMessage());
-        		throw new ExecutionException("Error getting the metadata from hdfs", e);
+        		LOGGER.error("Error getting the metadata from com.stratio.connector.com.stratio.connector.hdfs.scala.com.stratio.connector.com.stratio.connector.hdfs.scala",e.getMessage());
+        		throw new ExecutionException("Error getting the metadata from com.stratio.connector.com.stratio.connector.hdfs.scala.com.stratio.connector.com.stratio.connector.hdfs.scala", e);
         }
 
         String cellName;

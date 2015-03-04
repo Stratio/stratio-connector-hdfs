@@ -1,4 +1,4 @@
-package com.stratio.connector.hdfs.connection
+package com.stratio.connector.hdfs.scala.connection
 
 /**
  * Created by lfernandez on 4/03/15.
