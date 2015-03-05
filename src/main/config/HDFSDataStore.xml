@@ -22,13 +22,10 @@
     <Version>2.4.1</Version>
     <RequiredProperties>
         <Property>
-            <PropertyName>Hosts</PropertyName>
-            <Description>The list of hosts IP's (csv). Example: host1,host2,host3</Description>
+            <PropertyName>Host</PropertyName>
+            <Description>The Ip:Host for the namenode</Description>
         </Property>
-        <Property>
-            <PropertyName>Port</PropertyName>
-            <Description>The list of ports (csv)</Description>
-        </Property>
+
         <Property>
             <PropertyName>Partitions</PropertyName>
             <Description>HDFS Structure</Description>

@@ -102,7 +102,7 @@ public class HDFSClient {
 
         String h = values.get(HDFSConstants.HOST);
         String p = values.get(HDFSConstants.PORT);
-        config.set(PROP_NAME, HDFSConstants.HDFS_URI_SCHEME + "://" + h + ":" + p);
+        config.set(PROP_NAME, HDFSConstants.HDFS_URI_SCHEME + "://" + hostPort);
 
         // Partitions in the table structure
 

@@ -1,8 +1,9 @@
 package com.stratio.connector.hdfs.scala.connection
 
-/**
- * Created by lfernandez on 4/03/15.
- */
-class HDFSConnection {
+import org.slf4j.LoggerFactory
+
+
+class HDFSConnection extends Connection{
+  private val logger = LoggerFactory.getLogger(getClass)
 
 }

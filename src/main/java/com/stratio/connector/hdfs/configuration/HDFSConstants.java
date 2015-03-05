@@ -5,10 +5,9 @@ package com.stratio.connector.hdfs.configuration;
 */
 public class HDFSConstants  {
 
-    public static final String HOSTS      = "Hosts";
+
     public static final String HOST       = "Host";
-    public static final String PORTS      = "Ports";
-    public static final String PORT       = "Port";
+
 
         //By default if not indicate the config is  one partition
     public static final String CONFIG_PARTITIONS          = "Partitions";
