@@ -2,17 +2,9 @@ package com.stratio.connector.hdfs.scala.connection
 
 import com.stratio.connector.commons.CommonsConnector
 import com.stratio.connector.commons.util.ManifestUtil
-import com.stratio.connector.hdfs.configuration.HDFSConstants
-import com.stratio.connector.hdfs.scala.configuration.Constants
-import com.typesafe.config.Config
-import org.apache.hadoop.conf.Configuration
 
 import com.stratio.crossdata.common.connector._
-import com.stratio.crossdata.common.data.ClusterName
-import com.stratio.crossdata.common.security.ICredentials
 import com.stratio.crossdata.connectors.ConnectorApp
-import org.slf4j.LoggerFactory
-
 
 class HDFSConnector extends CommonsConnector {
   
@@ -34,8 +26,6 @@ class HDFSConnector extends CommonsConnector {
 
 }
 
-
-
 object HDFSConnector extends App with ConnectorConstants{
 
   val HDFSConnector = new HDFSConnector
@@ -50,4 +40,7 @@ private[hdfs] trait ConnectorConstants {
   val ConnectorName = ManifestUtil.getConectorName("HDFSConnector.xml")
 
   val DatastoreName = ManifestUtil.getDatastoreName("HDFSConnector.xml")
+
+  val MethodNotSupported: String = "Not supported yet"
+
 }

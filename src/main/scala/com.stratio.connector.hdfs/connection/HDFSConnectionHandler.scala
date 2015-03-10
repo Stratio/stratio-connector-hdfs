@@ -9,5 +9,5 @@ class HDFSConnectionHandler(iConfiguration: IConfiguration)
   override def createNativeConnection(
     credentials: ICredentials,
     config: ConnectorClusterConfig): Connection[_] =
-    new HDFSConnection(credentials,config)
+    HDFSConnection(config)
 }
