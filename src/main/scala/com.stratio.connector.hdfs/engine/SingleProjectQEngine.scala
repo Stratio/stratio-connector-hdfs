@@ -1,17 +1,19 @@
-package com.stratio.connector.hdfs.scala.engine.query
+package com.stratio.connector.hdfs.engine
 
-import com.stratio.connector.commons.connection.ConnectionHandler
-import com.stratio.connector.commons.engine.CommonsQueryEngine
+import com.stratio.connector.commons.connection.{Connection, ConnectionHandler}
+import com.stratio.connector.commons.engine.SingleProjectQueryEngine
 import com.stratio.connector.hdfs.scala.connection.HDFSConnector
 import com.stratio.crossdata.common.connector.IResultHandler
 import com.stratio.crossdata.common.exceptions.UnsupportedException
-import com.stratio.crossdata.common.logicalplan.LogicalWorkflow
+import com.stratio.crossdata.common.logicalplan.{Project, LogicalWorkflow}
 import com.stratio.crossdata.common.result.QueryResult
 
-class QueryEngine(connectionHandler: ConnectionHandler)
-  extends CommonsQueryEngine(connectionHandler) {
+class SingleProjectQEngine (connectionHandler: ConnectionHandler)
+  extends SingleProjectQueryEngine(connectionHandler){
 
-  override def executeWorkFlow(workflow: LogicalWorkflow): QueryResult =
+  override def execute(
+    workflow: Project,
+    connection: Connection[Nothing]): QueryResult =
     throw new UnsupportedException(HDFSConnector.MethodNotSupported)
 
   override def pagedExecuteWorkFlow(
@@ -30,4 +32,3 @@ class QueryEngine(connectionHandler: ConnectionHandler)
   override def stop(queryId: String): Unit =
     throw new UnsupportedException(HDFSConnector.MethodNotSupported)
 }
-

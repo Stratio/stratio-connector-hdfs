@@ -2,7 +2,7 @@ package com.stratio.connector.hdfs.scala.engine
 
 import java.util
 
-import com.stratio.connector.commons.connection.Connection
+import com.stratio.connector.commons.connection.{ConnectionHandler, Connection}
 import com.stratio.connector.commons.engine.CommonsMetadataEngine
 import com.stratio.connector.hdfs.scala.HDFSClient
 import com.stratio.connector.hdfs.scala.connection.{HDFSConnector, HDFSConnectionHandler}
@@ -18,7 +18,7 @@ IndexMetadata,
 CatalogMetadata}
 import com.stratio.crossdata.common.statements.structures.Selector
 
-class MetadataEngine(connectionHandler: HDFSConnectionHandler)
+class MetadataEngine(connectionHandler: ConnectionHandler)
   extends CommonsMetadataEngine[HDFSClient](connectionHandler) {
 
   override def provideMetadata(

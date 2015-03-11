@@ -14,14 +14,14 @@ import parquet.hadoop.metadata.CompressionCodecName
 
 import scala.util.{Failure, Success, Try}
 
-class HDFSClient (val hdfs: Option[FileSystem],
+class HDFSClient (val hdfs: FileSystem,
   val compressionCodec: CompressionCodecName = CompressionCodecName.SNAPPY)
   extends HDFSConstants {
 
   private val logger = LoggerFactory.getLogger(getClass)
 
   def ifExists(source: Path): Boolean = {
-    val ifExists = hdfs.get.exists(source)
+    val ifExists = hdfs.exists(source)
     return ifExists
   }
 
@@ -35,11 +35,11 @@ class HDFSClient (val hdfs: Option[FileSystem],
 
     Try {
       //Check if the file already exists
-      if (!(hdfs.get.exists(dstPath)))
+      if (!(hdfs.exists(dstPath)))
         throw new XDExecutionException(s"The path $dstPath does not exist.")
 
-      hdfs.get.copyFromLocalFile(srcPath, dstPath)
-      hdfs.get.close()
+      hdfs.copyFromLocalFile(srcPath, dstPath)
+      hdfs.close()
     }.recover {
       case cause => throw new XDExecutionException(s"Unable to copy the file" +
         s" $srcPath to the destination path $dstPath.", cause)
@@ -63,16 +63,16 @@ class HDFSClient (val hdfs: Option[FileSystem],
 
       // Check if the file already exists
       val path: Path = new Path(dest)
-      if (hdfs.get.exists(path))
+      if (hdfs.exists(path))
         logger.info("File " + dest + " already exists")
 
       // Create a new file and write data to it.
-      val out: FSDataOutputStream = hdfs.get.create(path)
+      val out: FSDataOutputStream = hdfs.create(path)
 
       val in: InputStream =
         new BufferedInputStream(new FileInputStream(new File(source)))
 
-      IOUtils.copyBytes(in, out, hdfs.get.getConf)
+      IOUtils.copyBytes(in, out, hdfs.getConf)
 
       // Close all the file descripters
       in.close
@@ -102,15 +102,15 @@ class HDFSClient (val hdfs: Option[FileSystem],
 
       val path: Path = new Path(dest)
 
-      if (!hdfs.get.exists(path)) {
+      if (!hdfs.exists(path)) {
         throw new XDExecutionException("File " + dest + " does not exist")
       }
 
-      val out: FSDataOutputStream = hdfs.get.append(path)
+      val out: FSDataOutputStream = hdfs.append(path)
       val in: InputStream =
         new BufferedInputStream(new ByteArrayInputStream(source.getBytes))
 
-      IOUtils.copyBytes(in, out, hdfs.get.getConf)
+      IOUtils.copyBytes(in, out, hdfs.getConf)
 
       in.close
 
@@ -138,7 +138,7 @@ class HDFSClient (val hdfs: Option[FileSystem],
     }
 
     val path = new Path(filePath)
-    if (!hdfs.get.exists(path)) {
+    if (!hdfs.exists(path)) {
       val message = s"File $filePath does not exist"
       logger.error(message)
       Failure(new XDExecutionException(message))
@@ -147,7 +147,7 @@ class HDFSClient (val hdfs: Option[FileSystem],
 
       import com.stratio.connector.hdfs.scala.HDFSClient._
       val reader = new BufferedReader(
-        new InputStreamReader(hdfs.get.open(path)))
+        new InputStreamReader(hdfs.open(path)))
       val file = toStream(reader)
 
       type CatalogName = String
@@ -180,7 +180,6 @@ class HDFSClient (val hdfs: Option[FileSystem],
 
         case (previous, _) => previous
       }
-
       Success(columns)
 
     }
@@ -195,7 +194,7 @@ object HDFSClient extends HDFSConstants{
     val config = new Configuration()
 
     config.set(PropName, HDFSUriScheme + "://" + hostPort)
-    Some(FileSystem.get(config))
+    FileSystem.get(config)
   })
 
   def apply(clusterConfig: ConnectorClusterConfig): HDFSClient =
@@ -235,7 +234,8 @@ object HDFSClient extends HDFSConstants{
       if(clusterOptions.get(FileSeparator) != null)
         Separator = clusterOptions.get(FileSeparator)
 
-      Some(FileSystem.get(config))
+      FileSystem.get(config)
+
     })
 
   //  Helpers
