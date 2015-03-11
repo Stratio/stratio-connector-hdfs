@@ -23,7 +23,7 @@
     <RequiredProperties>
         <Property>
             <PropertyName>Host</PropertyName>
-            <Description>The Ip: Host for the namenode</Description>
+            <Description>The Ip:Host for the namenode</Description>
         </Property>
     </RequiredProperties>
     <OptionalProperties>
@@ -37,8 +37,8 @@
             <Description>Tables directory</Description>
         </Property>
     </OptionalProperties>
-</DataStore>
 
+</DataStore>
 
 
 

@@ -5,18 +5,21 @@ import java.util
 import com.stratio.connector.commons.connection.{ConnectionHandler, Connection}
 import com.stratio.connector.commons.engine.CommonsMetadataEngine
 import com.stratio.connector.hdfs.scala.HDFSClient
-import com.stratio.connector.hdfs.scala.connection.{HDFSConnector, HDFSConnectionHandler}
+import com.stratio.connector.hdfs.scala.connection.HDFSConnector
 import com.stratio.crossdata.common.data.{
 ClusterName,
 CatalogName,
 AlterOptions,
 TableName}
-import com.stratio.crossdata.common.exceptions.UnsupportedException
+import com.stratio.crossdata.common.exceptions.{ExecutionException, UnsupportedException}
 import com.stratio.crossdata.common.metadata.{
 TableMetadata,
 IndexMetadata,
 CatalogMetadata}
 import com.stratio.crossdata.common.statements.structures.Selector
+import org.apache.hadoop.fs.Path
+
+import scala.util.Try
 
 class MetadataEngine(connectionHandler: ConnectionHandler)
   extends CommonsMetadataEngine[HDFSClient](connectionHandler) {
@@ -41,7 +44,9 @@ class MetadataEngine(connectionHandler: ConnectionHandler)
   override def createTable(
     tableMetadata: TableMetadata,
     connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    connection.getNativeConnection.createFolder(
+      s"${tableMetadata.getName.getCatalogName.getName}" +
+        s"/${tableMetadata.getName.getName}")
 
   override def createIndex(
     indexMetadata: IndexMetadata,
@@ -77,6 +82,9 @@ class MetadataEngine(connectionHandler: ConnectionHandler)
 
   override def createCatalog(
     catalogMetadata: CatalogMetadata,
-    connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    connection: Connection[HDFSClient]): Unit = {
+
+    connection.getNativeConnection.createFolder(
+      s"${catalogMetadata.getName.getName}")
+  }
 }

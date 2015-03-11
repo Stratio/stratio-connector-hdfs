@@ -20,11 +20,6 @@ class HDFSClient (val hdfs: FileSystem,
 
   private val logger = LoggerFactory.getLogger(getClass)
 
-  def ifExists(source: Path): Boolean = {
-    val ifExists = hdfs.exists(source)
-    return ifExists
-  }
-
   def copyFromLocal(source: String, dest: String): Try[Unit] = {
 
     val srcPath: Path = new Path(source)
@@ -47,7 +42,7 @@ class HDFSClient (val hdfs: FileSystem,
 
   }
 
-  def addFile(source: String, dest: String): Unit = {
+  def addFileFromOrigin(source: String, dest: String): Unit = {
 
     Try {
       // Get the filename out of the file path
@@ -83,6 +78,18 @@ class HDFSClient (val hdfs: FileSystem,
         s"from $source to $dest")
     }
   }
+
+//  def addFile (dest:String): Unit = {
+//    Try{
+//
+//      // Get the filename out of the file path.
+//      val filename: String =
+//        dest.substring(dest.lastIndexOf('/') + 1, dest.length)
+//
+//      //Create the destination path including the filename.
+//      if(table)
+//    }
+//  }
 
   def addRowToFile(source: String, dest: String): Unit = {
 
@@ -184,6 +191,12 @@ class HDFSClient (val hdfs: FileSystem,
 
     }
   }
+
+  def createFolder (path: String): Unit ={
+    val hdfsPath = new Path(path)
+    if (!hdfs.exists(hdfsPath))
+      hdfs.mkdirs(hdfsPath)
+  }
 }
 
 
@@ -202,40 +215,9 @@ object HDFSClient extends HDFSConstants{
     new HDFSClient({
 
       val config = new Configuration()
-
       val clusterOptions = clusterConfig.getClusterOptions
-
-      if (clusterOptions.get(HostPort).split(":").size != 2){
-        throw new InitializationException(
-          s"The value ${clusterOptions.get(HostPort)} stored " +
-            s"in the configuration option $HostPort is not valid.")
-      }
-
       config.set(PropName, HDFSUriScheme + "://" + HostPort)
-
-      if(ConfigDifferentPartitions.equals(Partitions))
-        TableInDifferentPartitions = true
-
-      else if (ConfigOnePartition.equals(Partitions))
-        TableInDifferentPartitions = false
-
-      else {
-        throw new ConnectionException(
-          s"The value  ${clusterOptions.get(Partitions)} stored " +
-            s"in the configuration option $Partitions is not valid.")
-      }
-
-      if(clusterOptions.get(ConfigPartitionName) != null)
-        PartitionName = clusterOptions.get(ConfigPartitionName)
-
-      if(clusterOptions.get(ConfigExtensionName) != null)
-        Extension = clusterOptions.get(ConfigExtensionName)
-
-      if(clusterOptions.get(FileSeparator) != null)
-        Separator = clusterOptions.get(FileSeparator)
-
       FileSystem.get(config)
-
     })
 
   //  Helpers
@@ -247,7 +229,6 @@ object HDFSClient extends HDFSConstants{
 
     fileStream.takeWhile(_.isSuccess).map(_.get)
   }
-
 }
 
 private[hdfs] trait  HDFSConstants {
@@ -262,15 +243,8 @@ private[hdfs] trait  HDFSConstants {
   val MapSize: Int = 4 * 1024 //4K - make this * 1024 to 4MB in a real system
   val Replication: Short = 1
   val PropName: String = "fs.default.name"
-  val DefaultExtension: String = ".csv"
-
-  val HostPort: String = "Host"
-  val Partitions: String = "Partitions"
-  val ConfigOnePartition: String = "OnePartition"
-  val ConfigDifferentPartitions: String = "DifferentPartitions"
-  val ConfigPartitionName: String = "PartitionName"
-  val ConfigExtensionName: String = "Extension"
-  val FileSeparator: String = "FileSeparator"
-  val HDFSUriScheme: String = "com.stratio.connector.hdfs"
+  //TODO THIS IS NOT A CONSTANT THIS HAS TO BE A CONNECTOR PROPERTY
+  val HostPort: String = "conectores3:9000"
+  val HDFSUriScheme: String = "hdfs"
 
 }

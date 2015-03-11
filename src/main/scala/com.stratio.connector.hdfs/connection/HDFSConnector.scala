@@ -19,7 +19,7 @@ class HDFSConnector extends CommonsConnector {
   override def getDatastoreName: Array[String] = DatastoreName
 
   override def init(configuration: IConfiguration): Unit = {
-    val connectionHandler = new HDFSConnectionHandler(configuration)
+    connectionHandler = new HDFSConnectionHandler(configuration)
   }
 
   override def getMetadataEngine: IMetadataEngine =
