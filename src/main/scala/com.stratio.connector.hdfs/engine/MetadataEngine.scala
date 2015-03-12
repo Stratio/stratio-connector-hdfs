@@ -11,15 +11,12 @@ ClusterName,
 CatalogName,
 AlterOptions,
 TableName}
-import com.stratio.crossdata.common.exceptions.{ExecutionException, UnsupportedException}
+import com.stratio.crossdata.common.exceptions.UnsupportedException
 import com.stratio.crossdata.common.metadata.{
 TableMetadata,
 IndexMetadata,
 CatalogMetadata}
 import com.stratio.crossdata.common.statements.structures.Selector
-import org.apache.hadoop.fs.Path
-
-import scala.util.Try
 
 class MetadataEngine(connectionHandler: ConnectionHandler)
   extends CommonsMetadataEngine[HDFSClient](connectionHandler) {

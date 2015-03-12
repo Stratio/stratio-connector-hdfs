@@ -3,9 +3,11 @@ package com.stratio.connector.hdfs.scala.engine
 import java.util
 
 
+import com.stratio.connector.commons.timer
 import com.stratio.connector.hdfs.scala.HDFSClient
-import com.stratio.connector.hdfs.scala.connection.HDFSConnection._
 import org.apache.hadoop.fs.Path
+import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.SQLContext
 import org.slf4j.LoggerFactory
 import parquet.hadoop.ParquetOutputFormat
 
@@ -13,7 +15,7 @@ import scala.collection.JavaConversions._
 
 
 import com.stratio.connector.commons.engine.CommonsStorageEngine
-import com.stratio.connector.hdfs.scala.connection.{HDFSConnector, HDFSConnectionHandler}
+import com.stratio.connector.hdfs.scala.connection.HDFSConnector
 import com.stratio.crossdata.common.data.{Row, TableName}
 import com.stratio.crossdata.common.exceptions.{ExecutionException, UnsupportedException}
 import com.stratio.crossdata.common.logicalplan.Filter
@@ -29,11 +31,11 @@ class StorageEngine(connectionHandler: ConnectionHandler)
 
   implicit class FinallyHelper[T](t: scala.util.Try[T]){
     def butFinally[U](f: => U) =
-      if (t.isSuccess) t.map(_ => f) else t.recover{case t:Throwable => f; throw t}
+      if (t.isSuccess) t.map(_ => f)
+      else t.recover{case t:Throwable => f; throw t}
   }
 
-  val logger = LoggerFactory.getLogger(getClass)
-
+  implicit val logger = LoggerFactory.getLogger(getClass)
 
   override def truncate(
     tableName: TableName,
@@ -72,20 +74,29 @@ class StorageEngine(connectionHandler: ConnectionHandler)
     val catalog = targetTable.getName.getCatalogName.getName
     val tableName = targetTable.getName.getName
 
+
+    val sqlContext = new SQLContext(new SparkContext(
+      new SparkConf().setMaster("local[1]").setAppName("insert")))
+
     val format = new ParquetOutputFormat[Row]
+
     val hadoopConf= hdfsClient.hdfs.getConf
+
     val path = new Path(s"$catalog/$tableName")
+
     val codec = hdfsClient.compressionCodec
 
     val writer = format.getRecordWriter(hadoopConf, path, codec)
 
+    // TODO: Poner bien lo del timer
     Try {
       while (rows.iterator().hasNext) {
         val row = rows.iterator().next()
-        logger.debug("Before invoking the method write")
-        writer.write(null, row)
-        logger.debug("After invoking the method write")
-
+        import timer._
+        //time("mensaje opcional"){bloque de código}
+        time (s"Writing $row with $writer"){
+          writer.write(null, row)
+        }
       }
     }.transform(s => {
       logger.debug("Before invoking the method close in the success")

@@ -20,6 +20,8 @@
         <scala.test.version>2.2.1</scala.test.version>
         <scala.binary.version>2.10</scala.binary.version>
         <slf4j.version>1.7.7</slf4j.version>
+        <spark.version>1.2.1</spark.version>
+
     </properties>
 
     <licenses>
@@ -146,6 +148,18 @@
             <groupId>org.spark-project.akka</groupId>
             <artifactId>akka-slf4j_2.10</artifactId>
             <version>${akka.version}-spark</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.10</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.10</artifactId>
+            <version>${spark.version}</version>
         </dependency>
 
     </dependencies>
