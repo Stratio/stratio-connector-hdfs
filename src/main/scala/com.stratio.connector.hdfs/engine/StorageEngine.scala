@@ -71,12 +71,15 @@ class StorageEngine(connectionHandler: ConnectionHandler)
       throw new UnsupportedException(HDFSConnector.MethodNotSupported)
 
     val hdfsClient: HDFSClient = connection.getNativeConnection
-    val catalog = targetTable.getName.getCatalogName.getName
-    val tableName = targetTable.getName.getName
 
+    val catalog = targetTable.getName.getCatalogName.getName
+
+    val tableName = targetTable.getName.getName
 
     val sqlContext = new SQLContext(new SparkContext(
       new SparkConf().setMaster("local[1]").setAppName("insert")))
+
+    val rowWriteSupport = new RowWriteSupport()
 
     val format = new ParquetOutputFormat[Row]
 
