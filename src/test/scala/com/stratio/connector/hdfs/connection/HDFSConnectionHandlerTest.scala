@@ -19,13 +19,16 @@
 
 package com.stratio.connector.hdfs.connection
 
-import com.stratio.connector.commons.connection.{Connection, ConnectionHandler}
-import com.stratio.crossdata.common.connector.{ConnectorClusterConfig, IConfiguration}
-import com.stratio.crossdata.common.security.ICredentials
+import org.scalatest.{Matchers, FlatSpec}
 
-class HDFSConnectionHandler(iConfiguration: IConfiguration)
-  extends ConnectionHandler(iConfiguration){
-  override def createNativeConnection(
-    credentials: ICredentials,
-    config: ConnectorClusterConfig): Connection[_] = HDFSConnection(config)
+class HDFSConnectionHandlerTest extends FlatSpec with Matchers {
+
+  behavior of "An HDFS connection handler"
+
+  it should "Return an HDFS connection" in {
+
+    val hdfsConnectionHandler = new HDFSConnectionHandler(null)
+    hdfsConnectionHandler.createNativeConnection(null, null)
+  }
 }
+

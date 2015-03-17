@@ -19,13 +19,20 @@
 
 package com.stratio.connector.hdfs.connection
 
-import com.stratio.connector.commons.connection.{Connection, ConnectionHandler}
-import com.stratio.crossdata.common.connector.{ConnectorClusterConfig, IConfiguration}
-import com.stratio.crossdata.common.security.ICredentials
+import org.scalatest.{Matchers, FlatSpec}
 
-class HDFSConnectionHandler(iConfiguration: IConfiguration)
-  extends ConnectionHandler(iConfiguration){
-  override def createNativeConnection(
-    credentials: ICredentials,
-    config: ConnectorClusterConfig): Connection[_] = HDFSConnection(config)
+class HDFSConnectionTest extends FlatSpec with Matchers {
+
+  trait ConnectionData {
+    val isConnected = false
+  }
+
+  behavior of "An HDFS connection"
+
+  it should "Close the connection when calling the close method" in new ConnectionData{
+
+    val hdfsConnection = HDFSConnection(null, null)
+    hdfsConnection.close()
+    hdfsConnection.isConnected should equal (isConnected)
+  }
 }
