@@ -25,14 +25,14 @@
     <name>HDFS connector</name>
     <groupId>com.stratio.connector</groupId>
     <artifactId>stratio-connector-hdfs</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.3.0-RC1</version>
     <description>HDFS connector to Crossdata</description>
     <url>http://www.stratio.com</url>
     <packaging>jar</packaging>
 
     <properties>
         <version.crossdata>0.2.0-001</version.crossdata>
-        <version.connector.commons>0.4.1-SNAPSHOT</version.connector.commons>
+        <version.connector.commons>0.4.1-RC1</version.connector.commons>
         <hadoop.version>2.6.0</hadoop.version>
         <scala.version>2.10.4</scala.version>
         <scala.binary.version>2.10</scala.binary.version>
