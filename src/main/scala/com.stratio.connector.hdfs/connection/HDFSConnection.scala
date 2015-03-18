@@ -20,7 +20,6 @@
 package com.stratio.connector.hdfs.connection
 
 import com.stratio.connector.commons.connection.Connection
-import com.stratio.connector.hdfs.HDFSClient
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig
 import com.stratio.crossdata.common.security.ICredentials
 import org.slf4j.LoggerFactory

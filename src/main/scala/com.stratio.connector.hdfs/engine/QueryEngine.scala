@@ -21,7 +21,7 @@ package com.stratio.connector.hdfs.engine
 
 import com.stratio.connector.commons.connection.ConnectionHandler
 import com.stratio.connector.commons.engine.CommonsQueryEngine
-import com.stratio.connector.hdfs.connection.HDFSConnector
+import com.stratio.connector.hdfs.HDFSConnector
 import com.stratio.crossdata.common.connector.IResultHandler
 import com.stratio.crossdata.common.exceptions.UnsupportedException
 import com.stratio.crossdata.common.logicalplan.LogicalWorkflow

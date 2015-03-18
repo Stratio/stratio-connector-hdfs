@@ -23,26 +23,20 @@
     <Version>2.4.1</Version>
     <RequiredProperties>
         <Property>
-            <PropertyName>Host</PropertyName>
-            <Description>The Ip: Host for the namenode</Description>
-        </Property>
-        
-        <Property>
-            <PropertyName>User</PropertyName>
-            <Description>The user name</Description>
-        </Property>
-    </RequiredProperties>
-    <OptionalProperties>
-        <Property>
-            <PropertyName>Catalog</PropertyName>
-            <Description>Catalogs directory</Description>
+            <PropertyName>hosts</PropertyName>
+            <Description>The Ip:Port. Host and port for the namenode</Description>
         </Property>
 
         <Property>
-            <PropertyName>Table</PropertyName>
-            <Description>Tables directory</Description>
+            <PropertyName>user</PropertyName>
+            <Description>The user name</Description>
         </Property>
-    </OptionalProperties>
+
+        <Property>
+            <PropertyName>path</PropertyName>
+            <Description>Base path to HDFS root directory</Description>
+        </Property>
+    </RequiredProperties>
 </DataStore>
 
 

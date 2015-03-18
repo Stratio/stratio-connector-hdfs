@@ -21,13 +21,13 @@ package com.stratio.connector.hdfs.engine
 
 import java.util
 
-import com.stratio.connector.hdfs.HDFSClient
-import com.stratio.connector.hdfs.connection.HDFSConnection
+import com.stratio.connector.hdfs.HDFSConnector
+import com.stratio.connector.hdfs.connection.{HDFSClient, HDFSConnection}
 import com.stratio.connector.hdfs.util.Converters
-import com.stratio.connector.hdfs.connection.HDFSConnector._
+import HDFSConnector._
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types._
-import org.apache.spark.{sql, SparkConf, SparkContext}
+import org.apache.spark.{sql, SparkContext}
 import org.apache.spark.sql.{SaveMode, DataFrame, SQLContext}
 import org.slf4j.LoggerFactory
 
@@ -47,18 +47,10 @@ import com.stratio.connector.commons.connection.{Connection, ConnectionHandler}
  * @param connectionHandler The connection handler that contains
  *                          the configuration.
  */
-class StorageEngine(connectionHandler: ConnectionHandler)
+class StorageEngine(
+  connectionHandler: ConnectionHandler,
+  sparkContext: SparkContext)
   extends CommonsStorageEngine[HDFSClient](connectionHandler) {
-
-  /**
-   * Creation of the Spark context.
-   */
-  lazy val sparkContext:  SparkContext ={
-    val sc = new SparkContext(
-      new SparkConf().setMaster("local[1]").setAppName("insert"))
-    sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
-    sc
-  }
 
   /**
    * The logger.
@@ -122,14 +114,16 @@ class StorageEngine(connectionHandler: ConnectionHandler)
 
     import scala.collection.JavaConversions._
 
-    val user =   connection match {
+    val (basePath,user) =   connection match {
       case c: HDFSConnection =>
-        c.client.connectorClusterConfig.getClusterOptions.apply("User")
+        val options = c.client.connectorClusterConfig.getClusterOptions
+        (options("path"),options("user"))
       case _ => throw new ExecutionException(
         s"The given connection $connection is not an HDFS connection")
     }
 
-    val path = s"/user/$user/$catalog/$tableName"
+    val path = s"$basePath/$user/$catalog/$tableName"
+
     val rdd: RDD[sql.Row] = sqlContext.sparkContext.parallelize(rows.toSeq,1)
       .map(row => Converters.toSparkSQLRow(row))
 

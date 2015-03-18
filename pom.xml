@@ -305,7 +305,7 @@
                 <groupId>com.stratio.crossdata</groupId>
                 <version>${version.crossdata}</version>
                 <configuration>
-                    <mainClass>com.stratio.connector.hdfs.connection.HDFSConnector</mainClass>
+                    <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
                     <jmxPort>7192</jmxPort>
                 </configuration>
             </plugin>

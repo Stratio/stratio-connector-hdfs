@@ -23,8 +23,8 @@ import java.util
 
 import com.stratio.connector.commons.connection.{ConnectionHandler, Connection}
 import com.stratio.connector.commons.engine.CommonsMetadataEngine
-import com.stratio.connector.hdfs.HDFSClient
-import com.stratio.connector.hdfs.connection.HDFSConnector
+import com.stratio.connector.hdfs.HDFSConnector
+import com.stratio.connector.hdfs.connection.HDFSClient
 import com.stratio.crossdata.common.data.{ClusterName, CatalogName,
 AlterOptions, TableName}
 import com.stratio.crossdata.common.exceptions.UnsupportedException

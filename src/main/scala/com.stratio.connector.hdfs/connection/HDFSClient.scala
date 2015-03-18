@@ -17,10 +17,9 @@
  *  under the License.
  */
 
-package com.stratio.connector.hdfs
+package com.stratio.connector.hdfs.connection
 
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig
-import com.stratio.connector.hdfs.connection.HDFSConnector._
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.slf4j.LoggerFactory
@@ -31,6 +30,9 @@ class HDFSClient (val hdfs: FileSystem,
   val compressionCodec: CompressionCodecName = CompressionCodecName.SNAPPY)
   extends HDFSConstants {
 
+  /**
+   * The logger.
+   */
   private val logger = LoggerFactory.getLogger(getClass)
 
   def createFolder (path: String): Unit ={
@@ -45,8 +47,9 @@ object HDFSClient extends HDFSConstants{
   def apply(clusterConfig: ConnectorClusterConfig): HDFSClient =
 
     new HDFSClient({
+      import scala.collection.JavaConversions._
       val config = new Configuration()
-      config.set(PropName, HDFSUriScheme + HostPort)
+      config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
       FileSystem.get(config)
     },clusterConfig)
  }
