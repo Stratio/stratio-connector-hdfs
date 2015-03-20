@@ -88,7 +88,7 @@
 
     <dependencies>
 
-        <dependency>
+         <dependency>
             <groupId>com.stratio.crossdata</groupId>
             <artifactId>crossdata-connector</artifactId>
             <version>${version.crossdata}</version>
@@ -200,7 +200,15 @@
             <version>${spark.version}</version>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>org.scalamock</groupId>
+            <artifactId>scalamock-scalatest-support_2.11</artifactId>
+            <version>3.2</version>
+            <scope>test</scope>
+        </dependency>
+
+
+   </dependencies>
 
     <build>
         <plugins>

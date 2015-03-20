@@ -72,7 +72,6 @@ class HDFSConnector extends CommonsConnector {
       sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
       sc
     })
-
     storageEngine = Some(new StorageEngine (connectionHandler, sparkContext.get))
   }
 
