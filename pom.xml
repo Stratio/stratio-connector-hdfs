@@ -22,13 +22,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <name>HDFS connector</name>
+    <name>Stratio HDFS Connector Parent</name>
     <groupId>com.stratio.connector</groupId>
-    <artifactId>stratio-connector-hdfs</artifactId>
+    <artifactId>stratio-connector-hdfs-parent</artifactId>
     <version>0.3.0-RC1</version>
-    <description>HDFS connector to Crossdata</description>
+    <description>The HDFS-Crossdata connector parent</description>
     <url>http://www.stratio.com</url>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <properties>
         <version.crossdata>0.2.0-001</version.crossdata>
@@ -61,6 +61,11 @@
         <url>https://github.com/Stratio/stratio-connector-hdfs</url>
     </scm>
 
+    <modules>
+        <module>doc</module>
+        <module>connector-hdfs</module>
+    </modules>
+
     <distributionManagement>
         <repository>
             <id>sonatype-nexus-staging</id>
@@ -85,130 +90,6 @@
             </snapshots>
         </repository>
     </repositories>
-
-    <dependencies>
-
-         <dependency>
-            <groupId>com.stratio.crossdata</groupId>
-            <artifactId>crossdata-connector</artifactId>
-            <version>${version.crossdata}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.stratio.crossdata</groupId>
-            <artifactId>crossdata-common</artifactId>
-            <version>${version.crossdata}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.stratio.connector</groupId>
-            <artifactId>stratio-connector-commons</artifactId>
-            <version>${version.connector.commons}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-hdfs</artifactId>
-            <version>${hadoop.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.protobuf</groupId>
-                    <artifactId>protobuf-java</artifactId>
-                </exclusion>
-
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>${hadoop.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_${scala.binary.version}</artifactId>
-            <version>${scala.test.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twitter</groupId>
-            <artifactId>parquet-column</artifactId>
-            <version>1.6.0rc3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twitter</groupId>
-            <artifactId>parquet-hadoop</artifactId>
-            <version>1.6.0rc3</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-            <type>jar</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.spark-project.akka</groupId>
-            <artifactId>akka-slf4j_2.10</artifactId>
-            <version>${akka.version}-spark</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_2.10</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_2.10</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scalamock</groupId>
-            <artifactId>scalamock-scalatest-support_2.11</artifactId>
-            <version>3.2</version>
-            <scope>test</scope>
-        </dependency>
-
-
-   </dependencies>
 
     <build>
         <plugins>
@@ -308,15 +189,6 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <artifactId>crossdata-connector-maven-plugin</artifactId>
-                <groupId>com.stratio.crossdata</groupId>
-                <version>${version.crossdata}</version>
-                <configuration>
-                    <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
-                    <jmxPort>7192</jmxPort>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
