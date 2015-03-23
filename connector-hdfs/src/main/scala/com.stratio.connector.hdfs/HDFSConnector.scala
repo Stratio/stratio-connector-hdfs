@@ -68,7 +68,7 @@ class HDFSConnector extends CommonsConnector {
 
     sparkContext = Some({
       val sc = new SparkContext(
-        new SparkConf().setMaster("local[1]").setAppName("insert"))
+        new SparkConf().setMaster("local[1]").setAppName("insert").setAll(config.getConnectorOptions))
       sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
       sc
     })

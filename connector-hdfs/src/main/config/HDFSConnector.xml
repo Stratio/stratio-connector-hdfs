@@ -24,6 +24,25 @@
         <DataStoreName>hdfs</DataStoreName>
     </DataStores>
     <Version>0.3.0-SNAPSHOT</Version>
+
+    <OptionalProperties>
+        <Property>
+            <PropertyName>binaryAsString</PropertyName>
+            <Description>To interpret binary data as a string to provide
+                compatibility with other systems</Description>
+        </Property>
+
+        <Property>
+            <PropertyName>cacheMetadata</PropertyName>
+            <Description>Turns on caching of Parquet schema metadata</Description>
+        </Property>
+
+        <Property>
+            <PropertyName>compressionCodec</PropertyName>
+            <Description>Sets the compression codec use when writing Parquet files</Description>
+        </Property>
+    </OptionalProperties>
+
     <SupportedOperations>
         <operation>CREATE_TABLE</operation>
         <operation>CREATE_CATALOG</operation>
