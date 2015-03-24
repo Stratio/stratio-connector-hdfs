@@ -37,11 +37,13 @@ class HDFSConnectionTest extends FlatSpec with Matchers with MockFactory {
   behavior of "An HDFS connection"
 
   it should "Close the connection when calling the close method" in new ConnectionData{
+
     import scala.collection.JavaConversions._
 
     val clusterName = new ClusterName("ClusterName")
 
     val connectorOptions = new util.HashMap[String, String]()
+
     val clusterOptions: Map[String,String] = Map("hosts" -> "10.200.0.60:9000")
 
     val connectorClusterConfig = new ConnectorClusterConfig(clusterName, connectorOptions, clusterOptions)
