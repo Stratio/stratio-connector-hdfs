@@ -44,9 +44,9 @@ trait FSConstants{
   import scala.collection.JavaConversions._
   val connectorClusterConfig = new ConnectorClusterConfig(clusterName, connectorOptions, clusterOptions)
 
-  val FakeFileSystem = FileSystem.get(new JobConf())
+  val fakeFileSystem = FileSystem.get(new JobConf())
 
-  val hDFSClient = new HDFSClient(FakeFileSystem, connectorClusterConfig)
+  val hDFSClient = new HDFSClient(fakeFileSystem, connectorClusterConfig)
 
   val hdfsConnection = new HDFSConnection (hDFSClient, true)
 

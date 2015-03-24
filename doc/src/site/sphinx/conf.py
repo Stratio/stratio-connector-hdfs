@@ -105,14 +105,17 @@ html_theme = 'stratio'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {
+
+html_theme_options = {
 'versions' : ['0.3.0-RC2'],
 'github' : 'https://github.com/Stratio/stratio-connector-hdfs.git',
+'jira' : 'https://github.com/Stratio/stratio-connector-hdfs/issues'
 'module_name' : 'connector-hdfs'
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = ['_themes']
+
+html_theme_path = ['_themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".

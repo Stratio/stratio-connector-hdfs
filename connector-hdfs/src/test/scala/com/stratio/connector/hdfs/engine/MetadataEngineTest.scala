@@ -24,6 +24,7 @@ import java.util
 import com.stratio.crossdata.common.data.TableName
 import com.stratio.crossdata.common.metadata.{TableMetadata, CatalogMetadata}
 import com.stratio.crossdata.common.statements.structures.Selector
+import org.apache.hadoop.fs.Path
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, FlatSpec}
 
@@ -40,8 +41,12 @@ class MetadataEngineTest extends FlatSpec with Matchers with MockFactory with FS
 
     val tables = new util.HashMap[TableName, TableMetadata]()
 
+    val path = new Path(s"$catalogName")
+
     metadataEng.createCatalog(new CatalogMetadata(catalogName, options, tables),
       hdfsConnection)
+
+    fakeFileSystem.exists(path)
 
 
 
