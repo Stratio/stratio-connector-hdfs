@@ -143,7 +143,7 @@ private[hdfs] trait ConnectorConstants {
 
   val DatastoreName = ManifestUtil.getDatastoreName("HDFSConnector.xml")
 
-  val MethodNotSupported: String = "Not supported yet"
+  val MethodNotSupported: String = "not supported yet"
 
 }
 

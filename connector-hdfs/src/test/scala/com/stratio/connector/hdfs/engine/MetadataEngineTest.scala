@@ -46,7 +46,7 @@ class MetadataEngineTest extends FlatSpec with Matchers with MockFactory with FS
     metadataEng.createCatalog(new CatalogMetadata(catalogName, options, tables),
       hdfsConnection)
 
-    fakeFileSystem.exists(path)
+    fakeFileSystem.exists(path) should equal (true)
 
 
 

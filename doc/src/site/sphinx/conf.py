@@ -109,7 +109,7 @@ html_theme = 'stratio'
 html_theme_options = {
 'versions' : ['0.3.0-RC2'],
 'github' : 'https://github.com/Stratio/stratio-connector-hdfs.git',
-'jira' : 'https://github.com/Stratio/stratio-connector-hdfs/issues'
+'jira' : 'https://github.com/Stratio/stratio-connector-hdfs/issues',
 'module_name' : 'connector-hdfs'
 }
 
