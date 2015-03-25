@@ -38,25 +38,25 @@ import com.stratio.crossdata.common.statements.structures.Selector
  * @param connectionHandler The connection handler that contains
  *                          the configuration.
  */
-class MetadataEngine(connectionHandler: ConnectionHandler)
+class HDFSMetadataEngine(connectionHandler: ConnectionHandler)
   extends CommonsMetadataEngine[HDFSClient](connectionHandler) {
 
   override def provideMetadata(
     targetCluster: ClusterName,
     connection: Connection[HDFSClient]): util.List[CatalogMetadata] =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    throw new UnsupportedException(s"Method provideMetadata is ${HDFSConnector.MethodNotSupported}")
 
   override def provideTableMetadata(
     tableName: TableName,
     targetCluster: ClusterName,
     connection: Connection[HDFSClient]): TableMetadata =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    throw new UnsupportedException(s"Method provideTableMetadata is ${HDFSConnector.MethodNotSupported}")
 
   override def provideCatalogMetadata(
     catalogName: CatalogName,
     targetCluster: ClusterName,
     connection: Connection[HDFSClient]): CatalogMetadata =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    throw new UnsupportedException(s"Method provideCatalogMetadata is ${HDFSConnector.MethodNotSupported}")
 
   /**
    * Operation that creates a directory in representation of the table.
@@ -74,34 +74,34 @@ class MetadataEngine(connectionHandler: ConnectionHandler)
   override def createIndex(
     indexMetadata: IndexMetadata,
     connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(s"Method createIndex ${HDFSConnector.MethodNotSupported}")
+    throw new UnsupportedException(s"Method createIndex is ${HDFSConnector.MethodNotSupported}")
 
   override def dropCatalog(
     name: CatalogName,
     connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    throw new UnsupportedException(s"Method dropCatalog is ${HDFSConnector.MethodNotSupported}")
 
   override def alterCatalog(
     catalogName: CatalogName,
     options: util.Map[Selector, Selector],
     connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    throw new UnsupportedException(s"Method alterCatalog is ${HDFSConnector.MethodNotSupported}")
 
   override def alterTable(
     name: TableName,
     alterOptions: AlterOptions,
     connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    throw new UnsupportedException(s"Method alterTable is ${HDFSConnector.MethodNotSupported}")
 
   override def dropTable(
     name: TableName,
     connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    throw new UnsupportedException(s"Method dropTable is ${HDFSConnector.MethodNotSupported}")
 
   override def dropIndex(
     indexMetadata: IndexMetadata,
     connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    throw new UnsupportedException(s"Method dropIndex is ${HDFSConnector.MethodNotSupported}")
 
   /**
    * Operation that creates a directory in representation of the catalog.

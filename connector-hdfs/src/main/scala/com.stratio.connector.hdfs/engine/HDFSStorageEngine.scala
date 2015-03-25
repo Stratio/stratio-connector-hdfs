@@ -24,7 +24,6 @@ import java.util
 import com.stratio.connector.hdfs.HDFSConnector
 import com.stratio.connector.hdfs.connection.{HDFSClient, HDFSConnection}
 import com.stratio.connector.hdfs.util.Converters
-import HDFSConnector._
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types._
 import org.apache.spark.{sql, SparkContext}
@@ -47,7 +46,7 @@ import com.stratio.connector.commons.connection.{Connection, ConnectionHandler}
  * @param connectionHandler The connection handler that contains
  *                          the configuration.
  */
-class StorageEngine(
+class HDFSStorageEngine(
   connectionHandler: ConnectionHandler,
   sparkContext: SparkContext)
   extends CommonsStorageEngine[HDFSClient](connectionHandler) {
@@ -61,7 +60,7 @@ class StorageEngine(
     tableName: TableName,
     connection: Connection[HDFSClient]): Unit =
 
-    throw new UnsupportedException(MethodNotSupported)
+    throw new UnsupportedException(s"Method truncate is ${HDFSConnector.MethodNotSupported}")
 
   override def update(
     tableName: TableName,
@@ -69,7 +68,7 @@ class StorageEngine(
     whereClauses: util.Collection[Filter],
     connection: Connection[HDFSClient]): Unit =
 
-    throw new UnsupportedException(MethodNotSupported)
+    throw new UnsupportedException(s"Method update is ${HDFSConnector.MethodNotSupported}")
 
   /**
    * Insert one row in HDFS with parquet format.
@@ -104,7 +103,7 @@ class StorageEngine(
     connection: Connection[HDFSClient]): Unit = {
 
     if (isNotExists)
-      throw new UnsupportedException(MethodNotSupported)
+      throw new UnsupportedException(s"Method insert with isNotExists=true is ${HDFSConnector.MethodNotSupported}")
 
     val catalog = targetTable.getName.getCatalogName.getName
 
@@ -139,5 +138,5 @@ class StorageEngine(
     tableName: TableName,
     whereClauses: util.Collection[Filter],
     connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(MethodNotSupported)
+    throw new UnsupportedException(s"Method provideMetadata is ${HDFSConnector.MethodNotSupported}")
 }
