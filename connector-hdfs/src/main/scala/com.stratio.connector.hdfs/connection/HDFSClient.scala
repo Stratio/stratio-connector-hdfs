@@ -49,7 +49,7 @@ object HDFSClient extends HDFSConstants{
     new HDFSClient({
       import scala.collection.JavaConversions._
       val config = new Configuration()
-      config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
+//      config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
       FileSystem.get(config)
     },clusterConfig)
  }

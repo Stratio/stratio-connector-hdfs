@@ -24,7 +24,7 @@ import com.stratio.connector.commons.util.{ConnectorParser, ManifestUtil}
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler
 import com.stratio.connector.hdfs.engine.{MetadataEngine, StorageEngine}
 import com.stratio.crossdata.common.connector._
-import com.stratio.crossdata.common.exceptions.{InitializationException, UnsupportedException}
+import com.stratio.crossdata.common.exceptions.{ConnectionException, InitializationException, UnsupportedException}
 import com.stratio.crossdata.common.security.ICredentials
 import com.stratio.crossdata.connectors.ConnectorApp
 import org.apache.spark.{SparkConf, SparkContext}
@@ -35,7 +35,7 @@ import scala.util.Try
 class HDFSConnector extends CommonsConnector {
 
   import com.stratio.connector.hdfs.HDFSConnector._
-
+ import com.stratio.connector.commons.util.PropertyValueRecovered;
   /**
    * Creation of the Spark context.
    */
@@ -65,12 +65,23 @@ class HDFSConnector extends CommonsConnector {
 
     super.connect(credentials, config)
 
+
  //   val HostPort = ConnectorParser.hostPorts(config.getClusterOptions.apply("hosts"))(0)
 
     sparkContext = Some({
       val sc = new SparkContext(
         new SparkConf().setMaster("local[1]").setAppName("insert"))
-   //   sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
+      if (!PropertyValueRecovered.recoveredValue(classOf[Boolean],config.getClusterOptions.apply("highavailability"))){
+        val SomeHostPort = config.getClusterOptions.toMap.get("hosts")
+        if (!SomeHostPort.exists(_.length>0)){
+          val message = "The host property is mandatory because highavailability property is set to false"
+          logger.error(message)
+          throw new ConnectionException(message)
+        }
+        val HostPort =  PropertyValueRecovered.recoveredValue(classOf[Boolean],SomeHostPort.get)
+        sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
+      }
+
       sc
     })
    // storageEngine = Some(new StorageEngine (connectionHandler, sparkContext.get))
