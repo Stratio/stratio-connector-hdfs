@@ -53,7 +53,7 @@ class HDFSConnector extends CommonsConnector {
 
   override def init(configuration: IConfiguration): Unit = {
     connectionHandler = new HDFSConnectionHandler(configuration)
-    metadataEngine =  Some(new MetadataEngine (connectionHandler))
+  //  metadataEngine =  Some(new MetadataEngine (connectionHandler))
   }
 
   override def connect(
@@ -73,7 +73,8 @@ class HDFSConnector extends CommonsConnector {
    //   sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
       sc
     })
-    storageEngine = Some(new StorageEngine (connectionHandler, sparkContext.get))
+   // storageEngine = Some(new StorageEngine (connectionHandler, sparkContext.get))
+
   }
 
   /**
