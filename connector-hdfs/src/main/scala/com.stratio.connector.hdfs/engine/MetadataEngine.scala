@@ -74,7 +74,7 @@ class MetadataEngine(connectionHandler: ConnectionHandler)
   override def createIndex(
     indexMetadata: IndexMetadata,
     connection: Connection[HDFSClient]): Unit =
-    throw new UnsupportedException(HDFSConnector.MethodNotSupported)
+    throw new UnsupportedException(s"Method createIndex ${HDFSConnector.MethodNotSupported}")
 
   override def dropCatalog(
     name: CatalogName,

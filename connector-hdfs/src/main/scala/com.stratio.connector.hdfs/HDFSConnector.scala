@@ -71,6 +71,7 @@ class HDFSConnector extends CommonsConnector {
       val sc = new SparkContext(
         new SparkConf().setMaster("local[1]").setAppName("insert"))
    //   sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
+
       sc
     })
    // storageEngine = Some(new StorageEngine (connectionHandler, sparkContext.get))
@@ -166,7 +167,8 @@ private[hdfs] trait ConnectorConstants {
 
   val DatastoreName = ManifestUtil.getDatastoreName("HDFSConnector.xml")
 
-  val MethodNotSupported: String ="Not supported yet"
+  val MethodNotSupported: String = "not supported yet"
+
 
 }
 
