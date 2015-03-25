@@ -35,7 +35,7 @@ class MetadataEngineTest extends FlatSpec with Matchers with MockFactory with FS
   it should "create a new catalog" in {
 
 
-    val metadataEng = new MetadataEngine(connectionHandler)
+    val metadataEng = new HDFSMetadataEngine(connectionHandler)
 
     val options = new util.HashMap[Selector, Selector]()
 
