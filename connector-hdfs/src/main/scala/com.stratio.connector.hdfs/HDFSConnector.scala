@@ -20,12 +20,11 @@
 package com.stratio.connector.hdfs
 
 import com.stratio.connector.commons.CommonsConnector
-import com.stratio.connector.commons.util.{ConnectorParser, ManifestUtil}
+import com.stratio.connector.commons.util.ManifestUtil
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler
-import com.stratio.connector.hdfs.engine.{MetadataEngine, StorageEngine}
+import com.stratio.connector.hdfs.engine.{HDFSMetadataEngine, HDFSStorageEngine}
 import com.stratio.crossdata.common.connector._
-import com.stratio.crossdata.common.exceptions.{InitializationException, UnsupportedException}
-import com.stratio.crossdata.common.security.ICredentials
+import com.stratio.crossdata.common.exceptions.UnsupportedException
 import com.stratio.crossdata.connectors.ConnectorApp
 import org.apache.spark.{SparkConf, SparkContext}
 import org.slf4j.LoggerFactory
@@ -39,13 +38,16 @@ class HDFSConnector extends CommonsConnector {
   /**
    * Creation of the Spark context.
    */
-  var sparkContext:  Option[SparkContext] = None
+  private lazy val sparkContext: SparkContext = new SparkContext(
+    new SparkConf().setMaster("local[1]").setAppName("insert"))
 
   implicit val logger = LoggerFactory.getLogger(getClass)
 
-  var metadataEngine: Option[MetadataEngine] = None
+  lazy val metadataEngine: HDFSMetadataEngine = new HDFSMetadataEngine(connectionHandler)
 
-  var storageEngine: Option[StorageEngine] = None
+  lazy val storageEngine:HDFSStorageEngine = new HDFSStorageEngine(
+    connectionHandler,
+    sparkContext)
 
   override def getConnectorName: String = ConnectorName
 
@@ -53,28 +55,6 @@ class HDFSConnector extends CommonsConnector {
 
   override def init(configuration: IConfiguration): Unit = {
     connectionHandler = new HDFSConnectionHandler(configuration)
-  //  metadataEngine =  Some(new MetadataEngine (connectionHandler))
-  }
-
-  override def connect(
-
-    credentials: ICredentials,
-    config: ConnectorClusterConfig): Unit = {
-
-    import scala.collection.JavaConversions._
-
-    super.connect(credentials, config)
-
- //   val HostPort = ConnectorParser.hostPorts(config.getClusterOptions.apply("hosts"))(0)
-
-    sparkContext = Some({
-      val sc = new SparkContext(
-        new SparkConf().setMaster("local[1]").setAppName("insert"))
-   //   sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
-      sc
-    })
-   // storageEngine = Some(new StorageEngine (connectionHandler, sparkContext.get))
-
   }
 
   /**
@@ -82,14 +62,7 @@ class HDFSConnector extends CommonsConnector {
    * @return The metadataEngine.
    */
   override def getMetadataEngine: IMetadataEngine = {
-    synchronized {
-      metadataEngine.getOrElse {
-
-        logger.warn("Connector may not be initialized")
-        metadataEngine = Option(new MetadataEngine(connectionHandler))
-        metadataEngine.get
-      }
-    }
+    metadataEngine
   }
 
   /**
@@ -107,26 +80,14 @@ class HDFSConnector extends CommonsConnector {
    * @return The storageEngine.
    */
   override def getStorageEngine: IStorageEngine = {
-    synchronized {
-      storageEngine.getOrElse {
-
-        logger.warn("Connector may not be initialized")
-
-        storageEngine = Option(new StorageEngine(
-          connectionHandler,
-          sparkContext.getOrElse(throw new InitializationException(s"The Spark" +
-            s" context is not initialized"))))
-
-        storageEngine.get
-      }
-    }
+      storageEngine
   }
 
   override def shutdown(): Unit ={
 
     super.shutdown()
 
-    sparkContext.foreach(_.stop())
+    sparkContext.stop()
   }
   /**
    * Run the shutdown.
@@ -154,7 +115,7 @@ object HDFSConnector extends App with ConnectorConstants{
 
   val HDFSConnector = new HDFSConnector
 
- new ConnectorApp().startup(HDFSConnector)
+  new ConnectorApp().startup(HDFSConnector)
 
   HDFSConnector.attachShutDownHook()
 
@@ -166,7 +127,7 @@ private[hdfs] trait ConnectorConstants {
 
   val DatastoreName = ManifestUtil.getDatastoreName("HDFSConnector.xml")
 
-  val MethodNotSupported: String ="Not supported yet"
+  val MethodNotSupported: String ="not supported yet"
 
 }
 
