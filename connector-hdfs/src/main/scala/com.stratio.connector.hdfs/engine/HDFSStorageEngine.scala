@@ -21,6 +21,7 @@ package com.stratio.connector.hdfs.engine
 
 import java.util
 
+import com.stratio.connector.commons.timer
 import com.stratio.connector.hdfs.HDFSConnector
 import com.stratio.connector.hdfs.connection.{HDFSClient, HDFSConnection}
 import com.stratio.connector.hdfs.util.Converters
@@ -28,7 +29,6 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types._
 import org.apache.spark.{sql, SparkContext}
 import org.apache.spark.sql.{SaveMode, DataFrame, SQLContext}
-import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConversions._
 
@@ -40,6 +40,8 @@ import com.stratio.crossdata.common.metadata.TableMetadata
 import com.stratio.crossdata.common.statements.structures.Relation
 import com.stratio.connector.commons.connection.{Connection, ConnectionHandler}
 
+import timer._
+
 /**
  * Class StorageEngine.
  *
@@ -50,11 +52,6 @@ class HDFSStorageEngine(
   connectionHandler: ConnectionHandler,
   sparkContext: SparkContext)
   extends CommonsStorageEngine[HDFSClient](connectionHandler) {
-
-  /**
-   * The logger.
-   */
-  implicit val logger = LoggerFactory.getLogger(getClass)
 
   override def truncate(
     tableName: TableName,
@@ -109,7 +106,7 @@ class HDFSStorageEngine(
 
     val tableName = targetTable.getName.getName
 
-    val sqlContext = new SQLContext(sparkContext)
+    val sqlContext = timeFor(s"Creating the sqlContext"){new SQLContext(sparkContext)}
 
     import scala.collection.JavaConversions._
 
@@ -130,7 +127,7 @@ class HDFSStorageEngine(
 
     val dataFrame: DataFrame = sqlContext.createDataFrame(rdd, schema)
 
-    dataFrame.save(path,"parquet",SaveMode.Append)
+    timeFor(s"Saving $dataFrame as parquet"){dataFrame.save(path,"parquet",SaveMode.Append)}
 
   }
 

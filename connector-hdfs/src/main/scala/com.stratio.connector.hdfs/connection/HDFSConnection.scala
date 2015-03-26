@@ -20,9 +20,10 @@
 package com.stratio.connector.hdfs.connection
 
 import com.stratio.connector.commons.connection.Connection
+import com.stratio.connector.commons.{Metrics, Loggable, timer}
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig
 import com.stratio.crossdata.common.security.ICredentials
-import org.slf4j.LoggerFactory
+import timer._
 
 /**
  * Class HDFS connection that creates the connection with HDFS.
@@ -30,28 +31,33 @@ import org.slf4j.LoggerFactory
  * @param client The HDFS client.
  * @param isConnected True if it is connected, false in other case.
  */
-class HDFSConnection(val client: HDFSClient, var isConnected: Boolean) extends Connection[HDFSClient] {
+class HDFSConnection(
+  val client: HDFSClient,
+  var isConnected: Boolean) extends Connection[HDFSClient]
+with Loggable with Metrics {
 
   /**
    * Closes the HDFS connection.
    */
   override def close(): Unit = {
-    client.hdfs.close()
-    isConnected = false
+    timeFor(s"Closing the HDFS connection") {
+      client.hdfs.close()
+      isConnected = false
+    }
   }
 
   override def getNativeConnection: HDFSClient = client
 
 }
 
-object HDFSConnection {
-  val logger = LoggerFactory.getLogger(getClass)
+object HDFSConnection extends Loggable with Metrics {
 
   def apply(config: ConnectorClusterConfig,
     credentials: Option[ICredentials] = None): HDFSConnection = {
-
-    val connection = new HDFSConnection(HDFSClient(config), true)
-
+      val connection =
+        timeFor(s"Creating the HDFS connection") {
+        new HDFSConnection(HDFSClient(config), true)
+    }
     if(logger.isInfoEnabled){
       logger.info("New HDFS connection established")
     }

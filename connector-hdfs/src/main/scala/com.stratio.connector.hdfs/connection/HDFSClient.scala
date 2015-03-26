@@ -19,29 +19,33 @@
 
 package com.stratio.connector.hdfs.connection
 
+import com.stratio.connector.commons.{timer, Metrics, Loggable}
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.slf4j.LoggerFactory
 import parquet.hadoop.metadata.CompressionCodecName
+import timer._
 
+/**
+ * Class HDFSClient.
+ *
+ * @param hdfs The file system.
+ * @param connectorClusterConfig The connector cluster configuration.
+ * @param compressionCodec Compression codec set by default to SNAPPY.
+ */
 class HDFSClient (
   val hdfs: FileSystem,
   val connectorClusterConfig: ConnectorClusterConfig,
   val compressionCodec: CompressionCodecName = CompressionCodecName.SNAPPY)
-  extends HDFSConstants {
+  extends HDFSConstants with Loggable with Metrics{
 
-  /**
-   * The logger.
-   */
-
-  private val logger = LoggerFactory.getLogger(getClass)
-
-  def createFolder (path: String): Unit ={
+  private[hdfs] def createFolder (path: String): Unit = {
     val hdfsPath = new Path(path)
-    if (!hdfs.exists(hdfsPath))
-      hdfs.mkdirs(hdfsPath)
-    else logger.warn(s"The folder $hdfsPath is already created.")
+    timeFor(s"Trying to create the folder $hdfsPath") {
+      if (!hdfs.exists(hdfsPath))
+        hdfs.mkdirs(hdfsPath)
+      else logger.warn(s"The folder $hdfsPath is already created.")
+    }
   }
 }
 
@@ -50,15 +54,15 @@ object HDFSClient extends HDFSConstants{
   def defaultFileSystem(clusterConfig: ConnectorClusterConfig): FileSystem = {
     import scala.collection.JavaConversions._
     val config = new Configuration()
-    config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
-    FileSystem.get(config)
+    timeFor(s"Setting the configuration $config") {
+      config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
+      FileSystem.get(config)
+    }
   }
 
   def apply(clusterConfig: ConnectorClusterConfig): HDFSClient =
     new HDFSClient(defaultFileSystem(clusterConfig),clusterConfig)
-
-
- }
+}
 
 private[hdfs] trait HDFSConstants{
 
