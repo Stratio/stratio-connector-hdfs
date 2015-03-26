@@ -25,7 +25,7 @@
     <name>Stratio HDFS Connector Parent</name>
     <groupId>com.stratio.connector</groupId>
     <artifactId>stratio-connector-hdfs-parent</artifactId>
-    <version>0.3.0-RC2</version>
+    <version>0.3.0-RC3</version>
     <description>The HDFS-Crossdata connector parent</description>
     <url>http://www.stratio.com</url>
     <packaging>pom</packaging>

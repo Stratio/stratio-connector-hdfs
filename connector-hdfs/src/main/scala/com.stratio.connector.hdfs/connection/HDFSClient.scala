@@ -57,6 +57,7 @@ object HDFSClient extends HDFSConstants{
   def apply(clusterConfig: ConnectorClusterConfig): HDFSClient =
     new HDFSClient(defaultFileSystem(clusterConfig),clusterConfig)
 
+
  }
 
 private[hdfs] trait HDFSConstants{

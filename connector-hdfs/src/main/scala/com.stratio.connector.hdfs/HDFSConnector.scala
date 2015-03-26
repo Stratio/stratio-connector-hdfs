@@ -20,11 +20,15 @@
 package com.stratio.connector.hdfs
 
 import com.stratio.connector.commons.CommonsConnector
-import com.stratio.connector.commons.util.ManifestUtil
+import com.stratio.connector.commons.util.{ConnectorParser, ManifestUtil}
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler
 import com.stratio.connector.hdfs.engine.{HDFSMetadataEngine, HDFSStorageEngine}
 import com.stratio.crossdata.common.connector._
+
+import com.stratio.crossdata.common.exceptions.{ConnectionException, InitializationException, UnsupportedException}
+import com.stratio.crossdata.common.security.ICredentials
 import com.stratio.crossdata.common.exceptions.UnsupportedException
+
 import com.stratio.crossdata.connectors.ConnectorApp
 import org.apache.spark.{SparkConf, SparkContext}
 import org.slf4j.LoggerFactory
@@ -34,20 +38,17 @@ import scala.util.Try
 class HDFSConnector extends CommonsConnector {
 
   import com.stratio.connector.hdfs.HDFSConnector._
-
+ import com.stratio.connector.commons.util.PropertyValueRecovered;
   /**
    * Creation of the Spark context.
    */
-  private lazy val sparkContext: SparkContext = new SparkContext(
-    new SparkConf().setMaster("local[1]").setAppName("insert"))
+  var sparkContext:  Option[SparkContext] = None
 
   implicit val logger = LoggerFactory.getLogger(getClass)
 
-  lazy val metadataEngine: HDFSMetadataEngine = new HDFSMetadataEngine(connectionHandler)
+  var metadataEngine: Option[HDFSMetadataEngine] = None
 
-  lazy val storageEngine:HDFSStorageEngine = new HDFSStorageEngine(
-    connectionHandler,
-    sparkContext)
+  var storageEngine: Option[HDFSStorageEngine] = None
 
   override def getConnectorName: String = ConnectorName
 
@@ -58,12 +59,48 @@ class HDFSConnector extends CommonsConnector {
 
   }
 
+  override def connect(
+
+    credentials: ICredentials,
+    config: ConnectorClusterConfig): Unit = {
+
+    import scala.collection.JavaConversions._
+
+    super.connect(credentials, config)
+
+    sparkContext = Some({
+      val sc = new SparkContext(
+        new SparkConf().setMaster("local[1]").setAppName("insert"))
+      if (!PropertyValueRecovered.recoveredValue(classOf[Boolean],config.getClusterOptions.apply("highavailability"))){
+        val SomeHostPort = config.getClusterOptions.toMap.get("hosts")
+        if (!SomeHostPort.exists(_.length>0)){
+          val message = "The host property is mandatory because highavailability property is set to false"
+          logger.error(message)
+          throw new ConnectionException(message)
+        }
+        val HostPort =  PropertyValueRecovered.recoveredValue(classOf[String],SomeHostPort.get)
+        sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
+      }
+
+      sc
+    })
+
+
+  }
+
   /**
    * Return the metadataEngine.
    * @return The metadataEngine.
    */
   override def getMetadataEngine: IMetadataEngine = {
-    metadataEngine
+    synchronized {
+      metadataEngine.getOrElse {
+
+        logger.warn("Connector may not be initialized")
+        metadataEngine = Option(new HDFSMetadataEngine(connectionHandler))
+        metadataEngine.get
+      }
+    }
   }
 
   /**
@@ -81,14 +118,26 @@ class HDFSConnector extends CommonsConnector {
    * @return The storageEngine.
    */
   override def getStorageEngine: IStorageEngine = {
-      storageEngine
+    synchronized {
+      storageEngine.getOrElse {
+
+        logger.warn("Connector may not be initialized")
+
+        storageEngine = Option(new HDFSStorageEngine(
+          connectionHandler,
+          sparkContext.getOrElse(throw new InitializationException(s"The Spark" +
+            s" context is not initialized"))))
+
+        storageEngine.get
+  }
+    }
   }
 
   override def shutdown(): Unit ={
 
     super.shutdown()
 
-    sparkContext.stop()
+    sparkContext.foreach(_.stop())
   }
   /**
    * Run the shutdown.
