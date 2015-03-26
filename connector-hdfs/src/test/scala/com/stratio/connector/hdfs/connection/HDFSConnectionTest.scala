@@ -19,13 +19,13 @@
 
 package com.stratio.connector.hdfs.connection
 
+import java.util
+
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig
 import com.stratio.crossdata.common.data.ClusterName
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, FlatSpec}
-import java.util.HashMap
-
-import parquet.hadoop.metadata.CompressionCodecName
+import HDFSClient.defaultFileSystem
 
 class HDFSConnectionTest extends FlatSpec with Matchers with MockFactory {
 
@@ -33,20 +33,30 @@ class HDFSConnectionTest extends FlatSpec with Matchers with MockFactory {
     val isConnected = false
   }
 
- /* behavior of "An HDFS connection"
+
+  behavior of "An HDFS connection"
 
   it should "Close the connection when calling the close method" in new ConnectionData{
+
+    import scala.collection.JavaConversions._
+
     val clusterName = new ClusterName("ClusterName")
 
-    val connectorOptions = new HashMap[String, String]()
-    val clusterOptions = new HashMap[String, String]()
+    val connectorOptions = new util.HashMap[String, String]()
+
+    val clusterOptions: Map[String,String] = Map("hosts" -> "10.200.0.60:9000")
 
     val connectorClusterConfig = new ConnectorClusterConfig(clusterName, connectorOptions, clusterOptions)
 
-    var hdfsClient: HDFSClient = new HDFSClient(null, connectorClusterConfig, CompressionCodecName.SNAPPY)
+    class FakeClient extends HDFSClient(defaultFileSystem(connectorClusterConfig),connectorClusterConfig)
+
+    val hdfsClient = mock[FakeClient]
 
     val hdfsConnection = new HDFSConnection (hdfsClient, true)
+
     hdfsConnection.close()
+
     hdfsConnection.isConnected should equal (isConnected)
-  }*/
+
+  }
 }

@@ -25,7 +25,8 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.slf4j.LoggerFactory
 import parquet.hadoop.metadata.CompressionCodecName
 
-class HDFSClient (val hdfs: FileSystem,
+class HDFSClient (
+  val hdfs: FileSystem,
   val connectorClusterConfig: ConnectorClusterConfig,
   val compressionCodec: CompressionCodecName = CompressionCodecName.SNAPPY)
   extends HDFSConstants {
@@ -44,14 +45,17 @@ class HDFSClient (val hdfs: FileSystem,
 
 object HDFSClient extends HDFSConstants{
 
-  def apply(clusterConfig: ConnectorClusterConfig): HDFSClient =
+  def defaultFileSystem(clusterConfig: ConnectorClusterConfig): FileSystem = {
+    import scala.collection.JavaConversions._
+    val config = new Configuration()
+    config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
+    FileSystem.get(config)
+  }
 
-    new HDFSClient({
-      import scala.collection.JavaConversions._
-      val config = new Configuration()
-//      config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
-      FileSystem.get(config)
-    },clusterConfig)
+  def apply(clusterConfig: ConnectorClusterConfig): HDFSClient =
+    new HDFSClient(defaultFileSystem(clusterConfig),clusterConfig)
+
+
  }
 
 private[hdfs] trait HDFSConstants{

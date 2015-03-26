@@ -22,10 +22,13 @@ package com.stratio.connector.hdfs
 import com.stratio.connector.commons.CommonsConnector
 import com.stratio.connector.commons.util.{ConnectorParser, ManifestUtil}
 import com.stratio.connector.hdfs.connection.HDFSConnectionHandler
-import com.stratio.connector.hdfs.engine.{MetadataEngine, StorageEngine}
+import com.stratio.connector.hdfs.engine.{HDFSMetadataEngine, HDFSStorageEngine}
 import com.stratio.crossdata.common.connector._
+
 import com.stratio.crossdata.common.exceptions.{ConnectionException, InitializationException, UnsupportedException}
 import com.stratio.crossdata.common.security.ICredentials
+import com.stratio.crossdata.common.exceptions.UnsupportedException
+
 import com.stratio.crossdata.connectors.ConnectorApp
 import org.apache.spark.{SparkConf, SparkContext}
 import org.slf4j.LoggerFactory
@@ -43,9 +46,9 @@ class HDFSConnector extends CommonsConnector {
 
   implicit val logger = LoggerFactory.getLogger(getClass)
 
-  var metadataEngine: Option[MetadataEngine] = None
+  var metadataEngine: Option[HDFSMetadataEngine] = None
 
-  var storageEngine: Option[StorageEngine] = None
+  var storageEngine: Option[HDFSStorageEngine] = None
 
   override def getConnectorName: String = ConnectorName
 
@@ -53,6 +56,7 @@ class HDFSConnector extends CommonsConnector {
 
   override def init(configuration: IConfiguration): Unit = {
     connectionHandler = new HDFSConnectionHandler(configuration)
+
   }
 
   override def connect(
@@ -81,6 +85,7 @@ class HDFSConnector extends CommonsConnector {
       sc
     })
 
+
   }
 
   /**
@@ -92,7 +97,7 @@ class HDFSConnector extends CommonsConnector {
       metadataEngine.getOrElse {
 
         logger.warn("Connector may not be initialized")
-        metadataEngine = Option(new MetadataEngine(connectionHandler))
+        metadataEngine = Option(new HDFSMetadataEngine(connectionHandler))
         metadataEngine.get
       }
     }
@@ -118,13 +123,13 @@ class HDFSConnector extends CommonsConnector {
 
         logger.warn("Connector may not be initialized")
 
-        storageEngine = Option(new StorageEngine(
+        storageEngine = Option(new HDFSStorageEngine(
           connectionHandler,
           sparkContext.getOrElse(throw new InitializationException(s"The Spark" +
             s" context is not initialized"))))
 
         storageEngine.get
-      }
+  }
     }
   }
 
@@ -160,7 +165,7 @@ object HDFSConnector extends App with ConnectorConstants{
 
   val HDFSConnector = new HDFSConnector
 
- new ConnectorApp().startup(HDFSConnector)
+  new ConnectorApp().startup(HDFSConnector)
 
   HDFSConnector.attachShutDownHook()
 
@@ -172,7 +177,10 @@ private[hdfs] trait ConnectorConstants {
 
   val DatastoreName = ManifestUtil.getDatastoreName("HDFSConnector.xml")
 
-  val MethodNotSupported: String ="Not supported yet"
+  val MethodNotSupported: String = "not supported yet"
+
+
+
 
 }
 
