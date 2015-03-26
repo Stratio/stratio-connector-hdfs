@@ -48,7 +48,6 @@ object HDFSClient extends HDFSConstants{
   def defaultFileSystem(clusterConfig: ConnectorClusterConfig): FileSystem = {
     import scala.collection.JavaConversions._
     val config = new Configuration()
-    config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
     FileSystem.get(config)
   }
 
