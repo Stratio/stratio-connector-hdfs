@@ -34,12 +34,14 @@ class HDFSClient (
   /**
    * The logger.
    */
+
   private val logger = LoggerFactory.getLogger(getClass)
 
   def createFolder (path: String): Unit ={
     val hdfsPath = new Path(path)
     if (!hdfs.exists(hdfsPath))
       hdfs.mkdirs(hdfsPath)
+    else logger.warn(s"The folder $hdfsPath is already created.")
   }
 }
 
@@ -54,6 +56,7 @@ object HDFSClient extends HDFSConstants{
 
   def apply(clusterConfig: ConnectorClusterConfig): HDFSClient =
     new HDFSClient(defaultFileSystem(clusterConfig),clusterConfig)
+
 
  }
 
