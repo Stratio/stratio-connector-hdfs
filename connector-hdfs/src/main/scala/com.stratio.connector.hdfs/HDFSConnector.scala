@@ -110,7 +110,7 @@ class HDFSConnector extends CommonsConnector {
    */
   override def getQueryEngine: IQueryEngine = {
 
-    throw new UnsupportedException (MethodNotSupported)
+    throw new UnsupportedException (s"Query Engine is $MethodNotSupported")
   }
 
   /**

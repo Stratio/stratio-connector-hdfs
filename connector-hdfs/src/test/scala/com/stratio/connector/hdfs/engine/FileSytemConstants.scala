@@ -23,7 +23,7 @@ import java.util
 
 import com.stratio.connector.hdfs.connection.{HDFSConnection, HDFSClient, HDFSConnectionHandler}
 import com.stratio.crossdata.common.connector.{ConnectorClusterConfig, IConfiguration}
-import com.stratio.crossdata.common.data.{ClusterName, CatalogName}
+import com.stratio.crossdata.common.data.{TableName, ClusterName, CatalogName}
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.mapred.JobConf
 
@@ -34,6 +34,8 @@ trait FSConstants{
   val connectionHandler = new HDFSConnectionHandler(configuration)
 
   val catalogName = new CatalogName("CatalogName")
+
+  val tableName = new TableName("CatalogName", "TableName")
 
   val clusterName = new ClusterName("ClusterName")
 
