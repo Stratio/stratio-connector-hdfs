@@ -53,7 +53,6 @@ class HDFSConnector extends CommonsConnector {
 
   override def init(configuration: IConfiguration): Unit = {
     connectionHandler = new HDFSConnectionHandler(configuration)
-  //  metadataEngine =  Some(new MetadataEngine (connectionHandler))
   }
 
   override def connect(
@@ -65,9 +64,6 @@ class HDFSConnector extends CommonsConnector {
 
     super.connect(credentials, config)
 
-
- //   val HostPort = ConnectorParser.hostPorts(config.getClusterOptions.apply("hosts"))(0)
-
     sparkContext = Some({
       val sc = new SparkContext(
         new SparkConf().setMaster("local[1]").setAppName("insert"))
@@ -78,13 +74,12 @@ class HDFSConnector extends CommonsConnector {
           logger.error(message)
           throw new ConnectionException(message)
         }
-        val HostPort =  PropertyValueRecovered.recoveredValue(classOf[Boolean],SomeHostPort.get)
+        val HostPort =  PropertyValueRecovered.recoveredValue(classOf[String],SomeHostPort.get)
         sc.hadoopConfiguration.set("fs.defaultFS",s"hdfs://$HostPort")
       }
 
       sc
     })
-   // storageEngine = Some(new StorageEngine (connectionHandler, sparkContext.get))
 
   }
 
