@@ -33,7 +33,6 @@ class HDFSConnectionTest extends FlatSpec with Matchers with MockFactory {
     val isConnected = false
   }
 
-
   behavior of "An HDFS connection"
 
   it should "Close the connection when calling the close method" in new ConnectionData{

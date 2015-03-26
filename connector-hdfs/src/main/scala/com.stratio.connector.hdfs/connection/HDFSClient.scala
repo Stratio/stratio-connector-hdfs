@@ -41,6 +41,7 @@ class HDFSClient (
     val hdfsPath = new Path(path)
     if (!hdfs.exists(hdfsPath))
       hdfs.mkdirs(hdfsPath)
+    else logger.warn(s"The folder $hdfsPath is already created.")
   }
 }
 
