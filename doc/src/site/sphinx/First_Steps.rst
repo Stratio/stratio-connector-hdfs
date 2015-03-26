@@ -80,6 +80,10 @@ If high availability is not required:
 
     >  ATTACH CLUSTER hdfsCluster ON DATASTORE hdfs WITH OPTIONS {'highavailability': 'false', 'user': 'The_user_name', 'path':'Base_path_to_HDFS_root_directory', 'hosts': 'Host_and_port_for_the_namenode'};
 
+.. warning::
+
+You must add core-site.xml and hdfs-site.xml into the config folder (src/main/config) if you require high availability. If these folders are added in the config folder, the connector will take this configuration by default.
+
 Now we run the connector.
 
 The last step is to attach the connector to the cluster created before.
