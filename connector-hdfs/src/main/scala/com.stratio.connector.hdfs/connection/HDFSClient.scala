@@ -34,6 +34,7 @@ class HDFSClient (
   /**
    * The logger.
    */
+
   private val logger = LoggerFactory.getLogger(getClass)
 
   def createFolder (path: String): Unit ={
