@@ -33,7 +33,7 @@ import timer._
  * @param connectorClusterConfig The connector cluster configuration.
  * @param compressionCodec Compression codec set by default to SNAPPY.
  */
-class HDFSClient (
+class HDFSClient(
   val hdfs: FileSystem,
   val connectorClusterConfig: ConnectorClusterConfig,
   val compressionCodec: CompressionCodecName = CompressionCodecName.SNAPPY)
@@ -49,7 +49,7 @@ class HDFSClient (
   }
 }
 
-object HDFSClient extends HDFSConstants{
+object HDFSClient extends HDFSConstants with Loggable with Metrics{
 
   def defaultFileSystem(clusterConfig: ConnectorClusterConfig): FileSystem = {
     import scala.collection.JavaConversions._

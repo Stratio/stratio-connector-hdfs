@@ -21,7 +21,7 @@ package com.stratio.connector.hdfs.engine
 
 import java.util
 
-import com.stratio.connector.commons.timer
+import com.stratio.connector.commons.{Metrics, Loggable, timer}
 import com.stratio.connector.hdfs.HDFSConnector
 import com.stratio.connector.hdfs.connection.{HDFSClient, HDFSConnection}
 import com.stratio.connector.hdfs.util.Converters
@@ -51,7 +51,7 @@ import timer._
 class HDFSStorageEngine(
   connectionHandler: ConnectionHandler,
   sparkContext: SparkContext)
-  extends CommonsStorageEngine[HDFSClient](connectionHandler) {
+  extends CommonsStorageEngine[HDFSClient](connectionHandler) with Loggable with Metrics{
 
   override def truncate(
     tableName: TableName,
