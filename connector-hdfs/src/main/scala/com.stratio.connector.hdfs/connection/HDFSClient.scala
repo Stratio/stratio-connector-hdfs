@@ -54,10 +54,12 @@ object HDFSClient extends HDFSConstants with Loggable with Metrics{
   def defaultFileSystem(clusterConfig: ConnectorClusterConfig): FileSystem = {
     import scala.collection.JavaConversions._
     val config = new Configuration()
+    
     timeFor(s"Setting the configuration $config") {
       config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
       FileSystem.get(config)
     }
+
   }
 
   def apply(clusterConfig: ConnectorClusterConfig): HDFSClient =
