@@ -37,7 +37,7 @@ class HDFSClient(
   val hdfs: FileSystem,
   val connectorClusterConfig: ConnectorClusterConfig,
   val compressionCodec: CompressionCodecName = CompressionCodecName.SNAPPY)
-  extends HDFSConstants with Loggable with Metrics{
+  extends  Loggable with Metrics{
 
   private[hdfs] def createFolder (path: String): Unit = {
     val hdfsPath = new Path(path)
@@ -49,27 +49,10 @@ class HDFSClient(
   }
 }
 
-object HDFSClient extends HDFSConstants with Loggable with Metrics{
+object HDFSClient extends Loggable with Metrics{
 
-  def defaultFileSystem(clusterConfig: ConnectorClusterConfig): FileSystem = {
-    import scala.collection.JavaConversions._
-    val config = new Configuration()
-    
-    timeFor(s"Setting the configuration $config") {
-      config.set(PropName, HDFSUriScheme + clusterConfig.getClusterOptions.apply("hosts"))
-      FileSystem.get(config)
-    }
-
-  }
 
   def apply(clusterConfig: ConnectorClusterConfig): HDFSClient =
-    new HDFSClient(defaultFileSystem(clusterConfig),clusterConfig)
+    new HDFSClient(FileSystem.get(new Configuration()),clusterConfig)
 }
 
-private[hdfs] trait HDFSConstants{
-
-  //Configuration constants
-  val PropName: String = "fs.default.name"
-  val HDFSUriScheme: String = "hdfs://"
-
-}

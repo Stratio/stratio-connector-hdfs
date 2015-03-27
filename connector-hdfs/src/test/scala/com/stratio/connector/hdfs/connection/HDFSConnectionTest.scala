@@ -25,7 +25,8 @@ import com.stratio.crossdata.common.connector.ConnectorClusterConfig
 import com.stratio.crossdata.common.data.ClusterName
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, FlatSpec}
-import HDFSClient.defaultFileSystem
+import org.apache.hadoop.fs.FileSystem
+import org.apache.hadoop.conf.Configuration
 
 class HDFSConnectionTest extends FlatSpec with Matchers with MockFactory {
 
@@ -47,7 +48,7 @@ class HDFSConnectionTest extends FlatSpec with Matchers with MockFactory {
 
     val connectorClusterConfig = new ConnectorClusterConfig(clusterName, connectorOptions, clusterOptions)
 
-    class FakeClient extends HDFSClient(defaultFileSystem(connectorClusterConfig),connectorClusterConfig)
+    class FakeClient extends HDFSClient(FileSystem.get(new Configuration()),connectorClusterConfig)
 
     val hdfsClient = mock[FakeClient]
 
