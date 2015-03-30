@@ -1,13 +1,12 @@
 package com.stratio.connector.hdfs.connection
 
 
-import com.stratio.connector.hdfs.engine.FileSytemConstants
+import com.stratio.connector.hdfs.UnitSpec
 import org.apache.hadoop.fs.Path
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalamock.scalatest.MockFactory
 
 
-class HDFSClientTest extends FlatSpec with Matchers with FileSytemConstants with MockFactory{
+
+class HDFSClientTest extends UnitSpec{
 
   behavior of "HDFS Client"
 

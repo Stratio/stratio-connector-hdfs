@@ -21,21 +21,16 @@ package com.stratio.connector.hdfs.connection
 
 import java.util
 
+import com.stratio.connector.hdfs.UnitSpec
 import com.stratio.crossdata.common.connector.ConnectorClusterConfig
 import com.stratio.crossdata.common.data.ClusterName
-import org.scalamock.scalatest.MockFactory
-import org.scalatest.{Matchers, FlatSpec}
 import HDFSClient.defaultFileSystem
 
-class HDFSConnectionTest extends FlatSpec with Matchers with MockFactory {
+class HDFSConnectionTest extends UnitSpec {
 
-  trait ConnectionData {
-    val isConnected = false
-  }
+   behavior of "An HDFS connection"
 
-  behavior of "An HDFS connection"
-
-  it should "Close the connection when calling the close method" in new ConnectionData{
+  it should "Close the connection when calling the close method" in {
 
     import scala.collection.JavaConversions._
 
@@ -55,7 +50,7 @@ class HDFSConnectionTest extends FlatSpec with Matchers with MockFactory {
 
     hdfsConnection.close()
 
-    hdfsConnection.isConnected should equal (isConnected)
+    hdfsConnection.isConnected should equal (false)
 
   }
 }

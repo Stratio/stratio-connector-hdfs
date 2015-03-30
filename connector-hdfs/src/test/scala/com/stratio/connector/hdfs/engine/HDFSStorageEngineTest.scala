@@ -19,27 +19,24 @@
 
 package com.stratio.connector.hdfs.engine
 
+import com.stratio.connector.hdfs.UnitSpec
 import com.stratio.crossdata.common.data.{Cell, Row}
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.SQLContext
-import org.scalamock.scalatest.MockFactory
-import org.scalatest.{Matchers, FlatSpec}
 
-class HDFSStorageEngineTest extends FlatSpec with Matchers with MockFactory with FileSytemConstants{
+class HDFSStorageEngineTest extends UnitSpec{
 
-  class fakeSparkContext extends SparkContext(config = new SparkConf(true))
+  val sparkConf =  new SparkConf().setMaster("local[1]").setAppName("insert")
+
+  class fakeSparkContext extends SparkContext(sparkConf)
 
   /*The Spark context*/
-  val sparkContext =
-    mock[fakeSparkContext]
-
-  //new SparkContext(new SparkConf().setMaster("local[1]").setAppName("insert"))
+  val sparkContext = mock[fakeSparkContext]
 
   /*The SQL Context*/
-  //val sqlContext = new SQLContext(sparkContext)
+  //val sqlContext = mock[fakeSparkContext]
 
   trait HDFSStorageEngineData {
-    //val hdfsStorageEng = new HDFSStorageEngine(connectionHandler, sparkContext)
+    val hdfsStorageEng = new HDFSStorageEngine(connectionHandler, sparkContext)
 
   }
 
@@ -47,13 +44,10 @@ class HDFSStorageEngineTest extends FlatSpec with Matchers with MockFactory with
 
   it should "insert one row in HDFS" in new HDFSStorageEngineData {
 
-
     private val cell= new Cell(1)
     val row = new Row("idTest", cell)
 
-    //hdfsStorageEng.insert(tableMetadata, row, isNotExists = false, hdfsConnection)
+    hdfsStorageEng.insert(tableMetadata, row, isNotExists = false, hdfsConnection)
 
   }
-
-
 }

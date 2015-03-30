@@ -19,30 +19,11 @@
 
 package com.stratio.connector.hdfs.util
 
-import com.stratio.connector.hdfs.UnitSpec
-import com.stratio.crossdata.common.data.{Cell, Row}
-import org.apache.spark.sql.{Row => SparkSQLRow}
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SQLContext
 
-
-class ConvertersTest extends UnitSpec{
-  trait WithRowList {
-    val list = List(1, 3, 5, 6)
-    val xdRow = new Row ("List", new Cell(list))
-    val sparkSqlRow = SparkSQLRow(list)
-  }
-
-  trait WithCell extends WithRowList{
-    val cell = new Cell(new Cell(list))
-    val sparkCell = SparkSQLRow(list)
-  }
-
-  behavior of "A CrossdataConverter"
-
-  it should "convert from XDRow to SparkSQLRow" in new WithRowList {
-    Converters.toSparkSQLRow(xdRow) should equal (sparkSqlRow)
-  }
-
-  it should "convert from Cell to SparkSQLRow" in new WithCell {
-    Converters.extractCellValue(cell) should equal (sparkCell)
+object SQLContextFactory {
+  def createSqlContext (sparkContext: SparkContext): SQLContext ={
+    new SQLContext(sparkContext)
   }
 }

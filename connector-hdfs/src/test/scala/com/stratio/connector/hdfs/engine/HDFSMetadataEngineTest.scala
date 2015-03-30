@@ -19,12 +19,11 @@
 
 package com.stratio.connector.hdfs.engine
 
+import com.stratio.connector.hdfs.UnitSpec
 import com.stratio.crossdata.common.metadata.CatalogMetadata
 import org.apache.hadoop.fs.Path
-import org.scalamock.scalatest.MockFactory
-import org.scalatest.{Matchers, FlatSpec}
 
-class HDFSMetadataEngineTest extends FlatSpec with Matchers with MockFactory with FileSytemConstants{
+class HDFSMetadataEngineTest extends UnitSpec{
 
   trait HDFSMetadataEngineData {
 
