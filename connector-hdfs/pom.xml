@@ -182,7 +182,7 @@
                 <version>${version.crossdata}</version>
                 <configuration>
                     <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
-                    <jmxPort>7193</jmxPort>
+                    <jmxPort>7184</jmxPort>
                 </configuration>
             </plugin>
         </plugins>
