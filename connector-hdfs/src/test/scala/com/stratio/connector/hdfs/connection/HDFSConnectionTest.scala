@@ -36,6 +36,7 @@ class HDFSConnectionTest extends UnitSpec {
 
     val clusterName = new ClusterName("ClusterName")
 
+
     val connectorOptions = new util.HashMap[String, String]()
 
     val clusterOptions: Map[String,String] = Map("hosts" -> "10.200.0.60:9000")
@@ -49,6 +50,8 @@ class HDFSConnectionTest extends UnitSpec {
     val hdfsConnection = new HDFSConnection (hdfsClient, true)
 
     hdfsConnection.close()
+
+
 
     hdfsConnection.isConnected should equal (false)
 
