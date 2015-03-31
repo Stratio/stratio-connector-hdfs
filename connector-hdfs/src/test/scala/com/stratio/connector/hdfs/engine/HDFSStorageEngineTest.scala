@@ -17,32 +17,37 @@
  *  under the License.
  */
 
-package com.stratio.connector.hdfs.util
+package com.stratio.connector.hdfs.engine
 
 import com.stratio.connector.hdfs.UnitSpec
 import com.stratio.crossdata.common.data.{Cell, Row}
-import org.apache.spark.sql.{Row => SparkSQLRow}
+import org.apache.spark.{SparkConf, SparkContext}
 
+class HDFSStorageEngineTest extends UnitSpec{
 
-class ConvertersTest extends UnitSpec{
-  trait WithRowList {
-    val list = List(1, 3, 5, 6)
-    val xdRow = new Row ("List", new Cell(list))
-    val sparkSqlRow = SparkSQLRow(list)
+  val sparkConf =  new SparkConf().setMaster("local[1]").setAppName("insert")
+
+  class fakeSparkContext extends SparkContext(sparkConf)
+
+  /*The Spark context*/
+  val sparkContext = mock[fakeSparkContext]
+
+  /*The SQL Context*/
+  //val sqlContext = mock[fakeSparkContext]
+
+  trait HDFSStorageEngineData {
+    val hdfsStorageEng = new HDFSStorageEngine(connectionHandler, sparkContext)
+
   }
 
-  trait WithCell extends WithRowList{
-    val cell = new Cell(new Cell(list))
-    val sparkCell = SparkSQLRow(list)
-  }
+  behavior of "an HDFS Storage Engine"
 
-  behavior of "A CrossdataConverter"
+  it should "insert one row in HDFS" in new HDFSStorageEngineData {
 
-  it should "convert from XDRow to SparkSQLRow" in new WithRowList {
-    Converters.toSparkSQLRow(xdRow) should equal (sparkSqlRow)
-  }
+    private val cell= new Cell(1)
+    val row = new Row("idTest", cell)
 
-  it should "convert from Cell to SparkSQLRow" in new WithCell {
-    Converters.extractCellValue(cell) should equal (sparkCell)
+    hdfsStorageEng.insert(tableMetadata, row, isNotExists = false, hdfsConnection)
+
   }
 }
