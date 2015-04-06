@@ -49,16 +49,28 @@ class HDFSConnector extends CommonsConnector with Loggable with Metrics{
 
   var storageEngine: Option[HDFSStorageEngine] = None
 
+
   override def getConnectorName: String = ConnectorName
 
   override def getDatastoreName: Array[String] = DatastoreName
 
+  /**
+   * Method that creates the HDFSConnectionHandler.
+   *
+   * @param configuration The connector configuration.
+   */
   override def init(configuration: IConfiguration): Unit = {
     connectionHandler =
       timeFor(s"Creating the HDFSConnectionHandler"){new HDFSConnectionHandler(configuration)}
 
   }
 
+  /**
+   * Method where the Spark Context is created and the 'hosts' property ir read.
+   *
+   * @param credentials The connector credentials.
+   * @param config The connector configuration.
+   */
   override def connect(
 
     credentials: ICredentials,
@@ -96,7 +108,7 @@ class HDFSConnector extends CommonsConnector with Loggable with Metrics{
   }
 
   /**
-   * Return the metadataEngine.
+   * Method that returns the metadataEngine.
    * @return The metadataEngine.
    */
   override def getMetadataEngine: IMetadataEngine = {

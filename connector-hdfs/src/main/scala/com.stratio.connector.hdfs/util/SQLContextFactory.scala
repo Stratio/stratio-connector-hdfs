@@ -22,7 +22,15 @@ package com.stratio.connector.hdfs.util
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
 
+/**
+ * Object SQLContextFactory that creates a SQLContext.
+ */
 object SQLContextFactory {
+  /**
+   * Method that receives a SparkContext and creates a SQLContext from it.
+   * @param sparkContext
+   * @return The SQLContext.
+   */
   def createSqlContext (sparkContext: SparkContext): SQLContext ={
     new SQLContext(sparkContext)
   }

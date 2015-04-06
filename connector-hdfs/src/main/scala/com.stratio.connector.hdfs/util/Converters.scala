@@ -29,10 +29,19 @@ import org.apache.spark.sql.catalyst.expressions.GenericRow
 
 import org.apache.spark.sql.types._
 
+/**
+ *  Object Converters.
+ */
 object Converters {
 
   import scala.collection.JavaConversions._
 
+  /**
+   * Method that extracts the value stored in a Cell from Crossdata
+   * and load it in a Spark SQL row.
+   * @param value
+   * @return The Spark SQL row.
+   */
   def extractCellValue(value: AnyRef): SparkSQLRow = {
     value match {
       case cell : Cell => extractCellValue(cell.getValue)
@@ -40,6 +49,11 @@ object Converters {
     }
   }
 
+  /**
+   * Method that converts a Crossdata row into a Spark SQL row.
+   * @param row
+   * @return The Spark SQL row.
+   */
   def toSparkSQLRow (row: XDRow): SparkSQLRow = {
     new GenericRow(row.getCellList.map { cell => cell.getValue match {
       case value: Cell => extractCellValue(value)
@@ -48,6 +62,12 @@ object Converters {
     }.toArray[Any])
   }
 
+  /**
+   * Method that transforms the TableMetadata from Crossdata into a StructType
+   * to be able to use it to generate the Spark SQL Schema.
+   * @param tableMetadata
+   * @return The TableMetadata in a StructType.
+   */
   def toStructType(tableMetadata:TableMetadata):StructType ={
     val fields = tableMetadata.getColumns.toMap
     val structType = new StructType(
