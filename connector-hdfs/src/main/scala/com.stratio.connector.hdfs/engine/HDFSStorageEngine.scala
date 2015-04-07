@@ -24,11 +24,11 @@ import java.util
 import com.stratio.connector.commons.{Metrics, Loggable, timer}
 import com.stratio.connector.hdfs.HDFSConnector
 import com.stratio.connector.hdfs.connection.{HDFSClient, HDFSConnection}
-import com.stratio.connector.hdfs.util.Converters
+import com.stratio.connector.hdfs.util.{Converters, SQLContextFactory}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types._
 import org.apache.spark.{sql, SparkContext}
-import org.apache.spark.sql.{SaveMode, DataFrame, SQLContext}
+import org.apache.spark.sql.{SaveMode, DataFrame}
 
 import scala.collection.JavaConversions._
 
@@ -106,7 +106,8 @@ class HDFSStorageEngine(
 
     val tableName = targetTable.getName.getName
 
-    val sqlContext = timeFor(s"Creating the sqlContext"){new SQLContext(sparkContext)}
+    val sqlContext =
+      timeFor(s"Creating the sqlContext"){SQLContextFactory.createSqlContext(sparkContext)}
 
     import scala.collection.JavaConversions._
 

@@ -23,7 +23,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>Stratio HDFS Connector</name>
-    <groupId>com.stratio.connector</groupId>
     <artifactId>stratio-connector-hdfs</artifactId>
     <version>0.3.0</version>
     <description>The HDFS-Crossdata connector core</description>
@@ -182,7 +181,7 @@
                 <version>${version.crossdata}</version>
                 <configuration>
                     <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
-                    <jmxPort>7193</jmxPort>
+                    <jmxPort>7184</jmxPort>
                 </configuration>
             </plugin>
         </plugins>
