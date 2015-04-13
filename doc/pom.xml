@@ -33,6 +33,7 @@
         <groupId>com.stratio.connector</groupId>
         <artifactId>stratio-connector-hdfs-parent</artifactId>
         <version>${version}</version>
+
     </parent>
 
     <build>
