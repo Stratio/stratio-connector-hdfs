@@ -39,6 +39,35 @@
         <plugins>
 
             <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.1.201405082137</version>
+                <executions>
+                    <execution>
+                        <id>UT</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/jacocoUT.exec</destFile>
+                            <propertyName>jacoco-UT-argline</propertyName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>IT</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/jacocoIT.exec</destFile>
+                            <propertyName>jacoco-IT-argline</propertyName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.4</version>
@@ -54,31 +83,97 @@
                                 </reportSet>
                             </reportSets>
                         </plugin>
-                        <plugin>
-                            <groupId>com.stratio.maven</groupId>
-                            <artifactId>sphinx-maven-plugin</artifactId>
-                            <version>2.0.0</version>
-                            <configuration>
-                                <builders>
-                                    <entry>html</entry>
-                                </builders>
-                                <resources>
-                                    <resource>
-                                        <directory>src/site/sphinx</directory>
-                                        <filtering>true</filtering>
-                                        <includes>
-                                            <include>conf.py</include>
-                                        </includes>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </plugin>
                     </reportPlugins>
                 </configuration>
             </plugin>
-
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skipTests>${skipUTs}</skipTests>
+                    <argLine>${jacoco-UT-argline}</argLine>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>2.5.1</version>
+                        <configuration>
+                            <tagNameFormat>@{project.version}</tagNameFormat>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>build-parent</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.mycila</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <version>2.6</version>
+                        <configuration>
+                            <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+                            <properties>
+                                <owner>Stratio</owner>
+                                <email>http://stratio.com</email>
+                                <project.inceptionYear>2014</project.inceptionYear>
+                            </properties>
+                            <excludes>
+                                <exclude>**/README</exclude>
+                                <exclude>src/test/resources/**</exclude>
+                                <exclude>src/main/resources/**</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>format</goal>
+                                </goals>
+                                <phase>process-resources</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
+
+
+
