@@ -32,7 +32,7 @@
 
     <properties>
         <version.crossdata>0.3.0-RC1</version.crossdata>
-        <version.connector.commons>0.5.0-SNAPSHOT</version.connector.commons>
+        <version.connector.commons>0.5.0-RC1</version.connector.commons>
         <hadoop.version>2.6.0</hadoop.version>
         <scala.version>2.10.4</scala.version>
         <scala.binary.version>2.10</scala.binary.version>
