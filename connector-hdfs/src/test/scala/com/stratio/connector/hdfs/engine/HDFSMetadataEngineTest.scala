@@ -54,7 +54,7 @@ class HDFSMetadataEngineTest extends UnitSpec{
 
     hdfsMetadataEng.createTable(tableMetadata, hdfsConnection)
 
-    
+
     fakeFileSystem.exists(pathTable) should equal (true)
 
     fakeFileSystem.delete(pathCatalog, true)

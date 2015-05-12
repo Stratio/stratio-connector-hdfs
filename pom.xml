@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ /*
-  ~ * Licensed to STRATIO (C) under one or more contributor license agreements.
-  ~ * See the NOTICE file distributed with this work for additional information
-  ~ * regarding copyright ownership. The STRATIO (C) licenses this file
-  ~ * to you under the Apache License, Version 2.0 (the
-  ~ * "License"); you may not use this file except in compliance
-  ~ * with the License. You may obtain a copy of the License at
-  ~ *
-  ~ * http://www.apache.org/licenses/LICENSE-2.0
-  ~ *
-  ~ * Unless required by applicable law or agreed to in writing,
-  ~ * software distributed under the License is distributed on an
-  ~ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  ~ * KIND, either express or implied. See the License for the
-  ~ * specific language governing permissions and limitations
-  ~ * under the License.
+    Licensed to STRATIO (C) under one or more contributor license agreements.
+    See the NOTICE file distributed with this work for additional information
+    regarding copyright ownership. The STRATIO (C) licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the
+    specific language governing permissions and limitations
+    under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>Stratio HDFS Connector Parent</name>
@@ -49,34 +48,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <repositories>
-        <repository>
-            <id>scala-tools.org</id>
-            <name>Scala-tools Maven2 Repository</name>
-            <url>http://scala-tools.org/repo-releases</url>
-        </repository>
-
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>scala-tools.org</id>
-            <name>Scala-tools Maven2 Repository</name>
-            <url>http://scala-tools.org/repo-releases</url>
-        </pluginRepository>
-    </pluginRepositories>
     <scm>
         <connection>
             scm:git:git@github.com:Stratio/stratio-connector-hdfs.git
@@ -86,32 +57,13 @@
         </developerConnection>
         <url>https://github.com/Stratio/stratio-connector-hdfs</url>
     </scm>
-
     <modules>
         <module>doc</module>
         <module>connector-hdfs</module>
     </modules>
-
-    <distributionManagement>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-
-
     <build>
         <plugins>
-
-
-
-            <plugin>
+          <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>3.2.0</version>
@@ -153,52 +105,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
-                <executions>
-                    <execution>
-                        <id>scala-compile-first</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <scalaVersion>${scala.version}</scalaVersion>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>scala-test-compile</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                        <configuration>
-                            <scalaVersion>${scala.version}</scalaVersion>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>2.2.1</version>
@@ -211,33 +117,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.5</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -249,16 +128,13 @@
                             <goal>prepare-agent</goal>
                         </goals>
                         <configuration>
-                            <destFile>${project.build.directory}/jacoco.exec</destFile>
-                            <propertyName>jacoco-argline</propertyName>
+                            <destFile>${project.build.directory}/jacocoUT.exec</destFile>
+                            <propertyName>jacoco-UT-argline</propertyName>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
-
-
-        </plugins>
+          </plugins>
     </build>
 
 </project>

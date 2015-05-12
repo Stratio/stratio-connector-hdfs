@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ /*
-  ~ * Licensed to STRATIO (C) under one or more contributor license agreements.
-  ~ * See the NOTICE file distributed with this work for additional information
-  ~ * regarding copyright ownership. The STRATIO (C) licenses this file
-  ~ * to you under the Apache License, Version 2.0 (the
-  ~ * "License"); you may not use this file except in compliance
-  ~ * with the License. You may obtain a copy of the License at
-  ~ *
-  ~ * http://www.apache.org/licenses/LICENSE-2.0
-  ~ *
-  ~ * Unless required by applicable law or agreed to in writing,
-  ~ * software distributed under the License is distributed on an
-  ~ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  ~ * KIND, either express or implied. See the License for the
-  ~ * specific language governing permissions and limitations
-  ~ * under the License.
+   Licensed to STRATIO (C) under one or more contributor license agreements.
+   See the NOTICE file distributed with this work for additional information
+   regarding copyright ownership. The STRATIO (C) licenses this file
+   to you under the Apache License, Version 2.0 (the
+   "License"); you may not use this file except in compliance
+   with the License. You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing,
+   software distributed under the License is distributed on an
+   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+   KIND, either express or implied. See the License for the
+   specific language governing permissions and limitations
+   under the License.
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -34,31 +33,22 @@
         <artifactId>stratio-connector-hdfs-parent</artifactId>
         <version>0.4.0-SNAPSHOT</version>
     </parent>
-
-
-
-
     <dependencies>
-
         <dependency>
             <groupId>com.stratio.crossdata</groupId>
             <artifactId>crossdata-connector</artifactId>
             <version>${version.crossdata}</version>
         </dependency>
-
-
         <dependency>
             <groupId>com.stratio.crossdata</groupId>
             <artifactId>crossdata-common</artifactId>
             <version>${version.crossdata}</version>
         </dependency>
-
         <dependency>
             <groupId>com.stratio.connector</groupId>
             <artifactId>stratio-connector-commons</artifactId>
             <version>${version.connector.commons}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
@@ -68,15 +58,12 @@
                     <groupId>com.google.protobuf</groupId>
                     <artifactId>protobuf-java</artifactId>
                 </exclusion>
-
                 <exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
-
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
@@ -88,27 +75,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_${scala.binary.version}</artifactId>
             <version>${scala.test.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>parquet-column</artifactId>
             <version>1.6.0rc3</version>
         </dependency>
-
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>parquet-hadoop</artifactId>
@@ -120,103 +102,60 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
             <type>jar</type>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.spark-project.akka</groupId>
             <artifactId>akka-slf4j_2.10</artifactId>
             <version>${akka.version}-spark</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.10</artifactId>
             <version>${spark.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.10</artifactId>
             <version>${spark.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.scalamock</groupId>
             <artifactId>scalamock-scalatest-support_${scala.binary.version}</artifactId>
             <version>3.2</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito</artifactId>
             <version>1.5.5</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
             <version>1.5.5</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
         <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-        </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
         </resources>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.scala-tools</groupId>
-                    <artifactId>maven-scala-plugin</artifactId>
-                    <version>2.15.2</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>com.googlecode</groupId>
-                    <artifactId>maven-idea-plugin</artifactId>
-                    <version>1.6.1</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
-
-
-
-
-        <plugins>
-            <plugin>
-                <artifactId>crossdata-connector-maven-plugin</artifactId>
-                <groupId>com.stratio.crossdata</groupId>
-                <version>${version.crossdata}</version>
-                <configuration>
-                    <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
-                    <jmxPort>7184</jmxPort>
-                </configuration>
-            </plugin>
-
-
-
+         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -251,18 +190,110 @@
                         <configuration>
                             <argLine>${jacoco-UT-argline}</argLine>
                             <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                         <!--   <membersOnlySuites>com.stratio.connector.hdfs.*</membersOnlySuites> -->
                             <skipTests>${skipUTs}</skipTests>
                         </configuration>
                     </execution>
-
                 </executions>
             </plugin>
-
+             <plugin>
+                 <artifactId>crossdata-connector-maven-plugin</artifactId>
+                 <groupId>com.stratio.crossdata</groupId>
+                 <version>${version.crossdata}</version>
+                 <executions>
+                     <execution>
+                         <id>crossdata</id>
+                         <goals>
+                             <goal>install</goal>
+                         </goals>
+                         <phase>package</phase>
+                         <configuration>
+                             <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
+                             <jmxPort>7184</jmxPort>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
         </plugins>
     </build>
-
-
-
-
+    <profiles>
+        <profile>
+            <id>package</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.stratio.mojo.unix</groupId>
+                        <artifactId>unix-maven-plugin</artifactId>
+                        <version>1.1.2</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>deb</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>package-deb</goal>
+                                    <goal>package-rpm</goal>
+                                </goals>
+                                <configuration>
+                                    <contact><![CDATA[Stratio <jmgomez@stratio.com>]]></contact>
+                                    <contactEmail>jmgomez@stratio.com</contactEmail>
+                                    <size>1</size>
+                                    <deb>
+                                        <section>devel</section>
+                                    </deb>
+                                    <rpm>
+                                        <group>stratio</group>
+                                    </rpm>
+                                    <assembly>
+                                        <mkdirs>
+                                            <paths>
+                                                <path>etc/sds/stratio-connector-hdfs</path>
+                                                <path>etc/default</path>
+                                            </paths>
+                                            <attributes>
+                                                <user>stratio</user>
+                                                <group>stratio</group>
+                                                <mode>644</mode>
+                                            </attributes>
+                                        </mkdirs>
+                                        <copyDirectory>
+                                            <from>target/stratio-connector-hdfs-${project.version}/bin</from>
+                                            <to>opt/sds/stratio-connector-hdfs/bin</to>
+                                        </copyDirectory>
+                                        <copyDirectory>
+                                            <from>target/stratio-connector-hdfs-${project.version}/lib</from>
+                                            <to>opt/sds/stratio-connector-hdfs/lib</to>
+                                        </copyDirectory>
+                                        <copyDirectory>
+                                            <from>target/stratio-connector-hdfs-${project.version}/conf</from>
+                                            <to>opt/sds/stratio-connector-hdfs/conf</to>
+                                        </copyDirectory>
+                                        <copyDirectory>
+                                            <from>src/main/template</from>
+                                            <to>opt/sds/stratio-connector-hdfs/template</to>
+                                        </copyDirectory>
+                                        <copyDirectory>
+                                            <from>src/main/config</from>
+                                            <to>etc/sds/stratio-connector-hdfs</to>
+                                        </copyDirectory>
+                                        <copyDirectory>
+                                            <from>src/main/unix/files_and_dirs/etc/default</from>
+                                            <to>etc/default</to>
+                                        </copyDirectory>
+                                        <copyFile>
+                                            <path>src/main/include/LICENSE</path>
+                                            <toFile>opt/sds/stratio-connector-hdfs/LICENSE</toFile>
+                                        </copyFile>
+                                        <copyFile>
+                                            <path>src/main/include/NOTICE</path>
+                                            <toFile>opt/sds/stratio-connector-hdfs/NOTICE</toFile>
+                                        </copyFile>
+                                    </assembly>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
