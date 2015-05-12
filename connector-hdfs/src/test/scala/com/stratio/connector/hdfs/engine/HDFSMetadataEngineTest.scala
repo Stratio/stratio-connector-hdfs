@@ -29,7 +29,7 @@ class HDFSMetadataEngineTest extends UnitSpec{
 
     val hdfsMetadataEng = new HDFSMetadataEngine(connectionHandler)
 
-    val pathCatalog = new Path(s"$catalogName")
+    val pathCatalog = new Path(s"$stringCatalogName")
 
   }
 
@@ -54,6 +54,7 @@ class HDFSMetadataEngineTest extends UnitSpec{
 
     hdfsMetadataEng.createTable(tableMetadata, hdfsConnection)
 
+    
     fakeFileSystem.exists(pathTable) should equal (true)
 
     fakeFileSystem.delete(pathCatalog, true)

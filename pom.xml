@@ -109,47 +109,12 @@
     <build>
         <plugins>
 
-          <!--  <plugin>
-                <groupId>org.scalatest</groupId>
-                <artifactId>scalatest-maven-plugin</artifactId>
-                <version>1.0-RC2</version>
-                <configuration>
-                    <junitxml>.</junitxml>
-                    <filereports>WDF TestSuite.txt</filereports>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>unit</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <argLine>${jacoco-UT-argline}</argLine>
-                            <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                            <skipTests>${skipUTs}</skipTests>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>integration</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <argLine>${jacoco-IT-argline}</argLine>
-                            <reportsDirectory>${project.build.directory}/failsafe-reports</reportsDirectory>
-                            <skipTests>${skipITs}</skipTests>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin> -->
 
 
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>3.1.6</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>scala-compile-first</id>
@@ -172,6 +137,20 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <args>
+                        <arg>-P:genjavadoc:out=${project.build.directory}/genjavadoc</arg>
+                        <arg>-deprecation</arg>
+                        <arg>-feature</arg>
+                    </args>
+                    <compilerPlugins>
+                        <compilerPlugin>
+                            <groupId>com.typesafe.genjavadoc</groupId>
+                            <artifactId>genjavadoc-plugin_${scala.version}</artifactId>
+                            <version>0.8</version>
+                        </compilerPlugin>
+                    </compilerPlugins>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.scala-tools</groupId>
@@ -210,6 +189,14 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
