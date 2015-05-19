@@ -24,7 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
     <name>Stratio HDFS Connector</name>
     <artifactId>stratio-connector-hdfs</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.0-RC1</version>
     <description>The HDFS-Crossdata connector core</description>
     <url>http://www.stratio.com</url>
     <packaging>jar</packaging>
