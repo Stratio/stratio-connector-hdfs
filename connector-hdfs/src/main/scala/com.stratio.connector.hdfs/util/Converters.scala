@@ -20,7 +20,7 @@
 package com.stratio.connector.hdfs.util
 
 import com.stratio.crossdata.common.exceptions.UnsupportedException
-import com.stratio.crossdata.common.metadata.{ColumnType, TableMetadata}
+import com.stratio.crossdata.common.metadata.{ColumnType, TableMetadata, DataType}
 import com.stratio.crossdata.common.data.{Row => XDRow, Cell}
 
 import org.apache.spark.sql.{Row => SparkSQLRow}
@@ -75,14 +75,14 @@ object Converters {
         case(columnName, columnMetadata) =>
           new StructField(
             columnName.getName,
-            columnMetadata.getColumnType match{
-              case ColumnType.BIGINT => LongType
-              case ColumnType.BOOLEAN => BooleanType
-              case ColumnType.DOUBLE => DoubleType
-              case ColumnType.FLOAT => FloatType
-              case ColumnType.INT => IntegerType
-              case ColumnType.TEXT => StringType
-              case ColumnType.VARCHAR => StringType
+            columnMetadata.getColumnType.getDataType match{
+              case DataType.BIGINT => LongType
+              case DataType.BOOLEAN => BooleanType
+              case DataType.DOUBLE => DoubleType
+              case DataType.FLOAT => FloatType
+              case DataType.INT => IntegerType
+              case DataType.TEXT => StringType
+              case DataType.VARCHAR => StringType
               case _ => throw new UnsupportedException("Type not supported")
             }
           )
