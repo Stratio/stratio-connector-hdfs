@@ -16,6 +16,7 @@ Compiling Stratio Connector HDFS
 To automatically build execute the following commands:
 
 ::
+
        > mvn clean install
 
 Build an executable Connector HDFS
@@ -24,9 +25,11 @@ Build an executable Connector HDFS
 To generate the executable, execute the following command:
 
 ::
+
        > cd connector-hdfs/
 
 ::
+
        > mvn crossdata-connector:install
 
 Running the Stratio Connector HDFS
