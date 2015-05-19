@@ -24,7 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
     <name>Stratio HDFS Connector doc</name>
     <artifactId>stratio-connector-hdfs-doc</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.5.0-SNAPSHOT</version>
     <description>The HDFS-Crossdata connector documentation</description>
     <url>http://www.stratio.com</url>
     <packaging>pom</packaging>
