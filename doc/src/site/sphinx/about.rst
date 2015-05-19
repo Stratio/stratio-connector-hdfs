@@ -1,7 +1,7 @@
-About
+           About
 =====
 
-Native connector for writing in HDFS with Parquet format using Crossdata.
+Connector for writing in HDFS with Parquet format using Crossdata.
 
 Requirements
 ------------
@@ -13,10 +13,9 @@ connector.
 Compiling Stratio Connector HDFS
 --------------------------------
 
-To automatically build execute the following command:
+To automatically build execute the following commands:
 
 ::
-
        > mvn clean install
 
 Build an executable Connector HDFS
@@ -25,6 +24,7 @@ Build an executable Connector HDFS
 To generate the executable, execute the following command:
 
 ::
+       > cd connector-hdfs/
 
        > mvn crossdata-connector:install
 
@@ -35,7 +35,7 @@ To run HDFS Connector execute:
 
 ::
 
-       > mvn exec:java -Dexec.mainClass="com.stratio.connector.hdfs.connection.HDFSConnector"
+       > target/stratio-connector-hdfs-[version]/bin/stratio-connector-hdfs-[version] start
 
 Build a redistributable package
 -------------------------------
@@ -59,13 +59,13 @@ RPM Package:
 
 ::   
     
-       > rpm -i target/stratio-connector-hdfs-0.3.0.rpm
+       > rpm -i target/stratio-connector-hdfs-[version].rpm
 
 DEB Package:
 
 ::   
     
-       > dpkg -i target/stratio-connector-hdfs-0.3.0.deb
+       > dpkg -i target/stratio-connector-hdfs-[version].deb
 
 Now, to start/stop the connector:
 
