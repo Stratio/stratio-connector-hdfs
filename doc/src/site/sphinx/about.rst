@@ -26,6 +26,7 @@ To generate the executable, execute the following command:
 ::
        > cd connector-hdfs/
 
+::
        > mvn crossdata-connector:install
 
 Running the Stratio Connector HDFS
