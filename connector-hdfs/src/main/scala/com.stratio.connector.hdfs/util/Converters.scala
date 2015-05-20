@@ -29,6 +29,7 @@ import org.apache.spark.sql.catalyst.expressions.GenericRow
 
 import org.apache.spark.sql.types._
 
+import com.stratio.crossdata.common.metadata.DataType
 /**
  *  Object Converters.
  */
@@ -75,14 +76,14 @@ object Converters {
         case(columnName, columnMetadata) =>
           new StructField(
             columnName.getName,
-            columnMetadata.getColumnType match{
-              case ColumnType.BIGINT => LongType
-              case ColumnType.BOOLEAN => BooleanType
-              case ColumnType.DOUBLE => DoubleType
-              case ColumnType.FLOAT => FloatType
-              case ColumnType.INT => IntegerType
-              case ColumnType.TEXT => StringType
-              case ColumnType.VARCHAR => StringType
+            columnMetadata.getColumnType.getDataType match{
+              case DataType.BIGINT => LongType
+              case DataType.BOOLEAN => BooleanType
+              case DataType.DOUBLE => DoubleType
+              case DataType.FLOAT => FloatType
+              case DataType.INT => IntegerType
+              case DataType.TEXT => StringType
+              case DataType.VARCHAR => StringType
               case _ => throw new UnsupportedException("Type not supported")
             }
           )

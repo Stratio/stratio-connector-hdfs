@@ -37,11 +37,21 @@ trait FileSytemConstants{
   /*The connection handler.*/
   val connectionHandler = new HDFSConnectionHandler(configuration)
 
-  /*The table name.*/
-  val catalogName = new CatalogName("CatalogName")
+  /**
+   * The name of the catalog.
+   */
+  val stringCatalogName = "CatalogName"
 
-  /*The catalog name.*/
-  val tableName = new TableName("CatalogName", "TableName")
+  /**
+   * The name of the table.
+   */
+  val stringTableName = "TableName"
+
+  /**The object which represents a cataloh  name.*/
+  val catalogName = new CatalogName(stringCatalogName)
+
+  /*The object witch represents the table name.*/
+  val tableName = new TableName(stringCatalogName, stringTableName)
 
   /*The tables of the catalog.*/
   val tables = Map[TableName, TableMetadata]()
@@ -90,7 +100,7 @@ trait FileSytemConstants{
     new TableMetadata(tableName, options, columns, indexes, clusterName, partitionKey, clusterKey)
 
   /*The path to the created table*/
-  val pathTable = new Path(s"$catalogName/tablename")
+  val pathTable = new Path(s"$stringCatalogName/$stringTableName")
 
 
 }

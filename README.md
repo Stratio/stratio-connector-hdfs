@@ -22,28 +22,6 @@ To generate the executable, execute the following command:
 ```
    > mvn crossdata-connector:install
 ```   
-It is possible to add new special HDFS configuration:
-
-The file called HDFSDataStore.xml contains some properties. The "Partitions" variable could be set to two different configurations: 
-
-Set this variable to "DiferentPartitions" in the ConnectorClusterConfig options to create a HDFS structure with different file
-partitions of the data table:
-
-    catalog/table/partition1.xxx
-                 /partition2.xxx
-                 /partition3.xxx
-                 
-Set this variable to "OnePartition" in the ConnectorClusterConfig options to create a HDFS structure with one file partition of the data table;
-
-
-    catalog/metaFile.xxx
-           /table1.xxx
-           
-
-                 
-
-In order to specify the partition sequence use the "PartitionName" variable in the configuration options.
-In order to specify the extension of the files use the "Extension" variable in the configuration options.
 
    
 ## Running the Stratio Connector HDFS ##
@@ -71,11 +49,11 @@ Once the package it's created, execute this commands to install:
 
 RPM Package:
 
-    > rpm -i target/stratio-connector-hdfs-0.3.0-SNAPSHOT.rpm
+    > rpm -i target/stratio-connector-hdfs-0.4.0-SNAPSHOT.rpm
 
 DEB Package:
 
-    > dpkg -i target/stratio-connector-hdfs-0.3.0-SNAPSHOT.deb
+    > dpkg -i target/stratio-connector-hdfs-0.4.0-SNAPSHOT.deb
 
 Now to start/stop the connector:
 
@@ -148,3 +126,4 @@ software distributed under the License is distributed on an
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
+
