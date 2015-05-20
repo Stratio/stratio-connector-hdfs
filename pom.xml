@@ -30,6 +30,12 @@
     <url>http://www.stratio.com</url>
     <packaging>pom</packaging>
 
+    <parent>
+        <groupId>com.stratio</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
     <properties>
         <version.crossdata>0.2.0-001</version.crossdata>
         <version.connector.commons>0.4.1</version.connector.commons>

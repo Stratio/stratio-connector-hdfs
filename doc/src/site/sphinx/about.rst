@@ -53,7 +53,7 @@ DEB Package:
    
        > mvn unix:package-deb -N
 
-Once the package is created, execute this commands to install:
+Once the package is created, execute these commands to install:
 
 RPM Package:
 
