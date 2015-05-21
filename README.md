@@ -28,7 +28,7 @@ To generate the executable, execute the following command in the directory conne
 To run HDFS Connector execute:
 
 ```
-   > > target/stratio-connector-hdfs-[version]/bin/stratio-connector-hdfs-[version] start
+   > target/stratio-connector-hdfs-[version]/bin/stratio-connector-hdfs-[version] start
 ```
 
 
