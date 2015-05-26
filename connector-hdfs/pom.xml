@@ -21,7 +21,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <name>Stratio HDFS Connector</name>
+    <name>Stratio HDFS Connector core</name>
     <artifactId>stratio-connector-hdfs</artifactId>
     <version>0.5.0-SNAPSHOT</version>
     <description>The HDFS-Crossdata connector core</description>
@@ -157,64 +157,144 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
-         <plugins>
+        <plugins>
+
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.2.201409121644</version>
+                <executions>
+                    <execution>
+                        <id>unit-test-coverage</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${basedir}/target/jacocoUT.exec</destFile>
+                            <propertyName>jacoco-UT-argline</propertyName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-test-overage</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${basedir}/target/jacocoIT.exec</destFile>
+                            <propertyName>jacoco-IT-argline</propertyName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <skip>true</skip>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+
+
+
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <checkMultipleScalaVersions>false</checkMultipleScalaVersions>
+                    <args>
+                        <arg>-Xmax-classfile-name</arg>
+                        <arg>130</arg>
+                    </args>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <phase>compile</phase>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <phase>test-compile</phase>
+                    </execution>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.7</version>
+                <version>2.18</version>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <skipTests>${skipUTs}</skipTests>
+                    <argLine>
+                        ${jacoco-UT-argline}
+                        -XX:MaxPermSize=256m
+                        -Dlogback.configurationFile=conf/logger/develop.logger.xml
+                    </argLine>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.scalatest</groupId>
-                <artifactId>scalatest-maven-plugin</artifactId>
-                <version>1.0</version>
-                <configuration>
-                    <junitxml>.</junitxml>
-                    <filereports>WDF TestSuite.txt</filereports>
-                </configuration>
+                <version>2.18</version>
                 <executions>
                     <execution>
-                        <id>unit</id>
-                        <phase>test</phase>
+                        <id>integration-test</id>
                         <goals>
-                            <goal>test</goal>
+                            <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <argLine>${jacoco-UT-argline}</argLine>
-                            <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                            <skipTests>${skipUTs}</skipTests>
+                            <useSystemClassLoader>false</useSystemClassLoader>
+                            <useManifestOnlyJar>true</useManifestOnlyJar>
+                            <skipTests>${skipITs}</skipTests>
+                            <includes>
+                                <include>**/integration/**/*Spec.*</include>
+                            </includes>
+                            <argLine>
+                                ${jacoco-IT-argline}
+                                -Xmx1024m
+                                -XX:MaxPermSize=256m
+                                -Dlogback.configurationFile=conf/logger/develop.logger.xml
+                                -Djava.security.policy=conf/java.policy
+                                -XX:+HeapDumpOnOutOfMemoryError
+                            </argLine>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-             <plugin>
-                 <artifactId>crossdata-connector-maven-plugin</artifactId>
-                 <groupId>com.stratio.crossdata</groupId>
-                 <version>${version.crossdata}</version>
-                 <!-- <executions>
-                     <execution>
-                         <id>crossdata</id>
-                         <goals>
-                             <goal>install</goal>
-                         </goals>
-                         <phase>package</phase> -->
-                         <configuration>
-                             <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
-                             <jmxPort>7184</jmxPort>
-                         </configuration>
-               <!--      </execution>
-                 </executions> -->
-             </plugin>
+            <plugin>
+                <artifactId>crossdata-connector-maven-plugin</artifactId>
+                <groupId>com.stratio.crossdata</groupId>
+                <version>${version.crossdata}</version>
+                <executions>
+                    <execution>
+                        <id>crossdata</id>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
+                            <jmxPort>7184</jmxPort>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <profiles>
