@@ -103,11 +103,11 @@ And the output must show a message similar to:
 
     Connector: connector.hdfsconnector  ONLINE  []  [datastore.hdfs]    akka.tcp://CrossdataServerCluster@127.0.0.1:46646/user/ConnectorActor/
 
-Creating the catalog and collection
+Creating the catalog and the collection
 ====================================
 
-Step 1: Create the catalog
----------------------------
+Step 1: Creating the catalog
+----------------------------
 
 Now we will create the catalog and the table which we will use later in
 the next steps.
@@ -124,8 +124,8 @@ The output must be:
 
     CATALOG created successfully;
 
-Step 2: Create the collection
------------------------------
+Step 2: Creating the collection
+-------------------------------
 
 To create the table we must execute the next command.
 
