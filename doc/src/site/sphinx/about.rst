@@ -1,16 +1,14 @@
-           About
+About
 =====
 
-Connector for writing in HDFS with Parquet format using Crossdata.
+The Stratio Connector-HDFS allows [Stratio Crossdata] (<https://github.com/Stratio/crossdata>) to interact with HDFS.
 
 Requirements
 ------------
 
-`Stratio HDFS <https://github.com/Stratio/stratio-connector-hdfs/tree/master>`__
-must be installed and started. `Crossdata <https://github.com/Stratio/crossdata>`__ is needed to interact with this
-connector.
+`Crossdata <https://github.com/Stratio/crossdata>`__ is needed to interact with this connector.
 
-Compiling Stratio Connector HDFS
+Compiling Stratio Connector-HDFS
 --------------------------------
 
 To automatically build execute the following commands:
@@ -19,8 +17,8 @@ To automatically build execute the following commands:
 
        > mvn clean install
 
-Build an executable Connector HDFS
-----------------------------------
+Build an executable Stratio Connector-HDFS
+------------------------------------------
 
 To generate the executable, execute the following command:
 
@@ -32,10 +30,10 @@ To generate the executable, execute the following command:
 
        > mvn crossdata-connector:install
 
-Running the Stratio Connector HDFS
+Running the Stratio Connector-HDFS
 ----------------------------------
 
-To run HDFS Connector execute:
+To run Stratio Connector-HDFS execute:
 
 ::
 
@@ -79,21 +77,22 @@ Now, to start/stop the connector:
        > service stratio-connector-hdfs stop
 
 
-How to use HDFS Connector
--------------------------
+How to use Stratio Connector-HDFS
+---------------------------------
 
-A complete tutorial is available `here <http://localhost:63342/stratio-connector-hdfs-parent/stratio-connector-hdfs-doc/target/site/html/First_Steps.html>`__. The
+A complete tutorial is available `here <https://github.com/Stratio/stratio-connector-hdfs/blob/master/doc/src/site/sphinx/First_Steps.rst>`__. The
 basic commands are described below.
 
-1. Start `crossdata-server and then
-   crossdata-shell <http://docs.stratio.com/crossdata>`__.
-2. Start HDFS Connector as it is explained before.
-3. In crossdata-shell:
+1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/crossdata>`__.
+
+2. Start Stratio Connector-HDFS as it is explained before.
+
+3. In the Stratio Crossdata Shell:
 
    Add a datastore. We need to specified the XML
    manifest that defines the data store. The XML manifest can be found
-   in the path of the HDFS Connector in
-   target/stratio-connector-hdfs-0.3.0/conf/HDFSDataStore.xml
+   in the path of the Stratio Connector-HDFS in
+   target/stratio-connector-hdfs-[version]/conf/HDFSDataStore.xml
 
    ``xdsh:user>  ADD DATASTORE <Absolute path to HDFS Datastore manifest>;``
 
@@ -103,8 +102,8 @@ basic commands are described below.
    ``xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'user': 'The_user_name', 'path':'Base_path_to_HDFS_root_directory'};``
 
    Add the connector manifest. The XML with the manifest can be found in
-   the path of the HDFS Connector in
-   target/stratio-connector-hdfs-0.3.0/conf/HDFSConnector.xml
+   the path of the Stratio Connector-HDFS in
+   target/stratio-connector-hdfs-[version]/conf/HDFSConnector.xml
 
    ``xdsh:user>  ADD CONNECTOR <Path to HDFS Connector Manifest>``
 
@@ -117,21 +116,12 @@ basic commands are described below.
            xdsh:user>  ATTACH CONNECTOR <connector name> TO <cluster name> WITH OPTIONS {};
        ```
 
-   At this point, we can start to send queries.
-
-   ::
-
-       ...
-           xdsh:user> CREATE CATALOG catalogTest;
-
-           xdsh:user> CREATE TABLE catalogTest.tableTest ON CLUSTER hdfs_prod (id int PRIMARY KEY, name text);
-
-       ...
+At this point, we can start to send queries in the Stratio Crossdata Shell.
 
 License
 =======
 
-Stratio Crossdata is licensed as
+Stratio Connector-HDFS is licensed as
 `Apache2 <http://www.apache.org/licenses/LICENSE-2.0.txt>`__
 
 Licensed to STRATIO (C) under one or more contributor license
