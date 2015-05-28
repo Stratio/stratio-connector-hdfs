@@ -170,5 +170,5 @@ Where to go from here
 
 To learn more about Stratio Crossdata, we recommend you to visit the
 `Stratio Crossdata
-Reference <https://github.com/Stratio/crossdata/tree/master/_doc/meta-reference.md>`__.
+Reference <https://github.com/Stratio/crossdata/tree/master/doc/src/site/sphinx>`__.
 
