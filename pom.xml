@@ -24,14 +24,14 @@
     <name>Stratio HDFS Connector Parent</name>
     <groupId>com.stratio.connector</groupId>
     <artifactId>stratio-connector-hdfs-parent</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
     <description>The HDFS-Crossdata connector parent</description>
     <url>http://www.stratio.com</url>
     <packaging>pom</packaging>
 
     <properties>
-        <version.crossdata>0.3.0</version.crossdata>
-        <version.connector.commons>0.5.0</version.connector.commons>
+        <version.crossdata>0.3.3</version.crossdata>
+        <version.connector.commons>0.5.1</version.connector.commons>
         <hadoop.version>2.6.0</hadoop.version>
         <scala.version>2.10.4</scala.version>
         <scala.binary.version>2.10</scala.binary.version>

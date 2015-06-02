@@ -23,7 +23,7 @@
     <modelVersion>4.0.0</modelVersion>
     <name>Stratio HDFS Connector</name>
     <artifactId>stratio-connector-hdfs</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
     <description>The HDFS-Crossdata connector core</description>
     <url>http://www.stratio.com</url>
     <packaging>jar</packaging>
@@ -31,7 +31,7 @@
     <parent>
         <groupId>com.stratio.connector</groupId>
         <artifactId>stratio-connector-hdfs-parent</artifactId>
-        <version>0.4.0</version>
+        <version>0.4.1</version>
     </parent>
 
 
@@ -52,7 +52,7 @@
 
         <dependency>
             <groupId>com.stratio.connector</groupId>
-            <artifactId>stratio-connector-commons</artifactId>
+            <artifactId>stratio-connector-commons-core</artifactId>
             <version>${version.connector.commons}</version>
         </dependency>
 

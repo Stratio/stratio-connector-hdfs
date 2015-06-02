@@ -23,7 +23,7 @@
     <modelVersion>4.0.0</modelVersion>
     <name>Stratio HDFS Connector doc</name>
     <artifactId>stratio-connector-hdfs-doc</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
     <description>The HDFS-Crossdata connector documentation</description>
     <url>http://www.stratio.com</url>
     <packaging>pom</packaging>
@@ -31,7 +31,7 @@
     <parent>
         <groupId>com.stratio.connector</groupId>
         <artifactId>stratio-connector-hdfs-parent</artifactId>
-        <version>0.4.0</version>
+        <version>0.4.1</version>
     </parent>
 
     <build>
