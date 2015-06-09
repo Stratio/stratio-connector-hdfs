@@ -111,15 +111,15 @@ class HDFSStorageEngine(
 
     import scala.collection.JavaConversions._
 
-    val (basePath,user) =   connection match {
+    val basePath =   connection match {
       case c: HDFSConnection =>
         val options = c.client.connectorClusterConfig.getClusterOptions
-        (options("path"),options("user"))
+        (options("path"))
       case _ => throw new ExecutionException(
         s"The given connection $connection is not an HDFS connection")
     }
 
-    val path = s"$basePath/$user/$catalog/$tableName"
+    val path = s"$basePath/$catalog/$tableName"
 
     val rdd: RDD[sql.Row] = sqlContext.sparkContext.parallelize(rows.toSeq,1)
       .map(row => Converters.toSparkSQLRow(row))

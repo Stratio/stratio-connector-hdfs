@@ -40,7 +40,7 @@ class HDFSClient(
   extends  Loggable with Metrics{
 
   private[hdfs] def createFolder (path: String): Unit = {
-    val hdfsPath = new Path(path)
+    val hdfsPath = new Path(s"../$path")
     timeFor(s"Trying to create the folder $hdfsPath") {
       if (!hdfs.exists(hdfsPath))
         hdfs.mkdirs(hdfsPath)
