@@ -57,7 +57,7 @@ If high availability is required:
 
 ::
 
-    >  ATTACH CLUSTER hdfsCluster ON DATASTORE hdfs WITH OPTIONS {'highavailability': 'true', 'user': 'The_user_name', 'path':'Base_path_to_HDFS_root_directory'};
+    >  ATTACH CLUSTER hdfsCluster ON DATASTORE hdfs WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};
 
 The output must be:
 
@@ -70,7 +70,7 @@ If high availability is not required:
 
 ::
 
-    >  ATTACH CLUSTER hdfsCluster ON DATASTORE hdfs WITH OPTIONS {'highavailability': 'false', 'user': 'The_user_name', 'path':'Base_path_to_HDFS_root_directory', 'hosts': 'Host_and_port_of_the_namenode'};
+    >  ATTACH CLUSTER hdfsCluster ON DATASTORE hdfs WITH OPTIONS {'highavailability': 'false', 'path':'Base_path_to_HDFS_root_directory', 'hosts': 'Host_and_port_of_the_namenode'};
 
 .. warning::
 

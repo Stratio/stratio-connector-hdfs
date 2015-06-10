@@ -99,7 +99,7 @@ basic commands are described below.
    Attach a cluster on that datastore. The datastore name must be the same
    as the defined in the Datastore manifest.
 
-   ``xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'user': 'The_user_name', 'path':'Base_path_to_HDFS_root_directory'};``
+   ``xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};``
 
    Add the connector manifest. The XML with the manifest can be found in
    the path of the Stratio Connector-HDFS in
