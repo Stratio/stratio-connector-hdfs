@@ -24,10 +24,10 @@ import java.util
 import com.stratio.connector.commons.connection.{ConnectionHandler, Connection}
 import com.stratio.connector.commons.engine.CommonsMetadataEngine
 import com.stratio.connector.hdfs.HDFSConnector
-import com.stratio.connector.hdfs.connection.HDFSClient
+import com.stratio.connector.hdfs.connection.{HDFSConnection, HDFSClient}
 import com.stratio.crossdata.common.data.{ClusterName, CatalogName,
 AlterOptions, TableName}
-import com.stratio.crossdata.common.exceptions.UnsupportedException
+import com.stratio.crossdata.common.exceptions.{ExecutionException, UnsupportedException}
 import com.stratio.crossdata.common.metadata.{TableMetadata, IndexMetadata,
 CatalogMetadata}
 import com.stratio.crossdata.common.statements.structures.Selector
@@ -42,20 +42,20 @@ class HDFSMetadataEngine(connectionHandler: ConnectionHandler)
   extends CommonsMetadataEngine[HDFSClient](connectionHandler) {
 
   override def provideMetadata(
-    targetCluster: ClusterName,
-    connection: Connection[HDFSClient]): util.List[CatalogMetadata] =
+                                targetCluster: ClusterName,
+                                connection: Connection[HDFSClient]): util.List[CatalogMetadata] =
     throw new UnsupportedException(s"Method provideMetadata is ${HDFSConnector.MethodNotSupported}")
 
   override def provideTableMetadata(
-    tableName: TableName,
-    targetCluster: ClusterName,
-    connection: Connection[HDFSClient]): TableMetadata =
+                                     tableName: TableName,
+                                     targetCluster: ClusterName,
+                                     connection: Connection[HDFSClient]): TableMetadata =
     throw new UnsupportedException(s"Method provideTableMetadata is ${HDFSConnector.MethodNotSupported}")
 
   override def provideCatalogMetadata(
-    catalogName: CatalogName,
-    targetCluster: ClusterName,
-    connection: Connection[HDFSClient]): CatalogMetadata =
+                                       catalogName: CatalogName,
+                                       targetCluster: ClusterName,
+                                       connection: Connection[HDFSClient]): CatalogMetadata =
     throw new UnsupportedException(s"Method provideCatalogMetadata is ${HDFSConnector.MethodNotSupported}")
 
   /**
@@ -65,11 +65,17 @@ class HDFSMetadataEngine(connectionHandler: ConnectionHandler)
    * @param connection The HDFS connection.
    */
   override def createTable(
-    tableMetadata: TableMetadata,
-    connection: Connection[HDFSClient]): Unit =
-    connection.getNativeConnection.createFolder(
+                            tableMetadata: TableMetadata,
+                            connection: Connection[HDFSClient]): Unit = {
+
+
+    val basePath = connection.getNativeConnection.connectorClusterConfig.getClusterOptions.get("path")
+
+    connection.getNativeConnection.createFolder(s"$basePath/"+
       s"${tableMetadata.getName.getCatalogName.getName}" +
         s"/${tableMetadata.getName.getName}")
+    }
+
 
   override def createIndex(
     indexMetadata: IndexMetadata,
