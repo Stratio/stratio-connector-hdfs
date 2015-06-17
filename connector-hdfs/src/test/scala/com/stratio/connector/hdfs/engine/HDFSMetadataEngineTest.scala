@@ -53,7 +53,7 @@ class HDFSMetadataEngineTest extends UnitSpec{
 
   }
 
-  /*it should "create a new table" in new HDFSMetadataEngineData {
+  it should "create a new table" in new HDFSMetadataEngineData {
 
     hdfsMetadataEng.createTable(tableMetadata, hdfsConnection)
 
@@ -64,5 +64,5 @@ class HDFSMetadataEngineTest extends UnitSpec{
 
     fakeFileSystem.close()
 
-  }*/
+  }
 }
