@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>com.stratio.connector</groupId>
-            <artifactId>stratio-connector-commons</artifactId>
+            <artifactId>stratio-connector-commons-core</artifactId>
             <version>${version.connector.commons}</version>
         </dependency>
         <dependency>
@@ -194,9 +194,6 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-
-
-
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
@@ -273,24 +270,26 @@
                     </execution>
                 </executions>
             </plugin>
-        <!--    <plugin>
-                <artifactId>crossdata-connector-maven-plugin</artifactId>
-                <groupId>com.stratio.crossdata</groupId>
-                <version>${version.crossdata}</version>
-                <executions>
-                    <execution>
-                        <id>crossdata</id>
-                        <goals>
-                            <goal>install</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
-                            <jmxPort>7184</jmxPort>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin> -->
+
+            <!--    <plugin>
+                    <artifactId>crossdata-connector-maven-plugin</artifactId>
+                    <groupId>com.stratio.crossdata</groupId>
+                    <version>${version.crossdata}</version>
+                    <executions>
+                        <execution>
+                            <id>crossdata</id>
+                            <goals>
+                                <goal>install</goal>
+                            </goals>
+                            <phase>package</phase>
+                            <configuration>
+                                <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
+                                <jmxPort>7184</jmxPort>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin> -->
+
         </plugins>
     </build>
     <profiles>
@@ -299,9 +298,40 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>appassembler-maven-plugin</artifactId>
+                        <version>1.10</version>
+                        <executions>
+                            <execution>
+                                <id>ppassembler</id>
+                                <goals>
+                                    <goal>assemble</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <configurationDirectory>conf</configurationDirectory>
+                                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                                    <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+                                    <assembleDirectory>${project.build.directory}/stratio-connector-hdfs</assembleDirectory>
+                                    <extraJvmArguments>-Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote.port=${jmx.port} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</extraJvmArguments>
+                                    <platforms>
+                                        <platform>windows</platform>
+                                        <platform>unix</platform>
+                                    </platforms>
+                                    <programs>
+                                        <program>
+                                            <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
+                                            <id>stratio-connector-hdfs</id>
+                                        </program>
+                                    </programs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>com.stratio.mojo.unix</groupId>
                         <artifactId>unix-maven-plugin</artifactId>
-                        <version>1.1.2</version>
+                        <version>1.1.5</version>
                         <extensions>true</extensions>
                         <executions>
                             <execution>
@@ -334,15 +364,15 @@
                                             </attributes>
                                         </mkdirs>
                                         <copyDirectory>
-                                            <from>target/stratio-connector-hdfs-${project.version}/bin</from>
+                                            <from>target/stratio-connector-hdfs/bin</from>
                                             <to>opt/sds/stratio-connector-hdfs/bin</to>
                                         </copyDirectory>
                                         <copyDirectory>
-                                            <from>target/stratio-connector-hdfs-${project.version}/lib</from>
-                                            <to>opt/sds/stratio-connector-hdfs/lib</to>
+                                            <from>target/stratio-connector-hdfs/repo</from>
+                                            <to>opt/sds/stratio-connector-hdfs/repo</to>
                                         </copyDirectory>
                                         <copyDirectory>
-                                            <from>target/stratio-connector-hdfs-${project.version}/conf</from>
+                                            <from>target/stratio-connector-hdfs/conf</from>
                                             <to>opt/sds/stratio-connector-hdfs/conf</to>
                                         </copyDirectory>
                                         <copyDirectory>

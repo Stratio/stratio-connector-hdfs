@@ -23,7 +23,7 @@
     <DataStores>
         <DataStoreName>hdfs</DataStoreName>
     </DataStores>
-    <Version>0.3.0-SNAPSHOT</Version>
+    <Version>0.4.1</Version>
 
     <OptionalProperties>
         <Property>

@@ -20,7 +20,7 @@
 package com.stratio.connector.hdfs.util
 
 import com.stratio.crossdata.common.exceptions.UnsupportedException
-import com.stratio.crossdata.common.metadata.{ColumnType, TableMetadata}
+import com.stratio.crossdata.common.metadata.{ColumnType, TableMetadata, DataType}
 import com.stratio.crossdata.common.data.{Row => XDRow, Cell}
 
 import org.apache.spark.sql.{Row => SparkSQLRow}

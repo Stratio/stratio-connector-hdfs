@@ -1,12 +1,6 @@
 First Steps
 ***********
 
-HDFS Crossdata connector allows the integration between Crossdata and
-HDFS for writing with Parquet format. Crossdata provides an easy and common language as well as the
-integration with several other databases. More information about
-Crossdata can be found at
-`Crossdata. <https://github.com/Stratio/crossdata>`__
-
 Table of Contents
 =================
 
@@ -15,11 +9,11 @@ Table of Contents
    -  `Prerequisites <#prerequisites>`__
    -  `Configuration <#configuration>`__
 
--  `Creating the database and
-   collection <#creating-the-database-and-collection>`__
+-  `Creating the catalog and the
+   collection <#creating-the-catalog-and-the-collection>`__
 
-   -  `Step 1: Create the database <#step-1-create-the-database>`__
-   -  `Step 2: Create the collection <#step-2-create-the-collection>`__
+   -  `Step 1: Creating the catalog <#step-1-creating-the-catalog>`__
+   -  `Step 2: Creating the collection <#step-2-creating-the-collection>`__
 
 -  `Inserting Data <#inserting-data>`__
 
@@ -34,14 +28,12 @@ Before you start
 Prerequisites
 -------------
 
--  Basic knowledge of SQL like language.
--  First of all `Stratio Crossdata
-   0.2.0-001 <https://github.com/Stratio/crossdata/tree/0.2.0-001>`__ is needed and must be
+-  First of all `Stratio Crossdata <https://github.com/Stratio/crossdata>`__ is needed and must be
    installed. The server and the shell must be running.
--  An installation of
+-  Installation of
    `HDFS 2.6 <http://hadoop.apache.org/docs/r2.6.0>`__.
 -  Build an HDFSConnector executable and run it following this
-   `guide <http://localhost:63342/stratio-connector-hdfs-parent/stratio-connector-hdfs-doc/target/site/html/about.html>`__.
+   `guide <https://github.com/Stratio/stratio-connector-hdfs/blob/master/doc/src/site/sphinx/about.rst>`__.
 
 Configuration
 -------------
@@ -65,7 +57,7 @@ If high availability is required:
 
 ::
 
-    >  ATTACH CLUSTER hdfsCluster ON DATASTORE hdfs WITH OPTIONS {'highavailability': 'true', 'user': 'The_user_name', 'path':'Base_path_to_HDFS_root_directory'};
+    >  ATTACH CLUSTER hdfsCluster ON DATASTORE hdfs WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};
 
 The output must be:
 
@@ -78,7 +70,7 @@ If high availability is not required:
 
 ::
 
-    >  ATTACH CLUSTER hdfsCluster ON DATASTORE hdfs WITH OPTIONS {'highavailability': 'false', 'user': 'The_user_name', 'path':'Base_path_to_HDFS_root_directory', 'hosts': 'Host_and_port_for_the_namenode'};
+    >  ATTACH CLUSTER hdfsCluster ON DATASTORE hdfs WITH OPTIONS {'highavailability': 'false', 'path':'Base_path_to_HDFS_root_directory', 'hosts': 'Host_and_port_of_the_namenode'};
 
 .. warning::
 
@@ -111,11 +103,11 @@ And the output must show a message similar to:
 
     Connector: connector.hdfsconnector  ONLINE  []  [datastore.hdfs]    akka.tcp://CrossdataServerCluster@127.0.0.1:46646/user/ConnectorActor/
 
-Creating the database and collection
+Creating the catalog and the collection
 ====================================
 
-Step 1: Create the database
----------------------------
+Step 1: Creating the catalog
+----------------------------
 
 Now we will create the catalog and the table which we will use later in
 the next steps.
@@ -132,8 +124,8 @@ The output must be:
 
     CATALOG created successfully;
 
-Step 2: Create the collection
------------------------------
+Step 2: Creating the collection
+-------------------------------
 
 To create the table we must execute the next command.
 
@@ -176,7 +168,6 @@ For each row the output must be:
 Where to go from here
 =====================
 
-To learn more about Stratio Crossdata, we recommend to visit the
-`Crossdata
-Reference <http://docs.stratio.com/crossdata>`__.
-
+To learn more about Stratio Crossdata, we recommend you to visit the
+`Stratio Crossdata
+Reference <https://github.com/Stratio/crossdata/tree/master/doc/src/site/sphinx>`__.
