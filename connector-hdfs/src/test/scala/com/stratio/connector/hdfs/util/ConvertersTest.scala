@@ -22,8 +22,10 @@ package com.stratio.connector.hdfs.util
 import com.stratio.connector.hdfs.UnitSpec
 import com.stratio.crossdata.common.data.{Cell, Row}
 import org.apache.spark.sql.{Row => SparkSQLRow}
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 
-
+@RunWith(classOf[JUnitRunner])
 class ConvertersTest extends UnitSpec{
   trait WithRowList {
     val list = List(1, 3, 5, 6)

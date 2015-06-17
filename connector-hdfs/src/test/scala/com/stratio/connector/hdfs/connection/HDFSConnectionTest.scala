@@ -26,7 +26,10 @@ import com.stratio.crossdata.common.connector.ConnectorClusterConfig
 import com.stratio.crossdata.common.data.ClusterName
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 
+@RunWith(classOf[JUnitRunner])
 class HDFSConnectionTest extends UnitSpec {
 
    behavior of "An HDFS connection"

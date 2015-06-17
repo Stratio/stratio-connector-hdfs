@@ -3,9 +3,11 @@ package com.stratio.connector.hdfs.connection
 
 import com.stratio.connector.hdfs.UnitSpec
 import org.apache.hadoop.fs.Path
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 
 
-
+@RunWith(classOf[JUnitRunner])
 class HDFSClientTest extends UnitSpec{
 
   behavior of "HDFS Client"
