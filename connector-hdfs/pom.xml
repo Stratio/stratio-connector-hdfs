@@ -21,15 +21,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <name>Stratio HDFS Connector core</name>
-    <artifactId>stratio-connector-hdfs</artifactId>
+    <groupId>com.stratio.connector</groupId>
+    <artifactId>stratio-connector-hdfs-core</artifactId>
     <description>The HDFS-Crossdata connector core</description>
     <url>http://www.stratio.com</url>
+    <name>Stratio HDFS Connector core</name>
     <packaging>jar</packaging>
-
     <parent>
         <groupId>com.stratio.connector</groupId>
-        <artifactId>stratio-connector-hdfs-parent</artifactId>
+        <artifactId>stratio-connector-hdfs</artifactId>
         <version>0.5.0-SNAPSHOT</version>
     </parent>
     <dependencies>
@@ -151,10 +151,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>2.18</version>
                 <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <argLine>${jacoco-UT-argline} -javaagent:${settings.localRepository}/org/powermock/powermock-module-javaagent/1.5.5/powermock-module-javaagent-1.5.5.jar -noverify</argLine>
                     <skipTests>${skipUTs}</skipTests>
-                    <argLine>${jacoco-UT-argline}</argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -174,26 +177,27 @@
                     </execution>
                 </executions>
             </plugin>
-
-                       <!--    <plugin>
-                    <artifactId>crossdata-connector-maven-plugin</artifactId>
-                    <groupId>com.stratio.crossdata</groupId>
-                    <version>${version.crossdata}</version>
-                    <executions>
-                        <execution>
-                            <id>crossdata</id>
-                            <goals>
-                                <goal>install</goal>
-                            </goals>
-                            <phase>package</phase>
-                            <configuration>
-                                <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
-                                <jmxPort>7184</jmxPort>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin> -->
-
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -237,69 +241,140 @@
                         <artifactId>unix-maven-plugin</artifactId>
                         <version>1.1.5</version>
                         <extensions>true</extensions>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <size>2048</size>
+                            <outputFileName>stratio-connector-mongodb</outputFileName>
+                            <contact><![CDATA[Stratio <jmgomez@stratio.com>]]></contact>
+                            <contactEmail>jmgomez@stratio.com</contactEmail>
+                            <size>1</size>
+                            <deb>
+                                <section>devel</section>
+                            </deb>
+                            <rpm>
+                                <group>stratio</group>
+                                <requires>bash</requires>
+                            </rpm>
+                            <name>connector-mongodb</name>
+                            <excludeDirectoryAttributes>
+                                <dir>/etc</dir>
+                                <dir>/etc/init.d</dir>
+                                <dir>/etc/default</dir>
+                                <dir>/var</dir>
+                                <dir>/opt</dir>
+                                <dir>/usr</dir>
+                                <dir>/bin</dir>
+                            </excludeDirectoryAttributes>
+                            <assembly>
+                                <copyFile>
+                                    <path>src/main/unix/files_and_dirs/etc/init.d/connector-mongodb</path>
+                                    <toFile>/etc/init.d/connector-mongodb</toFile>
+                                    <attributes>
+                                        <user>root</user>
+                                        <group>root</group>
+                                        <mode>755</mode>
+                                    </attributes>
+                                </copyFile>
+
+                                <mkdirs>
+                                    <paths>
+                                        <path>etc/sds/stratio-connector-hdfs</path>
+                                        <path>etc/default</path>
+                                    </paths>
+                                    <attributes>
+                                        <user>stratio</user>
+                                        <group>stratio</group>
+                                        <mode>644</mode>
+                                    </attributes>
+                                </mkdirs>
+                                <mkdirs>
+                                    <path>/var/run/sds</path>
+                                    <attributes>
+                                        <user>stratio</user>
+                                        <group>stratio</group>
+                                    </attributes>
+                                </mkdirs>
+                                <copyDirectory>
+                                    <from>target/stratio-connector-hdfs/bin</from>
+                                    <to>/opt/sds/stratio-connector-hdfs/bin</to>
+                                    <directoryAttributes>
+                                        <user>stratio</user>
+                                        <group>stratio</group>
+                                    </directoryAttributes>
+                                </copyDirectory>
+                                <copyDirectory>
+                                    <from>target/stratio-connector-hdfs/repo</from>
+                                    <to>/opt/sds/stratio-connector-hdfs/repo</to>
+                                    <directoryAttributes>
+                                        <user>stratio</user>
+                                        <group>stratio</group>
+                                    </directoryAttributes>
+                                </copyDirectory>
+                                <copyDirectory>
+                                    <from>target/stratio-connector-hdfs/conf</from>
+                                    <to>/opt/sds/stratio-connector-hdfs/conf</to>
+                                    <directoryAttributes>
+                                        <user>stratio</user>
+                                        <group>stratio</group>
+                                    </directoryAttributes>
+                                </copyDirectory>
+                                <copyDirectory>
+                                    <from>src/main/template</from>
+                                    <to>/opt/sds/stratio-connector-hdfs/template</to>
+                                    <directoryAttributes>
+                                        <user>stratio</user>
+                                        <group>stratio</group>
+                                    </directoryAttributes>
+                                </copyDirectory>
+                                <copyDirectory>
+                                    <from>src/main/unix/files_and_dirs/etc/default</from>
+                                    <to>/etc/default</to>
+                                    <directoryAttributes>
+                                        <user>stratio</user>
+                                        <group>stratio</group>
+                                    </directoryAttributes>
+                                </copyDirectory>
+                                <copyFile>
+                                    <path>src/main/include/LICENSE</path>
+                                    <toFile>/opt/sds/stratio-connector-hdfs/LICENSE</toFile>
+                                </copyFile>
+                                <copyFile>
+                                    <path>src/main/include/NOTICE</path>
+                                    <toFile>/opt/sds/stratio-connector-hdfs/NOTICE</toFile>
+                                </copyFile>
+                                <copyDirectory>
+                                    <from>src/main/config</from>
+                                    <to>etc/sds/stratio-connector-hdfs</to>
+                                </copyDirectory>
+                            </assembly>
+                            <defaults>
+                                <directoryAttributes>
+                                    <mode>0755</mode>
+                                </directoryAttributes>
+                                <fileAttributes>
+                                    <mode>0644</mode>
+                                </fileAttributes>
+                            </defaults>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>deb</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>package-deb</goal>
+                                </goals>
+                                <configuration>
+                                    <architecture>all</architecture>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>rpm</id>
+                                <phase>package</phase>
+                                <goals>
                                     <goal>package-rpm</goal>
                                 </goals>
                                 <configuration>
-                                    <contact><![CDATA[Stratio <jmgomez@stratio.com>]]></contact>
-                                    <contactEmail>jmgomez@stratio.com</contactEmail>
-                                    <size>1</size>
-                                    <deb>
-                                        <section>devel</section>
-                                    </deb>
-                                    <rpm>
-                                        <group>stratio</group>
-                                    </rpm>
-                                    <assembly>
-                                        <mkdirs>
-                                            <paths>
-                                                <path>etc/sds/stratio-connector-hdfs</path>
-                                                <path>etc/default</path>
-                                            </paths>
-                                            <attributes>
-                                                <user>stratio</user>
-                                                <group>stratio</group>
-                                                <mode>644</mode>
-                                            </attributes>
-                                        </mkdirs>
-                                        <copyDirectory>
-                                            <from>target/stratio-connector-hdfs/bin</from>
-                                            <to>opt/sds/stratio-connector-hdfs/bin</to>
-                                        </copyDirectory>
-                                        <copyDirectory>
-                                            <from>target/stratio-connector-hdfs/repo</from>
-                                            <to>opt/sds/stratio-connector-hdfs/repo</to>
-                                        </copyDirectory>
-                                        <copyDirectory>
-                                            <from>target/stratio-connector-hdfs/conf</from>
-                                            <to>opt/sds/stratio-connector-hdfs/conf</to>
-                                        </copyDirectory>
-                                        <copyDirectory>
-                                            <from>src/main/template</from>
-                                            <to>opt/sds/stratio-connector-hdfs/template</to>
-                                        </copyDirectory>
-                                        <copyDirectory>
-                                            <from>src/main/config</from>
-                                            <to>etc/sds/stratio-connector-hdfs</to>
-                                        </copyDirectory>
-                                        <copyDirectory>
-                                            <from>src/main/unix/files_and_dirs/etc/default</from>
-                                            <to>etc/default</to>
-                                        </copyDirectory>
-                                        <copyFile>
-                                            <path>src/main/include/LICENSE</path>
-                                            <toFile>opt/sds/stratio-connector-hdfs/LICENSE</toFile>
-                                        </copyFile>
-                                        <copyFile>
-                                            <path>src/main/include/NOTICE</path>
-                                            <toFile>opt/sds/stratio-connector-hdfs/NOTICE</toFile>
-                                        </copyFile>
-                                    </assembly>
+                                    <architecture>noarch</architecture>
                                 </configuration>
                             </execution>
                         </executions>

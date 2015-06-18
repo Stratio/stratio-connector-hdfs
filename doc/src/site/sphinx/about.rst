@@ -15,20 +15,16 @@ To automatically build execute the following commands:
 
 ::
 
-       > mvn clean install
+       > mvn clean compile install
 
 Build an executable Stratio Connector-HDFS
 ------------------------------------------
 
-To generate the executable, execute the following command:
+To generate the executable, run the following command:
 
 ::
 
-       > cd connector-hdfs/
-
-::
-
-       > mvn crossdata-connector:install
+       > mvn package -Ppackage
 
 Running the Stratio Connector-HDFS
 ----------------------------------
@@ -37,7 +33,7 @@ To run Stratio Connector-HDFS execute:
 
 ::
 
-       > target/stratio-connector-hdfs-[version]/bin/stratio-connector-hdfs-[version] start
+       > target/stratio-connector-hdfs-[VERSION]/bin/stratio-connector-hdfs-[VERSION] start
 
 Build a redistributable package
 -------------------------------
@@ -61,13 +57,13 @@ RPM Package:
 
 ::   
     
-       > rpm -i target/stratio-connector-hdfs-[version].rpm
+       > rpm -i target/stratio-connector-hdfs-[VERSION].rpm
 
 DEB Package:
 
 ::   
     
-       > dpkg -i target/stratio-connector-hdfs-[version].deb
+       > dpkg -i target/stratio-connector-hdfs-[VERSION].deb
 
 Now, to start/stop the connector:
 
