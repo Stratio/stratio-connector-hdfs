@@ -61,7 +61,7 @@ class HDFSConnector (connectorManifestFileName: String, datastoreManifestFileNam
   }
 
   override def restart(): Unit = {
-    connectionHandler
+    //connectionHandler
   }
 
   /**
@@ -181,7 +181,7 @@ class HDFSConnector (connectorManifestFileName: String, datastoreManifestFileNam
  */
 object HDFSConnector extends App with ConnectorConstants{
 
-  val HDFSConnector = new HDFSConnector("HDFSConnector.xml", "HDFSConnector.xml")
+  val HDFSConnector = new HDFSConnector("/HDFSConnector.xml", "/HDFSDataStore.xml")
 
   new ConnectorApp().startup(HDFSConnector)
 
@@ -190,10 +190,6 @@ object HDFSConnector extends App with ConnectorConstants{
 }
 
 private[hdfs] trait ConnectorConstants {
-
-  val ConnectorName = ManifestUtil.getConectorName("HDFSConnector.xml")
-
-  val DatastoreName = ManifestUtil.getDatastoreName("HDFSConnector.xml")
 
   val MethodNotSupported: String = "not supported yet"
 

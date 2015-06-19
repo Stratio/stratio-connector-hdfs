@@ -21,6 +21,7 @@ package com.stratio.connector.hdfs.engine
 
 import java.util
 
+import com.stratio.connector.commons.{Metrics, Loggable}
 import com.stratio.connector.commons.connection.{ConnectionHandler, Connection}
 import com.stratio.connector.commons.engine.CommonsMetadataEngine
 import com.stratio.connector.hdfs.HDFSConnector
@@ -39,7 +40,7 @@ import com.stratio.crossdata.common.statements.structures.Selector
  *                          the configuration.
  */
 class HDFSMetadataEngine(connectionHandler: ConnectionHandler)
-  extends CommonsMetadataEngine[HDFSClient](connectionHandler) {
+  extends CommonsMetadataEngine[HDFSClient](connectionHandler) with Loggable with Metrics{
 
   override def provideMetadata(
                                 targetCluster: ClusterName,
@@ -67,17 +68,8 @@ class HDFSMetadataEngine(connectionHandler: ConnectionHandler)
   override def createTable(
                             tableMetadata: TableMetadata,
                             connection: Connection[HDFSClient]): Unit = {
-
-
-    val basePath = connection.getNativeConnection.connectorClusterConfig.getClusterOptions.get("path")
-
-    val fullPath = s"$basePath"+
-      s"${tableMetadata.getName.getCatalogName.getName}" +
-      s"/${tableMetadata.getName.getName}"
-
-    println (s"Full Path is: $fullPath")
-    connection.getNativeConnection.createFolder(fullPath)
-    }
+    logger.info("The Create table method has been invoked. This method doesn't do anything the table will be created when the first insert happens.")
+  }
 
 
   override def createIndex(
@@ -122,7 +114,7 @@ class HDFSMetadataEngine(connectionHandler: ConnectionHandler)
     catalogMetadata: CatalogMetadata,
     connection: Connection[HDFSClient]): Unit = {
 
-    connection.getNativeConnection.createFolder(
-      s"${catalogMetadata.getName.getName}")
+    logger.info("The Create catalog method has been invoked. This method doesn't do anything the table will be created when the first insert happens.")
+
   }
 }
