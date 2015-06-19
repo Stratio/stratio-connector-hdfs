@@ -38,7 +38,7 @@ import timer._
 /**
  * Class HDFSConnector.
  */
-class HDFSConnector extends CommonsConnector with Loggable with Metrics{
+class HDFSConnector (connectorManifestFileName: String, datastoreManifestFileName: String) extends CommonsConnector(connectorManifestFileName, datastoreManifestFileName) with Loggable with Metrics{
 
   import com.stratio.connector.hdfs.HDFSConnector._
   import com.stratio.connector.commons.util.PropertyValueRecovered
@@ -48,11 +48,6 @@ class HDFSConnector extends CommonsConnector with Loggable with Metrics{
   var metadataEngine: Option[HDFSMetadataEngine] = None
 
   var storageEngine: Option[HDFSStorageEngine] = None
-
-
-  override def getConnectorName: String = ConnectorName
-
-  override def getDatastoreName: Array[String] = DatastoreName
 
   /**
    * Method that creates the HDFSConnectionHandler.
@@ -65,6 +60,10 @@ class HDFSConnector extends CommonsConnector with Loggable with Metrics{
 
   }
 
+  override def restart(): Unit = {
+    connectionHandler
+  }
+
   /**
    * Method where the Spark Context is created and the 'hosts' property ir read.
    *
@@ -73,8 +72,8 @@ class HDFSConnector extends CommonsConnector with Loggable with Metrics{
    */
   override def connect(
 
-    credentials: ICredentials,
-    config: ConnectorClusterConfig): Unit = {
+                        credentials: ICredentials,
+                        config: ConnectorClusterConfig): Unit = {
 
     import scala.collection.JavaConversions._
 
@@ -182,7 +181,7 @@ class HDFSConnector extends CommonsConnector with Loggable with Metrics{
  */
 object HDFSConnector extends App with ConnectorConstants{
 
-  val HDFSConnector = new HDFSConnector
+  val HDFSConnector = new HDFSConnector("HDFSConnector.xml", "HDFSConnector.xml")
 
   new ConnectorApp().startup(HDFSConnector)
 

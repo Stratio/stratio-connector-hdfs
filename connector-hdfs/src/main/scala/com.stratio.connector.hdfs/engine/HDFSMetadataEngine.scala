@@ -71,9 +71,12 @@ class HDFSMetadataEngine(connectionHandler: ConnectionHandler)
 
     val basePath = connection.getNativeConnection.connectorClusterConfig.getClusterOptions.get("path")
 
-    connection.getNativeConnection.createFolder(s"$basePath/"+
+    val fullPath = s"$basePath"+
       s"${tableMetadata.getName.getCatalogName.getName}" +
-        s"/${tableMetadata.getName.getName}")
+      s"/${tableMetadata.getName.getName}"
+
+    println (s"Full Path is: $fullPath")
+    connection.getNativeConnection.createFolder(fullPath)
     }
 
 

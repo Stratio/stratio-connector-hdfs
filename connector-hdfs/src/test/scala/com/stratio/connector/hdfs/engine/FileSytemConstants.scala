@@ -64,7 +64,7 @@ trait FileSytemConstants{
 
   /*The cluster options.*/
   val clusterOptions: Map[String,String] =
-    Map("hosts" -> "10.200.0.60:9000", "user" -> "lfernandez", "path" -> "", "highavailability" -> "false")
+    Map("hosts" -> "10.200.0.60:9000",  "path" -> "/user/", "highavailability" -> "false")
 
   import scala.collection.JavaConversions._
   /*Configuration used by a connector to establish a connection to a specific cluster.*/
@@ -100,7 +100,7 @@ trait FileSytemConstants{
     new TableMetadata(tableName, options, columns, indexes, clusterName, partitionKey, clusterKey)
 
   /*The path to the created table*/
-  val pathTable = new Path(s"$stringCatalogName/$stringTableName")
+  val pathTable = new Path(s"/user/$stringCatalogName/$stringTableName")
 
 
 }
