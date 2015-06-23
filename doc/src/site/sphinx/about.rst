@@ -33,7 +33,7 @@ To run Stratio Connector-HDFS execute:
 
 ::
 
-       > target/stratio-connector-hdfs-[VERSION]/bin/stratio-connector-hdfs-[VERSION] start
+       > target/stratio-connector-hdfs/bin/stratio-connector-hdfs start
 
 Build a redistributable package
 -------------------------------
@@ -57,13 +57,13 @@ RPM Package:
 
 ::   
     
-       > rpm -i target/stratio-connector-hdfs-[VERSION].rpm
+       > rpm -i target/stratio-connector-hdfs.rpm
 
 DEB Package:
 
 ::   
     
-       > dpkg -i target/stratio-connector-hdfs-[VERSION].deb
+       > dpkg -i target/stratio-connector-hdfs.deb
 
 Now, to start/stop the connector:
 
@@ -88,7 +88,7 @@ basic commands are described below.
    Add a datastore. We need to specified the XML
    manifest that defines the data store. The XML manifest can be found
    in the path of the Stratio Connector-HDFS in
-   target/stratio-connector-hdfs-[version]/conf/HDFSDataStore.xml
+   target/stratio-connector-hdfs/conf/HDFSDataStore.xml
 
    ``xdsh:user>  ADD DATASTORE <Absolute path to HDFS Datastore manifest>;``
 
@@ -99,7 +99,7 @@ basic commands are described below.
 
    Add the connector manifest. The XML with the manifest can be found in
    the path of the Stratio Connector-HDFS in
-   target/stratio-connector-hdfs-[version]/conf/HDFSConnector.xml
+   target/stratio-connector-hdfs/conf/HDFSConnector.xml
 
    ``xdsh:user>  ADD CONNECTOR <Path to HDFS Connector Manifest>``
 
