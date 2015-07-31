@@ -1,4 +1,4 @@
 /etc/default/stratio-connector-hdfs
-/etc/sds/stratio-connector-hdfs/connector-application.conf
-/etc/sds/stratio-connector-hdfs/log.properties
-/etc/sds/stratio-connector-hdfs/connector-reference.conf
+/etc/sds/connectors/hdfs/connector-application.conf
+/etc/sds/connectors/hdfs/log.properties
+/etc/sds/connectors/hdfs/connector-reference.conf

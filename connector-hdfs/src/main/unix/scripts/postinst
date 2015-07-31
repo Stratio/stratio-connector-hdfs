@@ -4,18 +4,17 @@ set -e
 
 GROUP='stratio'
 USER='stratio'
-DIR_INSTALL='/opt/sds/stratio-connector-hdfs'
-DIR_CONF='/etc/sds/stratio-connector-hdfs'
-DIR_LOG='/var/log/sds/stratio-connector-hdfs'
+DIR_INSTALL='/opt/sds/connectors/hdfs'
+DIR_CONF='/etc/sds/connectors/hdfs'
+DIR_LOG='/var/log/sds/connectors/hdfs'
 
-cp /opt/sds/stratio-connector-hdfs/bin/stratio-connector-hdfs-* /opt/sds/stratio-connector-hdfs/bin/stratio-connector-hdfs
-cp /opt/sds/stratio-connector-hdfs/template/HDFSConnector /etc/init.d/stratio-connector-hdfs
+cp /opt/sds/connectors/hdfs/template/HDFSConnector /etc/init.d/stratio-connector-hdfs
 chmod 755 /etc/init.d/stratio-connector-hdfs
-chmod 755 /opt/sds/stratio-connector-hdfs/bin
-chmod +x /opt/sds/stratio-connector-hdfs/bin/stratio-connector-hdfs
+chmod 755 /opt/sds/connectors/hdfs/bin
+chmod +x /opt/sds/connectors/hdfs/bin/stratio-connector-hdfs
 chmod +x /etc/default/stratio-connector-hdfs
-export HDFS_CONNECTOR_LIB=/opt/sds/stratio-connector-hdfs
-export HDFS_CONNECTOR_CONF="/etc/sds/stratio-connector-hdfs"
+export HDFS_CONNECTOR_LIB=/opt/sds/connectors/hdfs
+export HDFS_CONNECTOR_CONF="/etc/sds/connectors/hdfs"
 
 case "$1" in
   configure)
@@ -37,7 +36,6 @@ case "$1" in
    echo "entra"
     mkdir $DIR_LOG
   fi
-echo "SALE"
 
   chown -R ${USER}:${GROUP} /opt/sds /etc/sds
 

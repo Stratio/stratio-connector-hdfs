@@ -251,9 +251,29 @@
                                     </attributes>
                                 </copyFile>
 
+                                <copyFile>
+                                    <path>src/main/unix/files_and_dirs/etc/default/stratio-connector-hdfs</path>
+                                    <toFile>/etc/default/stratio-connector-hdfs</toFile>
+                                    <attributes>
+                                        <user>root</user>
+                                        <group>root</group>
+                                        <mode>755</mode>
+                                    </attributes>
+                                </copyFile>
+
+                                <copyFile>
+                                    <path>src/main/template/HDFSConnector</path>
+                                    <toFile>/opt/sds/connectors/mongodb/template/HDFSConnector</toFile>
+                                </copyFile>
+
+                                <copyFile>
+                                    <path>target/stratio-connector-mongodb/bin/stratio-connector-hdfs</path>
+                                    <toFile>/opt/sds/connectors/mongodb/bin/stratio-connector-hdfs</toFile>
+                                </copyFile>
+
                                 <mkdirs>
                                     <paths>
-                                        <path>etc/sds/stratio-connector-hdfs</path>
+                                        <path>etc/sds/connectors/hdfs</path>
                                         <path>etc/default</path>
                                     </paths>
                                     <attributes>
@@ -269,9 +289,16 @@
                                         <group>stratio</group>
                                     </attributes>
                                 </mkdirs>
+                                <mkdirs>
+                                    <path>/var/log/sds/connectors</path>
+                                    <attributes>
+                                        <user>stratio</user>
+                                        <group>stratio</group>
+                                    </attributes>
+                                </mkdirs>
                                 <copyDirectory>
                                     <from>target/stratio-connector-hdfs/bin</from>
-                                    <to>/opt/sds/stratio-connector-hdfs/bin</to>
+                                    <to>/opt/sds/connectors/hdfs/bin</to>
                                     <directoryAttributes>
                                         <user>stratio</user>
                                         <group>stratio</group>
@@ -279,7 +306,7 @@
                                 </copyDirectory>
                                 <copyDirectory>
                                     <from>target/stratio-connector-hdfs/repo</from>
-                                    <to>/opt/sds/stratio-connector-hdfs/repo</to>
+                                    <to>/opt/sds/connectors/hdfs/repo</to>
                                     <directoryAttributes>
                                         <user>stratio</user>
                                         <group>stratio</group>
@@ -287,7 +314,7 @@
                                 </copyDirectory>
                                 <copyDirectory>
                                     <from>target/stratio-connector-hdfs/conf</from>
-                                    <to>/opt/sds/stratio-connector-hdfs/conf</to>
+                                    <to>/opt/sds/connectors/hdfs/conf</to>
                                     <directoryAttributes>
                                         <user>stratio</user>
                                         <group>stratio</group>
@@ -295,7 +322,7 @@
                                 </copyDirectory>
                                 <copyDirectory>
                                     <from>src/main/template</from>
-                                    <to>/opt/sds/stratio-connector-hdfs/template</to>
+                                    <to>/opt/sds/connectors/hdfs/template</to>
                                     <directoryAttributes>
                                         <user>stratio</user>
                                         <group>stratio</group>
@@ -311,15 +338,15 @@
                                 </copyDirectory>
                                 <copyFile>
                                     <path>src/main/include/LICENSE</path>
-                                    <toFile>/opt/sds/stratio-connector-hdfs/LICENSE</toFile>
+                                    <toFile>/opt/sds/connectors/hdfs/LICENSE</toFile>
                                 </copyFile>
                                 <copyFile>
                                     <path>src/main/include/NOTICE</path>
-                                    <toFile>/opt/sds/stratio-connector-hdfs/NOTICE</toFile>
+                                    <toFile>/opt/sds/connectors/hdfs</toFile>
                                 </copyFile>
                                 <copyDirectory>
                                     <from>src/main/config</from>
-                                    <to>etc/sds/stratio-connector-hdfs</to>
+                                    <to>etc/sds/connectors/hdfs</to>
                                 </copyDirectory>
                             </assembly>
                             <defaults>
