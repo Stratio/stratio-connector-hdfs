@@ -29,7 +29,7 @@
     <parent>
         <groupId>com.stratio.connector</groupId>
         <artifactId>stratio-connector-hdfs</artifactId>
-        <version>0.5.0-RC1</version>
+        <version>0.4.0-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>
@@ -263,12 +263,12 @@
 
                                 <copyFile>
                                     <path>src/main/template/HDFSConnector</path>
-                                    <toFile>/opt/sds/connectors/mongodb/template/HDFSConnector</toFile>
+                                    <toFile>/opt/sds/connectors/hdfs/template/HDFSConnector</toFile>
                                 </copyFile>
 
                                 <copyFile>
-                                    <path>target/stratio-connector-mongodb/bin/stratio-connector-hdfs</path>
-                                    <toFile>/opt/sds/connectors/mongodb/bin/stratio-connector-hdfs</toFile>
+                                    <path>target/stratio-connector-hdfs/bin/stratio-connector-hdfs</path>
+                                    <toFile>/opt/sds/connectors/hdfs/bin/stratio-connector-hdfs</toFile>
                                 </copyFile>
 
                                 <mkdirs>
@@ -342,7 +342,7 @@
                                 </copyFile>
                                 <copyFile>
                                     <path>src/main/include/NOTICE</path>
-                                    <toFile>/opt/sds/connectors/hdfs</toFile>
+                                    <toFile>/opt/sds/connectors/hdfs/NOTICE</toFile>
                                 </copyFile>
                                 <copyDirectory>
                                     <from>src/main/config</from>
