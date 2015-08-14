@@ -38,22 +38,7 @@ Prerequisites
 Configuration
 -------------
 
-In the Crossdata Shell we need to add the Datastore Manifest.
-
-::
-
-       > ADD DATASTORE "<path_to_manifest_folder>/HDFSDataStore.xml";
-
-Now we need to add the ConnectorManifest.
-
-::
-
-       > ADD CONNECTOR "<path_to_manifest_folder>/HDFSConnector.xml";
-
-At this point we have reported to Crossdata the connector options and
-operations. Now we configure the datastore cluster.
-
-If high availability is required:
+In the Crossdata Shell, if high availability configuration is required:
 
 ::
 
