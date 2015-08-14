@@ -29,11 +29,11 @@ To generate the executable, run the following command:
 Running the Stratio Connector-HDFS
 ----------------------------------
 
-To run Stratio Connector-HDFS execute:
+To run Stratio Connector-HDFS execute in the parent directory:
 
 ::
 
-       > target/stratio-connector-hdfs/bin/stratio-connector-hdfs start
+       > ./connector-hdfs/target/stratio-connector-hdfs/bin/stratio-connector-hdfs
 
 Build a redistributable package
 -------------------------------
@@ -85,23 +85,9 @@ basic commands are described below.
 
 3. In the Stratio Crossdata Shell:
 
-   Add a datastore. We need to specified the XML
-   manifest that defines the data store. The XML manifest can be found
-   in the path of the Stratio Connector-HDFS in
-   target/stratio-connector-hdfs/conf/HDFSDataStore.xml
-
-   ``xdsh:user>  ADD DATASTORE <Absolute path to HDFS Datastore manifest>;``
-
-   Attach a cluster on that datastore. The datastore name must be the same
-   as the defined in the Datastore manifest.
+   Attach a cluster on that datastore:
 
    ``xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};``
-
-   Add the connector manifest. The XML with the manifest can be found in
-   the path of the Stratio Connector-HDFS in
-   target/stratio-connector-hdfs/conf/HDFSConnector.xml
-
-   ``xdsh:user>  ADD CONNECTOR <Path to HDFS Connector Manifest>``
 
    Attach the connector to the previously defined cluster. The connector
    name must match the one defined in the Connector Manifest.
@@ -134,8 +120,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-
-
-
-
