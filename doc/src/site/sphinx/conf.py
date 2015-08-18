@@ -107,10 +107,10 @@ html_theme = 'stratio'
 # documentation.
 
 html_theme_options = {
-'versions' : ['0.3.0-RC2'],
+'versions' : ['0.5.0'],
 'github' : 'https://github.com/Stratio/stratio-connector-hdfs.git',
 'jira' : 'https://github.com/Stratio/stratio-connector-hdfs/issues',
-'module_name' : 'connector-hdfs'
+'module_name' : 'stratio-connector-hdfs'
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -199,7 +199,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'index'
+htmlhelp_basename = 'connector-hdfs-doc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
