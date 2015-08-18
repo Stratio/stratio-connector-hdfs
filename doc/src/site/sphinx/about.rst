@@ -57,13 +57,13 @@ RPM Package:
 
 ::   
     
-       > rpm -i target/stratio-connector-hdfs.rpm
+       > rpm -i target/stratio-connector-hdfs-<version>.rpm
 
 DEB Package:
 
 ::   
     
-       > dpkg -i target/stratio-connector-hdfs.deb
+       > dpkg -i target/stratio-connector-hdfs-<version>.deb
 
 Now, to start/stop the connector:
 
