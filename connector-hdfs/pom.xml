@@ -143,7 +143,26 @@
 
     </dependencies>
     <build>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.scala-tools</groupId>
+                    <artifactId>maven-scala-plugin</artifactId>
+                    <version>2.15.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+
+
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -153,8 +172,8 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
+                <groupId>org.scala-tools</groupId>
+                <artifactId>maven-scala-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>scala-compile-first</id>
@@ -172,7 +191,60 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <args>
+                        <arg>-P:genjavadoc:out=${project.build.directory}/genjavadoc</arg>
+                        <arg>-deprecation</arg>
+                        <arg>-feature</arg>
+                    </args>
+                    <compilerPlugins>
+                        <compilerPlugin>
+                            <groupId>com.typesafe.genjavadoc</groupId>
+                            <artifactId>genjavadoc-plugin_${scala.version}</artifactId>
+                            <version>0.8</version>
+                        </compilerPlugin>
+                    </compilerPlugins>
+                </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/genjavadoc</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+
         </plugins>
     </build>
     <profiles>
@@ -180,6 +252,8 @@
             <id>package</id>
             <build>
                 <plugins>
+
+
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>appassembler-maven-plugin</artifactId>
@@ -381,8 +455,11 @@
                             </execution>
                         </executions>
                     </plugin>
+
+
                 </plugins>
             </build>
         </profile>
+
     </profiles>
 </project>
