@@ -17,14 +17,6 @@ To automatically build execute the following commands:
 
        > mvn clean compile install
 
-Build an executable Stratio Connector-HDFS
-------------------------------------------
-
-To generate the executable, run the following command:
-
-::
-
-       > mvn package -Ppackage
 
 Running the Stratio Connector-HDFS
 ----------------------------------
@@ -35,48 +27,43 @@ To run Stratio Connector-HDFS execute in the parent directory:
 
        > ./connector-hdfs/target/stratio-connector-hdfs/bin/stratio-connector-hdfs
 
+
 Build a redistributable package
 -------------------------------
-It is possible too, to create a RPM or DEB redistributable package.
+
+It is possible too, to create a RPM or DEB package, as :
+
+::
+
+    > mvn package -Ppackage
+
+Once the package it’s created, execute this commands to install:
 
 RPM Package:
 
 ::
 
-       > mvn unix:package-rpm -N
+    > rpm -i target/stratio-connector-hdfs-[version].rpm
 
 DEB Package:
 
 ::
-   
-       > mvn unix:package-deb -N
 
-Once the package is created, execute this commands to install:
+    > dpkg -i target/stratio-connector-hdfs-[version].deb
 
-RPM Package:
+Now to start/stop the connector:
 
-::   
-    
-       > rpm -i target/stratio-connector-hdfs-<version>.rpm
+::
 
-DEB Package:
+    > service stratio-connector-hdfs start
 
-::   
-    
-       > dpkg -i target/stratio-connector-hdfs-<version>.deb
-
-Now, to start/stop the connector:
-
-::   
-    
-       > service stratio-connector-hdfs start
-       > service stratio-connector-hdfs stop
+    > service stratio-connector-hdfs stop
 
 
 How to use Stratio Connector-HDFS
 ---------------------------------
 
-A complete tutorial is available `here <https://github.com/Stratio/stratio-connector-hdfs/blob/master/doc/src/site/sphinx/First_Steps.rst>`__. The
+A complete tutorial is available `here <First_Steps.html>`__. The
 basic commands are described below.
 
 1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/modules/crossdata/development/>`__.
@@ -87,16 +74,17 @@ basic commands are described below.
 
    Attach a cluster on that datastore:
 
-   ``xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};``
+   ::
+
+   xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};``
 
    Attach the connector to the previously defined cluster. The connector
    name must match the one defined in the Connector Manifest.
 
    ::
 
-       ```
-           xdsh:user>  ATTACH CONNECTOR <connector name> TO <cluster name> WITH OPTIONS {};
-       ```
+   xdsh:user>  ATTACH CONNECTOR <connector name> TO <cluster name> WITH OPTIONS {};
+
 
 At this point, we can start to send queries in the Stratio Crossdata Shell.
 
