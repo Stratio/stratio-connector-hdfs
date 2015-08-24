@@ -329,8 +329,8 @@
                                 </copyFile>
 
                                 <copyFile>
-                                    <path>src/main/unix/files_and_dirs/etc/default/connector_hdfs</path>
-                                    <toFile>/etc/default/connector_hdfs</toFile>
+                                    <path>src/main/unix/files_and_dirs/etc/default/hdfs_connector</path>
+                                    <toFile>/etc/default/hdfs_connector</toFile>
                                     <attributes>
                                         <user>root</user>
                                         <group>root</group>
