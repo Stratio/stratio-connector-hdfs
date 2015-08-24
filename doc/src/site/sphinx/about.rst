@@ -63,7 +63,7 @@ Now to start/stop the connector:
 How to use Stratio Connector-HDFS
 ---------------------------------
 
-A complete tutorial is available `here <First_Steps.html>`__. The
+A complete tutorial is available `here <First_Steps.rst>`__. The
 basic commands are described below.
 
 1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/modules/crossdata/development/>`__.

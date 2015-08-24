@@ -319,8 +319,8 @@
                             </excludeDirectoryAttributes>
                             <assembly>
                                 <copyFile>
-                                    <path>src/main/unix/files_and_dirs/etc/init.d/connector-hdfs</path>
-                                    <toFile>/etc/init.d/connector-hdfs</toFile>
+                                    <path>src/main/unix/files_and_dirs/etc/init.d/connector_hdfs</path>
+                                    <toFile>/etc/init.d/connector_hdfs</toFile>
                                     <attributes>
                                         <user>root</user>
                                         <group>root</group>
@@ -329,8 +329,8 @@
                                 </copyFile>
 
                                 <copyFile>
-                                    <path>src/main/unix/files_and_dirs/etc/default/stratio-connector-hdfs</path>
-                                    <toFile>/etc/default/stratio-connector-hdfs</toFile>
+                                    <path>src/main/unix/files_and_dirs/etc/default/connector_hdfs</path>
+                                    <toFile>/etc/default/connector_hdfs</toFile>
                                     <attributes>
                                         <user>root</user>
                                         <group>root</group>
@@ -391,7 +391,7 @@
                                 </copyDirectory>
                                 <copyDirectory>
                                     <from>target/stratio-connector-hdfs/conf</from>
-                                    <to>/opt/sds/connectors/hdfs/conf</to>
+                                    <to>/opt/sds/connectors/hdfs</to>
                                     <directoryAttributes>
                                         <user>stratio</user>
                                         <group>stratio</group>
