@@ -28,12 +28,12 @@ Before you start
 Prerequisites
 -------------
 
--  First of all `Stratio Crossdata <https://github.com/Stratio/crossdata>`__ is needed and must be
+-  First of all `Stratio Crossdata <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__ is needed and must be
    installed. The server and the shell must be running.
 -  Installation of
    `HDFS 2.6 <http://hadoop.apache.org/docs/r2.6.0>`__.
 -  Build an HDFSConnector executable and run it following this
-   `guide <https://github.com/Stratio/stratio-connector-hdfs/blob/master/doc/src/site/sphinx/about.rst>`__.
+   `guide <http://docs.stratio.com/modules/stratio-connector-hdfs/0.5/about.html>`__.
 
 Configuration
 -------------
@@ -155,4 +155,4 @@ Where to go from here
 
 To learn more about Stratio Crossdata, we recommend you to visit the
 `Stratio Crossdata
-Reference <https://github.com/Stratio/crossdata/tree/master/doc/src/site/sphinx>`__.
+Reference <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__.

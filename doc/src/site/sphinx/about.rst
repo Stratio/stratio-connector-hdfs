@@ -1,12 +1,12 @@
 About
 =====
 
-The Stratio Connector-HDFS allows `Stratio Crossdata <https://github.com/Stratio/crossdata>`__ to interact with HDFS.
+The Stratio Connector-HDFS allows `Stratio Crossdata <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__ to interact with HDFS.
 
 Requirements
 ------------
 
-`Crossdata <https://github.com/Stratio/crossdata>`__ is needed to interact with this connector.
+`Crossdata <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__ is needed to interact with this connector.
 
 Compiling Stratio Connector-HDFS
 --------------------------------
@@ -63,10 +63,10 @@ Now to start/stop the connector:
 How to use Stratio Connector-HDFS
 ---------------------------------
 
-A complete tutorial is available `here <First_Steps.rst>`__. The
+A complete tutorial is available `here <First_Steps.html>`__. The
 basic commands are described below.
 
-1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/modules/crossdata/development/>`__.
+1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/modules/crossdata/0.4/index.html/>`__.
 
 2. Start Stratio Connector-HDFS as it is explained before.
 
