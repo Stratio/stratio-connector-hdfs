@@ -66,7 +66,7 @@ How to use Stratio Connector-HDFS
 A complete tutorial is available `here <First_Steps.html>`__. The
 basic commands are described below.
 
-1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/modules/crossdata/0.4/index.html/>`__.
+1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__.
 
 2. Start Stratio Connector-HDFS as it is explained before.
 
