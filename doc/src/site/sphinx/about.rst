@@ -8,6 +8,11 @@ Requirements
 
 `Crossdata <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__ is needed to interact with this connector.
 
+rpm is needed to generate executable connector. You can install it as follow:
+::
+
+ > sudo apt-get install rpm
+
 Compiling Stratio Connector-HDFS
 --------------------------------
 
@@ -63,7 +68,7 @@ Now to start/stop the connector:
 How to use Stratio Connector-HDFS
 ---------------------------------
 
-A complete tutorial is available `here <First_Steps.html>`__. The
+A complete tutorial is available `here <http://docs.stratio.com/modules/stratio-connector-hdfs/0.5/First_Steps.html>`__. The
 basic commands are described below.
 
 1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__.
