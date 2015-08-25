@@ -81,14 +81,14 @@ basic commands are described below.
 
    ::
 
-   xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};``
+   > xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};``
 
    Attach the connector to the previously defined cluster. The connector
    name must match the one defined in the Connector Manifest.
 
    ::
 
-   xdsh:user>  ATTACH CONNECTOR <connector name> TO <cluster name> WITH OPTIONS {};
+   > xdsh:user>  ATTACH CONNECTOR <connector name> TO <cluster name> WITH OPTIONS {};
 
 
 At this point, we can start to send queries in the Stratio Crossdata Shell.
