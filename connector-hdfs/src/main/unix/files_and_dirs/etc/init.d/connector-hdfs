@@ -1,1 +1,0 @@
-exec /opt/sds/connectors/hdfs/bin/stratio-connector-hdfs

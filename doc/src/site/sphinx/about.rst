@@ -1,12 +1,17 @@
 About
 =====
 
-The Stratio Connector-HDFS allows `Stratio Crossdata <https://github.com/Stratio/crossdata>`__ to interact with HDFS.
+The Stratio Connector-HDFS allows `Stratio Crossdata <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__ to interact with HDFS.
 
 Requirements
 ------------
 
-`Crossdata <https://github.com/Stratio/crossdata>`__ is needed to interact with this connector.
+`Crossdata <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__ is needed to interact with this connector.
+
+rpm is needed to generate executable connector. You can install it as follow:
+::
+
+ > sudo apt-get install rpm
 
 Compiling Stratio Connector-HDFS
 --------------------------------
@@ -17,100 +22,74 @@ To automatically build execute the following commands:
 
        > mvn clean compile install
 
-Build an executable Stratio Connector-HDFS
-------------------------------------------
-
-To generate the executable, run the following command:
-
-::
-
-       > mvn package -Ppackage
 
 Running the Stratio Connector-HDFS
 ----------------------------------
 
-To run Stratio Connector-HDFS execute:
+To run Stratio Connector-HDFS execute in the parent directory:
 
 ::
 
-       > target/stratio-connector-hdfs/bin/stratio-connector-hdfs start
+       > ./connector-hdfs/target/stratio-connector-hdfs/bin/stratio-connector-hdfs
+
 
 Build a redistributable package
 -------------------------------
-It is possible too, to create a RPM or DEB redistributable package.
+
+It is possible too, to create a RPM or DEB package, as :
+
+::
+
+    > mvn package -Ppackage
+
+Once the package it’s created, execute this commands to install:
 
 RPM Package:
 
 ::
 
-       > mvn unix:package-rpm -N
+    > rpm -i target/stratio-connector-hdfs-[version].rpm
 
 DEB Package:
 
 ::
-   
-       > mvn unix:package-deb -N
 
-Once the package is created, execute this commands to install:
+    > dpkg -i target/stratio-connector-hdfs-[version].deb
 
-RPM Package:
+Now to start/stop the connector:
 
-::   
-    
-       > rpm -i target/stratio-connector-hdfs.rpm
+::
 
-DEB Package:
+    > service stratio-connector-hdfs start
 
-::   
-    
-       > dpkg -i target/stratio-connector-hdfs.deb
-
-Now, to start/stop the connector:
-
-::   
-    
-       > service stratio-connector-hdfs start
-       > service stratio-connector-hdfs stop
+    > service stratio-connector-hdfs stop
 
 
 How to use Stratio Connector-HDFS
 ---------------------------------
 
-A complete tutorial is available `here <https://github.com/Stratio/stratio-connector-hdfs/blob/master/doc/src/site/sphinx/First_Steps.rst>`__. The
+A complete tutorial is available `here <http://docs.stratio.com/modules/stratio-connector-hdfs/0.5/First_Steps.html>`__. The
 basic commands are described below.
 
-1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/modules/crossdata/development/>`__.
+1. Start `Stratio Crossdata Server and then Stratio Crossdata Shell <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__.
 
 2. Start Stratio Connector-HDFS as it is explained before.
 
 3. In the Stratio Crossdata Shell:
 
-   Add a datastore. We need to specified the XML
-   manifest that defines the data store. The XML manifest can be found
-   in the path of the Stratio Connector-HDFS in
-   target/stratio-connector-hdfs/conf/HDFSDataStore.xml
+   Attach a cluster on that datastore:
 
-   ``xdsh:user>  ADD DATASTORE <Absolute path to HDFS Datastore manifest>;``
+   ::
 
-   Attach a cluster on that datastore. The datastore name must be the same
-   as the defined in the Datastore manifest.
-
-   ``xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};``
-
-   Add the connector manifest. The XML with the manifest can be found in
-   the path of the Stratio Connector-HDFS in
-   target/stratio-connector-hdfs/conf/HDFSConnector.xml
-
-   ``xdsh:user>  ADD CONNECTOR <Path to HDFS Connector Manifest>``
+   > xdsh:user>  ATTACH CLUSTER <cluster_name> ON DATASTORE <datastore_name> WITH OPTIONS {'highavailability': 'true', 'path':'Base_path_to_HDFS_root_directory'};``
 
    Attach the connector to the previously defined cluster. The connector
    name must match the one defined in the Connector Manifest.
 
    ::
 
-       ```
-           xdsh:user>  ATTACH CONNECTOR <connector name> TO <cluster name> WITH OPTIONS {};
-       ```
+   > xdsh:user>  ATTACH CONNECTOR <connector name> TO <cluster name> WITH OPTIONS {};
+
 
 At this point, we can start to send queries in the Stratio Crossdata Shell.
 
@@ -134,8 +113,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-
-
-
-

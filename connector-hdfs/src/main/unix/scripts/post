@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#RPM
+
 set -e
 
 GROUP='stratio'
@@ -8,48 +10,44 @@ DIR_INSTALL='/opt/sds/connectors/hdfs'
 DIR_CONF='/etc/sds/connectors/hdfs'
 DIR_LOG='/var/log/sds/connectors/hdfs'
 
-case "$1" in
-  configure)
 
-  # Add stratio group if it doesn't already exists
-  if ! getent group $GROUP >/dev/null 2>&1; then
-    groupadd ${GROUP} 
-  fi
+# Add stratio group if it doesn't already exists
+if ! getent group $GROUP >/dev/null 2>&1; then
+groupadd ${GROUP}
+fi
 
-  # Add stratio user if it doesn't already exists
-  if ! getent passwd $USER >/dev/null 2>&1; then
-    [ -d /opt ] || mkdir /opt
-    useradd -M -d /opt/sds -g ${GROUP} -s /bin/bash ${USER}
-  else
-    usermod -G $GROUP $USER
-  fi
+# Add stratio user if it doesn't already exists
+if ! getent passwd $USER >/dev/null 2>&1; then
+[ -d /opt ] || mkdir /opt
+useradd -M -d /opt/sds -g ${GROUP} -s /bin/bash ${USER}
+else
+usermod -G $GROUP $USER
+fi
 
-  if [! -d "$DIR_LOG" ]; then
-   mkdir $DIR_LOG
-  fi
+if [ ! -d "$DIR_LOG" ]; then
+mkdir $DIR_LOG
+fi
 
-  chown -R ${USER}:${GROUP} /opt/sds /etc/sds
-  chown root:root /etc/init.d/stratio-connector-hdfs
- 
-  chown -R ${USER}:${GROUP} $DIR_INSTALL
-  chown -R ${USER}:${GROUP} $DIR_CONF
-  chown -R ${USER}:${GROUP} $DIR_LOG
-  chmod 775 $DIR_INSTALL
-  chmod 775 $DIR_CONF
-  chmod 775 $DIR_LOG
-  
-  update-rc.d stratio-connector-hdfs defaults
+chown root:root /etc/init.d/connector_hdfs
 
-  ;;
-esac
-cp /opt/sds/connectors/hdfs/template/HDFSConnector /etc/init.d/stratio-connector-hdfs
-chmod 755 /etc/init.d/stratio-connector-hdfs
+chown -R ${USER}:${GROUP} $DIR_INSTALL
+
+chown -R ${USER}:${GROUP} $DIR_CONF
+chown -R ${USER}:${GROUP} $DIR_LOG
+chmod -R 775 $DIR_INSTALL
+chmod 775 $DIR_LOG
+
+
+chmod 755 /etc/init.d/connector_hdfs
 chmod 755 /opt/sds/connectors/hdfs/bin/stratio-connector-hdfs
-chmod +x /etc/default/stratio-connector-hdfs
+chmod +x /etc/default/hdfs_connector
 export HDFS_CONNECTOR_LIB=/opt/sds/connectors/hdfs/
 export HDFS_CONNECTOR_CONF="/etc/sds/connectors/hdfs"
 
-/sbin/chkconfig --add stratio-connector-hdfs
+sed -i 's!"$BASEDIR"/conf!/etc/sds/connectors/hdfs!g' /opt/sds/connectors/hdfs/bin/stratio-connector-hdfs
+
+/sbin/chkconfig --add connector_hdfs
 
 exit 0
+
 

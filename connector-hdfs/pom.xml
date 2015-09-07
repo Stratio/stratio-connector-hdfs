@@ -143,6 +143,21 @@
 
     </dependencies>
     <build>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.scala-tools</groupId>
+                    <artifactId>maven-scala-plugin</artifactId>
+                    <version>2.15.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -153,8 +168,8 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
+                <groupId>org.scala-tools</groupId>
+                <artifactId>maven-scala-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>scala-compile-first</id>
@@ -172,7 +187,99 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <args>
+                        <arg>-P:genjavadoc:out=${project.build.directory}/genjavadoc</arg>
+                        <arg>-deprecation</arg>
+                        <arg>-feature</arg>
+                    </args>
+                    <compilerPlugins>
+                        <compilerPlugin>
+                            <groupId>com.typesafe.genjavadoc</groupId>
+                            <artifactId>genjavadoc-plugin_${scala.version}</artifactId>
+                            <version>0.8</version>
+                        </compilerPlugin>
+                    </compilerPlugins>
+                </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/genjavadoc</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.10</version>
+                <executions>
+                    <execution>
+                        <id>ppassembler</id>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <configurationDirectory>conf</configurationDirectory>
+                            <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                            <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+                            <assembleDirectory>${project.build.directory}/stratio-connector-hdfs</assembleDirectory>
+                            <extraJvmArguments>-Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote.port=${jmx.port} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</extraJvmArguments>
+                            <platforms>
+                                <platform>windows</platform>
+                                <platform>unix</platform>
+                            </platforms>
+                            <programs>
+                                <program>
+                                    <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
+                                    <id>stratio-connector-hdfs</id>
+                                </program>
+                            </programs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
     <profiles>
@@ -180,37 +287,7 @@
             <id>package</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>appassembler-maven-plugin</artifactId>
-                        <version>1.10</version>
-                        <executions>
-                            <execution>
-                                <id>ppassembler</id>
-                                <goals>
-                                    <goal>assemble</goal>
-                                </goals>
-                                <phase>package</phase>
-                                <configuration>
-                                    <configurationDirectory>conf</configurationDirectory>
-                                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
-                                    <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
-                                    <assembleDirectory>${project.build.directory}/stratio-connector-hdfs</assembleDirectory>
-                                    <extraJvmArguments>-Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote.port=${jmx.port} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</extraJvmArguments>
-                                    <platforms>
-                                        <platform>windows</platform>
-                                        <platform>unix</platform>
-                                    </platforms>
-                                    <programs>
-                                        <program>
-                                            <mainClass>com.stratio.connector.hdfs.HDFSConnector</mainClass>
-                                            <id>stratio-connector-hdfs</id>
-                                        </program>
-                                    </programs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+
                     <plugin>
                         <groupId>com.stratio.mojo.unix</groupId>
                         <artifactId>unix-maven-plugin</artifactId>
@@ -242,8 +319,8 @@
                             </excludeDirectoryAttributes>
                             <assembly>
                                 <copyFile>
-                                    <path>src/main/unix/files_and_dirs/etc/init.d/connector-hdfs</path>
-                                    <toFile>/etc/init.d/connector-hdfs</toFile>
+                                    <path>src/main/unix/files_and_dirs/etc/init.d/connector_hdfs</path>
+                                    <toFile>/etc/init.d/connector_hdfs</toFile>
                                     <attributes>
                                         <user>root</user>
                                         <group>root</group>
@@ -252,8 +329,8 @@
                                 </copyFile>
 
                                 <copyFile>
-                                    <path>src/main/unix/files_and_dirs/etc/default/stratio-connector-hdfs</path>
-                                    <toFile>/etc/default/stratio-connector-hdfs</toFile>
+                                    <path>src/main/unix/files_and_dirs/etc/default/hdfs_connector</path>
+                                    <toFile>/etc/default/hdfs_connector</toFile>
                                     <attributes>
                                         <user>root</user>
                                         <group>root</group>
@@ -314,7 +391,7 @@
                                 </copyDirectory>
                                 <copyDirectory>
                                     <from>target/stratio-connector-hdfs/conf</from>
-                                    <to>/opt/sds/connectors/hdfs/conf</to>
+                                    <to>/opt/sds/connectors/hdfs</to>
                                     <directoryAttributes>
                                         <user>stratio</user>
                                         <group>stratio</group>
@@ -351,10 +428,10 @@
                             </assembly>
                             <defaults>
                                 <directoryAttributes>
-                                    <mode>0755</mode>
+                                    <mode>0775</mode>
                                 </directoryAttributes>
                                 <fileAttributes>
-                                    <mode>0644</mode>
+                                    <mode>0664</mode>
                                 </fileAttributes>
                             </defaults>
                         </configuration>
@@ -384,5 +461,6 @@
                 </plugins>
             </build>
         </profile>
+
     </profiles>
 </project>
