@@ -34,7 +34,7 @@
         <version>0.4.0</version>
     </parent>
     <properties>
-        <version.connector.commons>0.6.1</version.connector.commons>
+        <version.connector.commons>0.6.2</version.connector.commons>
         <hadoop.version>2.6.0</hadoop.version>
         <scala.version>2.10.4</scala.version>
         <scala.binary.version>2.10</scala.binary.version>

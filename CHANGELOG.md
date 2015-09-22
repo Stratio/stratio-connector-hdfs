@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.2
+
+* Adapted to Stratio Crossdata 0.4.3
+
 ## 0.5.1
 
 * Scripts for deb and rpm generation changed.
