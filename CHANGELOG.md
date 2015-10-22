@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.3
+
+* Adapted to Stratio Crossdata 0.5.0
+
 ## 0.5.2
 
 * Adapted to Stratio Crossdata 0.4.3
@@ -13,5 +17,4 @@
 
 * Bugs fixed
 * Adapted to Stratio Crossdata 0.4
-
 
