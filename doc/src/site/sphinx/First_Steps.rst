@@ -28,7 +28,7 @@ Before you start
 Prerequisites
 -------------
 
--  First of all `Stratio Crossdata <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__ is needed and must be
+-  First of all `Stratio Crossdata <http://docs.stratio.com/modules/crossdata/0.5/index.html>`__ is needed and must be
    installed. The server and the shell must be running.
 -  Installation of
    `HDFS 2.6 <http://hadoop.apache.org/docs/r2.6.0>`__.
@@ -155,4 +155,4 @@ Where to go from here
 
 To learn more about Stratio Crossdata, we recommend you to visit the
 `Stratio Crossdata
-Reference <http://docs.stratio.com/modules/crossdata/0.4/index.html>`__.
+Reference <http://docs.stratio.com/modules/crossdata/0.5/index.html>`__.
