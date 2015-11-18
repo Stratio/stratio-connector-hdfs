@@ -23,7 +23,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.stratio.connector</groupId>
     <artifactId>stratio-connector-hdfs</artifactId>
-    <version>0.5.4</version>
+    <version>0.5.5-RC1-SNAPSHOT</version>
     <description>Stratio HDFS-Crossdata connector parent</description>
     <url>http://www.stratio.com</url>
     <name>Stratio HDFS Connector</name>
